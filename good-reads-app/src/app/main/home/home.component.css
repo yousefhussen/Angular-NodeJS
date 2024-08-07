@@ -1,0 +1,20 @@
+.navbar {
+  background-color: #ccd5ae; /* Navbar background color */
+}
+
+.nav-link {
+  color: #fefae0; /* Link color */
+}
+
+.nav-link:hover {
+  color: #faedcd; /* Link hover color */
+}
+
+.form-control {
+  background-color: #e9edc9; /* Search bar background color */
+  border: none;
+}
+
+.form-control::placeholder {
+  color: #faedcd; /* Placeholder color */
+}
