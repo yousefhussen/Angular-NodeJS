@@ -1,0 +1,92 @@
+.register-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 32px;
+    border: 1px solid #ddd; /* Light border color */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fefae0; /* Light pink background */
+    background: linear-gradient(
+    270deg,
+    rgba(204, 213, 174, 1) 0%,
+    rgba(224, 229, 182, 1) 63%,
+    rgba(254, 250, 224, 1) 100%
+    )
+  }
+  
+  .register-form h2 {
+    color: #fefae0; /* Darker pink for the header */
+    margin-bottom: 20px;
+  }
+  
+  .register-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .register-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #e0e5b6; /* Soft purple for labels */
+  }
+  
+  .register-form input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #fefae0; /* Light border color */
+    box-sizing: border-box;
+    font-size: 15px;
+    background-color: #fff; /* White background for input fields */
+    transition: border-color 0.3s ease;
+  }
+  
+  .register-form input:focus {
+    border-color: #fefae0; /* Darker pink border on focus */
+    outline: none;
+  }
+  
+  .register-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #e0e5b6; /* Darker pink for the button */
+    color: #fefae0; /* White text */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .register-form button:hover {
+    background-color: #fefae0; /* Lighter pink on hover */
+    transform: translateY(-1px);
+  }
+  
+  .register-form button:active {
+    transform: translateY(1px);
+  }
+  
+  .add-address-btn {
+    background-color: #916db3; /* Soft purple for add address button */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .add-address-btn:hover {
+    background-color:rgba(100, 100, 111, 0.2); /* Lighter purple on hover */
+    transform: translateY(-1px);
+  }
+  
+  .add-address-btn:active {
+    transform: translateY(1px);
+  }
+  
+  small {
+    color:   rgba(254, 250, 224, 1); /* Darker pink for error messages */
+  }
