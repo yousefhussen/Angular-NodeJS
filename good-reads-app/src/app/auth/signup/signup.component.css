@@ -1,92 +1,171 @@
+.fullPage {
+  background-color: rgb(204, 213, 174);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background-attachment: fixed;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow-y: scroll;
+}
+
 .register-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 32px;
-    border: 1px solid #ddd; /* Light border color */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fefae0; /* Light pink background */
-    background: linear-gradient(
-    270deg,
-    rgba(204, 213, 174, 1) 0%,
-    rgba(224, 229, 182, 1) 63%,
-    rgba(254, 250, 224, 1) 100%
-    )
-  }
-  
-  .register-form h2 {
-    color: #fefae0; /* Darker pink for the header */
-    margin-bottom: 20px;
-  }
-  
-  .register-form .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .register-form label {
-    display: block;
-    margin-bottom: 5px;
-    color: #e0e5b6; /* Soft purple for labels */
-  }
-  
-  .register-form input {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    border: 1px solid #fefae0; /* Light border color */
-    box-sizing: border-box;
-    font-size: 15px;
-    background-color: #fff; /* White background for input fields */
-    transition: border-color 0.3s ease;
-  }
-  
-  .register-form input:focus {
-    border-color: #fefae0; /* Darker pink border on focus */
-    outline: none;
-  }
-  
-  .register-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #e0e5b6; /* Darker pink for the button */
-    color: #fefae0; /* White text */
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .register-form button:hover {
-    background-color: #fefae0; /* Lighter pink on hover */
-    transform: translateY(-1px);
-  }
-  
-  .register-form button:active {
-    transform: translateY(1px);
-  }
-  
-  .add-address-btn {
-    background-color: #916db3; /* Soft purple for add address button */
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin-top: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .add-address-btn:hover {
-    background-color:rgba(100, 100, 111, 0.2); /* Lighter purple on hover */
-    transform: translateY(-1px);
-  }
-  
-  .add-address-btn:active {
-    transform: translateY(1px);
-  }
-  
-  small {
-    color:   rgba(254, 250, 224, 1); /* Darker pink for error messages */
-  }
+  background: rgb(255, 255, 255);
+  border: 1px solid #e0e5b6;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+  height: auto;
+}
+
+h2 {
+  color: #5a5a5a;
+  text-align: center;
+}
+
+h2:after {
+  content: " ";
+  display: block;
+  border: 2px solid #5a5a5a;
+  width: 50px;
+  margin: auto;
+  margin-top: 5px;
+  border-radius: 20px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  color: #5a5a5a;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #5a5a5a;
+  border-radius: 5px;
+  background: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: none;
+}
+
+small {
+  color: red;
+  font-size: 12px;
+}
+
+#image {
+  display: none;
+}
+
+.upload-image-label {
+  background-color: #ccd5ae;
+  border-color: #ccd5ae;
+  color: #5a5a5a;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.upload-image-label:hover {
+  background-color: #e0e5b6;
+  border-color: #e0e5b6;
+}
+
+.progress-container {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  margin-top: 10px;
+  overflow: hidden;
+  width: 100%;
+  height: 20px;
+}
+
+.progress-bar {
+  background-color: #ccd5ae;
+  height: 100%;
+  width: 0;
+  transition: width 0.4s ease;
+}
+
+.upload-done {
+  color: green;
+  font-size: 12px;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.image-preview-container {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.image-preview {
+  max-width: 100px;
+  /* Limit the size of the preview */
+  max-height: 100px;
+  border-radius: 5px;
+  border: 1px solid #5a5a5a;
+}
+
+.remove-image-btn {
+  display: block;
+  margin: 10px auto 0;
+  padding: 5px 10px;
+  background-color: #ccd5ae;
+  border: 1px solid #5a5a5a;
+  border-radius: 5px;
+  color: #5a5a5a;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.remove-image-btn:hover {
+  background-color: #e0e5b6;
+  border-color: #e0e5b6;
+}
+
+.register-btn {
+  background-color: #ccd5ae;
+  border-color: #ccd5ae;
+  color: #5a5a5a;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.register-btn:disabled {
+  background-color: #e0e5b6;
+  border-color: #e0e5b6;
+  cursor: not-allowed;
+}
+
+.register-btn:hover {
+  background-color: #e0e5b6;
+  border-color: #e0e5b6;
+}

@@ -24,4 +24,8 @@ export const routes: Routes = [
     path: 'user',
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
+  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then((m) => m.MainModule),
+  },
 ];

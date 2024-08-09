@@ -1,20 +1,126 @@
-.navbar {
-  background-color: #ccd5ae; /* Navbar background color */
+/* Navigation bar container */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #CCD5AE;
+  /* Light green background */
+  color: #000000;
+  /* Dark text color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
-.nav-link {
-  color: #fefae0; /* Link color */
+/* Navigation list */
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  /* Spread out the items */
+  align-items: center;
+  height: 60px;
 }
 
-.nav-link:hover {
-  color: #faedcd; /* Link hover color */
+/* Navigation items on the left */
+nav ul li.left {
+  margin-right: auto;
+  /* Push to the left */
+  display: flex;
+  justify-content: space-between;
 }
 
-.form-control {
-  background-color: #e9edc9; /* Search bar background color */
+/* Navigation items */
+nav ul li {
+  margin: 0 10px;
+}
+
+/* Navigation links */
+nav ul li a {
+  color: #000000;
+  /* Dark text color */
+  text-decoration: none;
+  padding: 15px 20px;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+nav ul li a:hover,
+nav ul li a:focus {
+  background-color: #E0E5B6;
+  /* Slightly darker green on hover */
+  border-radius: 4px;
+}
+
+/* Search bar styling */
+nav .search-bar {
+  border-radius: 25px;
+  padding: 5px 10px;
+  border: 1px solid #FAEDCE;
+  background-color: #FAE0C3;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 200px;
+}
+
+/* Focus effect for search bar */
+nav .search-bar:focus {
+  border-color: #CCD5AE;
+  box-shadow: 0 0 5px rgba(204, 213, 174, 0.5);
+  outline: none;
+}
+
+/* Profile and logout container on the right */
+nav .right-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  /* Push to the right */
+}
+
+/* Profile icon styling */
+nav .right-container .profile-icon {
+  margin-right: 10px;
+  color: #000000;
+}
+
+/* Username styling */
+nav .right-container .username {
+  color: #000000;
+  margin-right: 20px;
+}
+
+/* Logout button icon styling */
+nav .logout-button {
+  background: none;
   border: none;
+  cursor: pointer;
+  color: #000000;
+  font-size: 18px;
+  margin-right: 20px;
+  transition: transform 0.2s ease;
 }
 
-.form-control::placeholder {
-  color: #faedcd; /* Placeholder color */
+/* Hover effect for logout button icon */
+nav .logout-button:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  nav .search-bar {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  nav .right-container {
+    margin-top: 10px;
+  }
 }

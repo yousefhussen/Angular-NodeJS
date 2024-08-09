@@ -5,10 +5,7 @@ import { MainRoutingModule } from './main-routing/main-routing.module';
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    MainRoutingModule
-  ]
-})
-export class MainModule { }
+    declarations: [],
+    imports: [CommonModule, MainRoutingModule],
+  })
+export  class MainModule { }
