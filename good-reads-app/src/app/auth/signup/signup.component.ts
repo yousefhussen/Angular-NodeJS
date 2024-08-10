@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,28 +16,41 @@ import { UserService } from '../../user/user.service';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  styleUrl: './signup.component.css',
 })
 export class SignupComponent implements OnInit {
-
   registerForm: FormGroup;
   uploadInProgress: boolean = false;
+  file!: File;
   uploadProgress: number = 0;
   uploadDone: boolean = false;
   imagePreviewUrl: string | ArrayBuffer | null = null;
   user: User; // Declare a variable of type User
 
-  constructor(private fb: FormBuilder, private router: Router, private UserService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private UserService: UserService
+  ) {
     this.registerForm = this.fb.group(
       {
-        firstName: new FormControl(''),
-        lastName: new FormControl(''),
-        email: [''],
-        password: [
-          ''
-        ],
-        confirmPassword: [''],
-        image: [''],
+        firstName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(2),
+        ]),
+        lastName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(2),
+        ]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [
+          Validators.required,
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$'
+          ),
+        ]),
+        confirmPassword: new FormControl('', [Validators.required]),
+        image: new FormControl('', [Validators.required]),
       },
       { validators: this.passwordMatchValidator }
     );
@@ -43,16 +61,12 @@ export class SignupComponent implements OnInit {
       lastName: '',
       email: '',
       password: '',
-      profilePic: null,
+      profilePic: '',
     };
   }
 
   ngOnInit() {
     this.registerForm.get('password')?.valueChanges.subscribe(() => {
-      this.registerForm.get('confirmPassword')?.updateValueAndValidity();
-    });
-
-    this.registerForm.get('confirmPassword')?.valueChanges.subscribe(() => {
       this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     });
   }
@@ -65,6 +79,7 @@ export class SignupComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
+    this.file = file;
 
     if (file) {
       const fileType = file.type;
@@ -99,6 +114,21 @@ export class SignupComponent implements OnInit {
     }
   }
 
+  handleFileInput(file: File) {
+    if (!file) {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        const binaryString = event.target.result;
+        const base64String = btoa(binaryString);
+        return base64String;
+      };
+      return "Error: File input is null or undefined or file is not an image";
+    }else{
+      console.log("Error: File input is null or undefined");
+      return "Error: File input is null or undefined";
+    }
+  }
+
   removeImage() {
     this.registerForm.get('image')?.reset(); // Reset the file input
     this.imagePreviewUrl = null; // Clear the preview
@@ -108,22 +138,18 @@ export class SignupComponent implements OnInit {
 
   register() {
     if (this.registerForm.valid) {
+      const reader = new FileReader();
       // Populate the user instance with form values
       this.user = {
         firstName: this.registerForm.value.firstName,
         lastName: this.registerForm.value.lastName,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
-        profilePic: null,
+        profilePic: this.handleFileInput(this.file)??"Undefined",
       };
 
       // Perform registration logic here
-      this.UserService.createEmployee(this.user).subscribe((data) => {
-        console.log(data);
-      }, (error) => {
-        console.log(error);
-      })
-
+      this.UserService.createUser(this.user);
     } else {
       Object.keys(this.registerForm.controls).forEach((controlName) => {
         const control = this.registerForm.get(controlName);
@@ -136,4 +162,3 @@ export class SignupComponent implements OnInit {
     }
   }
 }
-    

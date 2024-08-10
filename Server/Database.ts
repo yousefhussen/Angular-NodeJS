@@ -16,13 +16,11 @@ export async function connectToDatabase(uri: string) {
     collections.Users = UsersCollection;
 }
 
-// Update our existing collection with JSON schema validation so we know our documents will always match the shape of our Employee model, even if added elsewhere.
-// For more information about schema validation, see this blog series: https://www.mongodb.com/blog/post/json-schema-validation--locking-down-your-model-the-smart-way
 async function applySchemaValidation(db: mongodb.Db) {
     const jsonSchema = {
         $jsonSchema: {
             bsonType: "object",
-            required: ["firstName", "lastName", "email","password"],
+            required: ["firstName", "lastName", "email","password","profilePic"],
             additionalProperties: false,
             properties: {
                 _id: {},
@@ -42,6 +40,10 @@ async function applySchemaValidation(db: mongodb.Db) {
                     bsonType: "string",
                     description: "'password' is required and is a string",
                 },
+                profilePic: {
+                    bsonType: "string",
+                    description: "'profilePic' is required and is a string",
+                },
             },
         },
     };
@@ -53,7 +55,7 @@ async function applySchemaValidation(db: mongodb.Db) {
         if (error.codeName === "NamespaceNotFound") {
           await db.createCollection("Users", { validator: jsonSchema });
         } else {
-          console.error("Validation error:", error.errInfo.details.schemaRulesNotSatisfied);
+          console.error("Validation error:", error);
         }
       });
 }

@@ -1,47 +1,44 @@
+// user.service.ts
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './User';
+import { BaseService } from '../shared/services/BaseService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private url = 'http://localhost:5200';
+export class UserService extends BaseService {
+  private usersEndpoint = 'Users';
   Users$ = signal<User[]>([]);
-  User$ = signal<User>({} as User);
-  
-  constructor(private httpClient: HttpClient) { }
+  User$ = signal<User | null>(null);
 
-  private refreshEmployees() {
-    this.httpClient.get<User[]>(`${this.url}/Users`)
-      .subscribe(Users => {
-        this.Users$.set(Users);
-      });
+  constructor(protected override httpClient: HttpClient) {
+    super(httpClient);
   }
 
-  getEmployees() {
-    this.refreshEmployees();
-    return this.Users$();
+  private async refreshUsers(): Promise<void> {
+    const users = await this.get<User[]>(this.usersEndpoint);
+    this.Users$.set(users ?? []);
   }
 
-  getEmployee(id: string) {
-    this.httpClient.get<User>(`${this.url}/Users/${id}`).subscribe(User => {
-      this.User$.set(User);
-      return this.User$();
-    });
+  async getUsers(): Promise<User[]> {
+    await this.refreshUsers();
+    return this.Users$() ?? [];
   }
 
-  createEmployee(User: User) {
-    console.log(User);
-    console.log(`${this.url}/Users`);
-    return this.httpClient.post(`${this.url}/Users`, User, { responseType: 'text' });
+  async getUser(id: string): Promise<User | null> {
+    return this.get<User>(`${this.usersEndpoint}/${id}`);
   }
 
-  updateEmployee(id: string, User: User) {
-    return this.httpClient.put(`${this.url}/Users/${id}`, User, { responseType: 'text' });
+  async createUser(user: User): Promise<User | null> {
+    return this.post<User>(`${this.usersEndpoint}`, user);
   }
 
-  deleteEmployee(id: string) {
-    return this.httpClient.delete(`${this.url}/Users/${id}`, { responseType: 'text' });
+  async updateUser(id: string, user: User): Promise<User | null> {
+    return this.put<User>(`${this.usersEndpoint}/${id}`, user);
+  }
+
+  async deleteUser(id: string): Promise<User | null> {
+    return this.delete<User>(`${this.usersEndpoint}/${id}`);
   }
 }

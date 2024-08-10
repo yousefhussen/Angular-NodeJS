@@ -6,5 +6,5 @@ export interface User {
     lastName: string;
     email: string;
     password: string;
-    profilePic: string|null;
+    profilePic: string;
 }

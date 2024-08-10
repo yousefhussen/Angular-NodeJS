@@ -37,7 +37,7 @@ UserRouter.post("/", async (req, res) => {
 
         if (result?.acknowledged) {
             console.log(`Created a new User: ID ${result.insertedId}.`);
-            res.status(201).send(`Created a new User: ID ${result.insertedId}.`);
+            res.status(201).send({some:`Created a new User: ID ${result.insertedId}.`});
         } else {
             console.log("Failed to create a new User.");
             res.status(500).send("Failed to create a new User.");
