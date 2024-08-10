@@ -1,99 +1,53 @@
-/* Navigation bar container */
+.fullPage {
+  background-color: #fefae0;
+}
+
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  background-color: #CCD5AE;
-  /* Light green background */
+  background-color: #ccd5ae;
   color: #000000;
-  /* Dark text color */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-/* Navigation list */
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  /* Spread out the items */
-  align-items: center;
-  height: 60px;
-}
-
-/* Navigation items on the left */
-nav ul li.left {
-  margin-right: auto;
-  /* Push to the left */
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Navigation items */
-nav ul li {
-  margin: 0 10px;
-}
-
-/* Navigation links */
-nav ul li a {
-  color: #000000;
-  /* Dark text color */
+/* Links on the left */
+.navbar-nav .nav-link {
+  margin-right: 20px;
   text-decoration: none;
-  padding: 15px 20px;
-  display: block;
-  transition: background-color 0.3s ease;
-}
-
-/* Hover effect */
-nav ul li a:hover,
-nav ul li a:focus {
-  background-color: #E0E5B6;
-  /* Slightly darker green on hover */
-  border-radius: 4px;
+  color: black;
+  font-weight: bold;
 }
 
 /* Search bar styling */
-nav .search-bar {
-  border-radius: 25px;
-  padding: 5px 10px;
-  border: 1px solid #FAEDCE;
-  background-color: #FAE0C3;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  width: 200px;
+.search-container {
+  position: relative;
 }
 
-/* Focus effect for search bar */
-nav .search-bar:focus {
-  border-color: #CCD5AE;
+.search-container .search-bar {
+  border-radius: 25px;
+  padding: 5px 10px;
+  border: 1px solid #faedce;
+  background-color: #fae0c3;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-container .search-bar:focus {
+  border-color: #ccd5ae;
   box-shadow: 0 0 5px rgba(204, 213, 174, 0.5);
   outline: none;
 }
 
-/* Profile and logout container on the right */
-nav .right-container {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  /* Push to the right */
-}
-
-/* Profile icon styling */
-nav .right-container .profile-icon {
+.profile-icon {
   margin-right: 10px;
   color: #000000;
 }
 
-/* Username styling */
-nav .right-container .username {
+.username {
   color: #000000;
   margin-right: 20px;
 }
 
-/* Logout button icon styling */
-nav .logout-button {
+.logout-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -103,24 +57,125 @@ nav .logout-button {
   transition: transform 0.2s ease;
 }
 
-/* Hover effect for logout button icon */
-nav .logout-button:hover {
+.logout-button:hover {
   transform: scale(1.1);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
+.content {
+  display: flex;
+  margin-top: 60px; /* Adjust for navbar height */
+}
 
-  nav .search-bar {
-    width: 100%;
-    margin-bottom: 10px;
-  }
+.side-menu {
+  width: 200px;
+  background-color: #ccd5ae;
+  padding: 20px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
 
-  nav .right-container {
-    margin-top: 10px;
-  }
+.filter-button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #faedcd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: bold;
+}
+
+.filter-button:hover {
+  background-color: #e0e5b6;
+}
+
+.table-container {
+  flex: 1;
+  background-color: #fefae0;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.filter-border {
+  border: 2px solid #ccd5ae;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.filter-border h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #e0e5b6;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Header styling */
+.table thead th {
+  background-color: #ccd5ae;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Body styling */
+.table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Alternating row colors */
+.table tbody tr:nth-child(even) {
+  background-color: #faedcd;
+}
+
+/* Shelve button styling */
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #ccd5ae;
+  border-color: #6c757d;
+}
+
+/* Other styles omitted for brevity */
+
+.pageNextandPrev {
+  display: flex;
+  justify-content: space-evenly;
+}
+.pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-item {
+  margin-right: 10px;
+}
+
+.page-link {
+  padding: 10px 20px;
+  border: 1px solid #e0e5b6 !important;
+  border-radius: 5px;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #ccd5ae;
+  color: #fff;
+}
+
+.active .page-link {
+  background-color: #ccd5ae;
+  color: #fff;
 }

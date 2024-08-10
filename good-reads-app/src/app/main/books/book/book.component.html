@@ -1,0 +1,119 @@
+<div class="container p-5">
+  <div class="row">
+    <div class="col-md-3">
+      <img
+        src="https://via.placeholder.com/300"
+        alt="Book Cover"
+        class="img-fluid"
+      />
+      <select class="form-control select mt-3">
+        <option value="1">Read</option>
+        <option value="2">Reading</option>
+        <option value="3">Want to Read</option>
+      </select>
+    </div>
+    <div class="col-md-8">
+      <h1>Book Title</h1>
+      <p>Author: John Doe</p>
+      <p>Year: 2020</p>
+      <p>Rating: <span id="rating">4.5</span>/5 ~ 1,000 reviews</p>
+
+      <div class="rating-stars">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Book Description</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet
+        nulla auctor, vestibulum magna sed, convallis ex.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Reviews</h2>
+
+      <div class="reviews">
+        <div class="review">
+          <div class="review-header">
+            <div class="review-profile-picture">
+              <img
+                src="https://via.placeholder.com/50"
+                alt="Profile Picture"
+                class="img-fluid rounded-circle"
+              />
+            </div>
+            <h3 class="review-username">John Doe</h3>
+          </div>
+          <div class="review-content">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
+              amet nulla auctor, vestibulum magna sed, convallis ex.
+            </p>
+            <p>Rating: <span>5</span>/5</p>
+            <div class="rating-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <div class="review">
+          <div class="review-header">
+            <div class="review-profile-picture">
+              <img
+                src="https://via.placeholder.com/50"
+                alt="Profile Picture"
+                class="img-fluid rounded-circle"
+              />
+            </div>
+            <h3 class="review-username">Jane Smith</h3>
+          </div>
+          <div class="review-content">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
+              amet nulla auctor, vestibulum magna sed, convallis ex.
+            </p>
+            <p>Rating: <span>4</span>/5</p>
+            <div class="rating-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+        <div class="review-form">
+          <h3>Leave a Review</h3>
+          <form>
+            <div class="form-group">
+              <label for="review-text">Your Review:</label>
+              <textarea id="review-text" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="review-rating">Rating:</label>
+              <select id="review-rating" class="form-control">
+                <option value="1">1/5</option>
+                <option value="2">2/5</option>
+                <option value="3">3/5</option>
+                <option value="4">4/5</option>
+                <option value="5">5/5</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

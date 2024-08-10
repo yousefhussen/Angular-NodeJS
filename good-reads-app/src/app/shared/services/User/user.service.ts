@@ -2,10 +2,10 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './User';
-import { BaseService } from '../shared/services/BaseService';
+import { BaseService } from '../BaseService';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService extends BaseService {
   private usersEndpoint = 'Users';

@@ -8,8 +8,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../../user/User'; // Adjust the path as needed
-import { UserService } from '../../user/user.service';
+import { User } from '../../shared/services/User/User'; // Adjust the path as needed
+import { UserService } from '../../shared/services/User/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -80,6 +80,7 @@ export class SignupComponent implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     this.file = file;
+    console.log(this.file);
 
     if (file) {
       const fileType = file.type;
@@ -114,19 +115,20 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  handleFileInput(file: File) {
-    if (!file) {
-      const reader = new FileReader();
-      reader.onload = (event: any) => {
-        const binaryString = event.target.result;
-        const base64String = btoa(binaryString);
-        return base64String;
-      };
-      return "Error: File input is null or undefined or file is not an image";
-    }else{
-      console.log("Error: File input is null or undefined");
-      return "Error: File input is null or undefined";
-    }
+  handleFileInput(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (file != null) {
+        const reader = new FileReader();
+        reader.onload = (event: any) => {
+          const binaryString = event.target.result;
+          const base64String = btoa(binaryString);
+          resolve(base64String);
+        };
+        reader.readAsBinaryString(file);
+      } else {
+        reject('Error: File input is null or undefined');
+      }
+    });
   }
 
   removeImage() {
@@ -136,7 +138,7 @@ export class SignupComponent implements OnInit {
     this.uploadDone = false; // Reset the upload status
   }
 
-  register() {
+  async register() {
     if (this.registerForm.valid) {
       const reader = new FileReader();
       // Populate the user instance with form values
@@ -145,7 +147,7 @@ export class SignupComponent implements OnInit {
         lastName: this.registerForm.value.lastName,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
-        profilePic: this.handleFileInput(this.file)??"Undefined",
+        profilePic: await this.handleFileInput(this.file).then((res) => res),
       };
 
       // Perform registration logic here

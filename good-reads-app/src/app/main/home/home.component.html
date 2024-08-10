@@ -1,32 +1,111 @@
-<p>home works!</p>
-<nav>
-    <ul>
+<div class="fullPage">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid" style="background-color: #ccd5ae">
+      <!-- Links on the left -->
+      <div class="navbar-nav me-auto">
+        <a routerLink="/categories" class="nav-link">Home</a>
+        <a routerLink="/categories" class="nav-link">Categories</a>
+        <a routerLink="/books" class="nav-link">Books</a>
+        <a routerLink="/authors" class="nav-link">Authors</a>
+      </div>
 
-        <li class="nav-links">
-            <a routerLink="/" routerLinkActive="active-link">Home</a>
-            <a routerLink="/login" routerLinkActive="active-link" *ngIf="!isLoggedIn">Categories</a>
-            <a routerLink="/register" routerLinkActive="active-link" *ngIf="!isLoggedIn">Books</a>
-            <a routerLink="/profile" routerLinkActive="active-link" *ngIf="isLoggedIn">Authors</a>
+      <!-- Search bar in the middle -->
+      <div class="d-flex justify-content-center flex-grow-1">
+        <div class="search-container">
+          <span class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input
+            type="text"
+            class="search-bar"
+            placeholder="Search..."
+            style="width: 70vh"
+          />
+        </div>
+      </div>
+
+      <!-- Profile icon, username, and logout button on the right -->
+      <div class="d-flex align-items-center ms-auto">
+        <i class="fa-solid fa-user profile-icon"></i>
+        <span class="username">{{ username }}</span>
+        <button class="logout-button" (click)="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="content">
+  <div class="side-menu">
+    <button class="filter-button" (click)="filterBooks('All')">All</button>
+    <button class="filter-button" (click)="filterBooks('Read')">Read</button>
+    <button class="filter-button" (click)="filterBooks('Reading')">
+      Currently Reading
+    </button>
+    <button class="filter-button" (click)="filterBooks('Want to Read')">
+      Want to Read
+    </button>
+  </div>
+
+  <div class="table-container">
+    <div class="filter-border">
+      <h3>{{ selectedFilter }}</h3>
+      <table class="table table-hover">
+        <thead class="bg-secondary text-light">
+          <tr>
+            <th>Cover</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Avg Rate</th>
+            <th>Rating</th>
+            <th>Shelve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let book of filteredBooks">
+            <td><i class="fa-solid fa-book"></i></td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>
+              <i
+                class="fa-regular fa-star"
+                *ngFor="let star of [].constructor(book.avgRate)"
+              ></i>
+            </td>
+            <td>{{ book.rating }}</td>
+            <td>
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  (click)="toggleShelf(book)"
+                >
+                  {{ book.currentShelf }}
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="pageNextandPrev">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="pagination" style="display: inline-flex">
+        <li class="mr-1 page-item">
+          <a class="page-link" href="#">Previous</a>
         </li>
-
-
-
-        <li class="search-container">
-            <span class="search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <input type="text" class="search-bar" placeholder="Search..." />
-
+        <li class="page-item active">
+          <a class="m-1 page-link" href="#">1</a>
         </li>
-
-
-        <li class="profile-container">
-            <i class="fa-solid fa-user profile-icon"></i>
-            <span class="username">{{ username }}</span>
-            <button class="logout-button" (click)="logout()">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </button>
-        </li>
-
-    </ul>
-</nav>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

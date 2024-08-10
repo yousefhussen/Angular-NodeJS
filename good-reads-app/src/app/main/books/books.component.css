@@ -1,0 +1,63 @@
+.book {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+.book-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.book-title a {
+  text-decoration: none;
+  color: #000;
+  transition: all 0.1s ease;
+}
+
+.book-title a:hover {
+  color: #ccd5ae;
+}
+
+.book h2 {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.book p {
+  font-size: 14px;
+  color: #666;
+}
+
+.pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-item {
+  margin-right: 10px;
+}
+
+.page-link {
+  padding: 10px 20px;
+  border: 1px solid #e0e5b6 !important;
+  border-radius: 5px;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #ccd5ae;
+  color: #fff;
+}
+
+.active .page-link {
+  background-color: #ccd5ae;
+  color: #fff;
+}
+.book-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}

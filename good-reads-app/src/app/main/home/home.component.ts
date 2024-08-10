@@ -7,24 +7,68 @@ import { RouterModule, Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
   isLoggedIn: boolean = false;
   username: string | null = '';
 
+  selectedFilter: string = 'All';
+  books = [
+    {
+      title: 'Book Title 1',
+      author: 'Author Name 1',
+      avgRate: 4,
+      rating: 1200,
+      currentShelf: 'Shelve',
+    },
+    {
+      title: 'Book Title 2',
+      author: 'Author Name 2',
+      avgRate: 3,
+      rating: 980,
+      currentShelf: 'Read',
+    },
+    {
+      title: 'Book Title 3',
+      author: 'Author Name 3',
+      avgRate: 4,
+      rating: 1500,
+      currentShelf: 'Reading',
+    },
+  ];
+
+  filteredBooks = this.books;
+
+  shelfOptions: string[] = ['Read', 'Reading', 'Want to Read'];
+
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Check if a user is logged in
     this.isLoggedIn = !!localStorage.getItem('loggedInUser');
-    this.username = localStorage.getItem('loggedInUser'); // Assuming the username is stored in localStorage
+    this.username = localStorage.getItem('loggedInUser');
   }
 
   logout() {
-    // Clear the logged-in user from local storage
     localStorage.removeItem('loggedInUser');
     this.isLoggedIn = false;
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/signup']);
+  }
+
+  toggleShelf(book: any) {
+    const currentIndex = this.shelfOptions.indexOf(book.currentShelf);
+    const nextIndex = (currentIndex + 1) % this.shelfOptions.length;
+    book.currentShelf = this.shelfOptions[nextIndex];
+  }
+
+  filterBooks(filter: string) {
+    this.selectedFilter = filter;
+    if (filter === 'All') {
+      this.filteredBooks = this.books;
+    } else {
+      this.filteredBooks = this.books.filter(
+        (book) => book.currentShelf === filter
+      );
+    }
   }
 }

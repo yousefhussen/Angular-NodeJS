@@ -1,0 +1,68 @@
+/* Resetting margins and paddings for body and html */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* FullPage styling */
+.fullPage {
+  background-color: rgb(254, 250, 224);
+  min-height: 100vh; /* Ensure the fullPage takes the full height of the viewport */
+  padding: 0;
+  margin: 0;
+}
+
+/* Container styling */
+.container {
+  padding-top: 20px;
+}
+
+/* Category card styling */
+.category-card {
+  padding: 20px;
+  border-radius: 10px;
+  color: #5a5a5a; /* Adjust if needed */
+  transition: transform 0.3s;
+  text-align: center;
+  margin-bottom: 20px; /* Add spacing between each card */
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  cursor: pointer;
+}
+
+/* Icon styling */
+.category-card i {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+/* Category name styling */
+.category-card h4 {
+  margin-top: 10px;
+  font-size: 1.25rem;
+}
+
+/* Hover effect */
+.category-card:hover {
+  transform: scale(1.05);
+}
+
+/* Header styling */
+h2 {
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 20px; /* Adjust this if you want space below the header */
+}
+
+/* General reset for all elements to remove any unwanted default margins/padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.my-4 {
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
