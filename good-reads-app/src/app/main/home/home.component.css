@@ -27,7 +27,7 @@ nav {
   border-radius: 25px;
   padding: 5px 10px;
   border: 1px solid #faedce;
-  background-color: #fae0c3;
+  background-color: whitesmoke;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 

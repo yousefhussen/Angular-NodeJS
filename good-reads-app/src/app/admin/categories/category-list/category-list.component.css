@@ -1,0 +1,100 @@
+Reset some basic styles for better cross-browser consistency
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #CCD5AE;
+    padding: 10px;
+}
+
+.navbar a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+.table-container {
+    flex: 1; /* Make the table container grow to fill the available space */
+    background-color: #FEFAE0;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    position: relative;
+    overflow: auto; /* Allow scrolling if content overflows */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: #f0f0f0;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody td a {
+    margin-right: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+tbody td i {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+tbody td i:hover {
+    color: #007bff; /* Change color on hover */
+}
+
+.add-icon {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+}
+
+.add-icon img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.Hidden{
+    display: none;
+}

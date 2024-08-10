@@ -1,1 +1,57 @@
-<p>category-list works!</p>
+
+<div class="container">
+    <div class="navbar">
+        <a href="#">Categories</a>
+        <a href="#">Books</a>
+        <a href="#">Authors</a>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Culture</td>
+                    <td>
+                        <a href="#"><i class="fas fa-pen"></i></a>
+                        <a href="#"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sport</td>
+                    <td>
+                        <a href="#"><i class="fas fa-pen"></i></a>
+                        <a href="#"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>economics</td>
+                    <td>
+                        <a href="#"><i class="fas fa-pen"></i></a>
+                        <a href="#"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>technology</td>
+                    <td>
+                        <a href="#"><i class="fas fa-pen"></i></a>
+                        <a href="#"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="add-icon">
+            <a (click)="openModal() "><img src="add-icon.png" alt="Add"></a>
+        </div>
+    </div>
+    <app-category-form></app-category-form>
+</div>
