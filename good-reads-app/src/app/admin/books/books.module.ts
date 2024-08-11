@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookRoutingModule } from './book-routing/book-routing.module';
+
 
 
 
@@ -8,7 +8,7 @@ import { BookRoutingModule } from './book-routing/book-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    BookRoutingModule
+    
   ]
 })
 export class BooksModule { }

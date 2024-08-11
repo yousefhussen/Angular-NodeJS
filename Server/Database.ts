@@ -1,10 +1,14 @@
 import * as mongodb from "mongodb";
-import { User } from "./User";
-import { Book } from "./Book";
+import { User } from "./Models/User";
+import { Book } from "./Models/Book";
+import { Image } from "./Models/Image";
+import { usersSchema  } from "./Schemas/users.schema";
+
 
 export const collections: {
   Users?: mongodb.Collection<User>;
   Books?: mongodb.Collection<Book>;
+  Images?: mongodb.Collection<Image>;
 } = {};
 
 export async function connectToDatabase(uri: string) {
@@ -19,72 +23,13 @@ export async function connectToDatabase(uri: string) {
 
   const BooksCollection = db.collection<Book>("Books");
   collections.Books = BooksCollection;
+
+  const ImagesCollection = db.collection<Image>("Images");
+  collections.Images = ImagesCollection;
 }
 
 async function applySchemaValidation(db: mongodb.Db) {
-  const jsonSchema = {
-    $jsonSchema: {
-      bsonType: "object",
-      required: ["firstName", "lastName", "email", "password", "profilePic"],
-      additionalProperties: false,
-      properties: {
-        _id: {},
-        firstName: {
-          bsonType: "string",
-          description: "'firstName' is required and is a string",
-        },
-        lastName: {
-          bsonType: "string",
-          description: "'LastName' is required and is a string",
-        },
-        email: {
-          bsonType: "string",
-          description: "'email' is required and is a string",
-        },
-        password: {
-          bsonType: "string",
-          description: "'password' is required and is a string",
-        },
-        profilePic: {
-          bsonType: "string",
-          description: "'profilePic' is required and is a string",
-        },
-      },
-    },
-  };
-
-  const BooksSchema = {
-    $jsonSchema: {
-      bsonType: "object",
-      //   required: ["firstName", "lastName", "email", "password", "profilePic"],
-      additionalProperties: false,
-      properties: {
-        _id: {},
-        Name: {
-          bsonType: "string",
-          description: "'Name' is required and is a string",
-        },
-        AuthName: {
-          bsonType: "string",
-          description: "'AuthName' is required and is a string",
-        },
-        Rating: {
-          bsonType: "string",
-          description: "'Rating' is required and is a string",
-        },
-        category: {
-          bsonType: "string",
-          description: "'category' is required and is a string",
-        },
-        profilePic: {
-          bsonType: "string",
-          description: "'profilePic' is required and is a string",
-        },
-      },
-    },
-  };
-
-  // Try applying the modification to the collection, if the collection doesn't exist, create it
+  
   await db
     .command({
       collMod: "Users",
@@ -92,8 +37,9 @@ async function applySchemaValidation(db: mongodb.Db) {
 
     .catch(async (error: mongodb.MongoServerError) => {
       if (error.codeName === "NamespaceNotFound") {
-        await db.createCollection("Users", { validator: jsonSchema });
+        await db.createCollection("Users", { validator: usersSchema });
       } else {
+        console.log("wwwwwwwwddddwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww:", error);
         console.error("Validation error:", error);
       }
     });
@@ -105,7 +51,20 @@ async function applySchemaValidation(db: mongodb.Db) {
 
     .catch(async (error: mongodb.MongoServerError) => {
       if (error.codeName === "NamespaceNotFound") {
-        await db.createCollection("Books", { validator: BooksSchema });
+        await db.createCollection("Books");
+      } else {
+        console.error("Validation error:", error);
+      }
+    });
+
+  await db
+    .command({
+      collMod: "Images",
+    })
+
+    .catch(async (error: mongodb.MongoServerError) => {
+      if (error.codeName === "NamespaceNotFound") {
+        await db.createCollection("Images");
       } else {
         console.error("Validation error:", error);
       }

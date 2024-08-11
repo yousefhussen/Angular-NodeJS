@@ -1,9 +1,17 @@
 import * as express from "express";
-import { ObjectId } from "mongodb";
-import { collections } from "./Database";
-
+import * as dotenv from "dotenv";
+import { ObjectId, UUID } from "mongodb";
+import { collections } from "../Database";
+import { User } from "../Schemas/users.schema";
+import axios from 'axios';
+dotenv.config();
+import {writeFileSync} from 'fs';
+import mongoose from "mongoose";
+mongoose.set('debug', true)
 export const UserRouter = express.Router();
 UserRouter.use(express.json());
+
+UserRouter.use(express.urlencoded({ extended: true }));
 
 UserRouter.get("/", async (_req, res) => {
     try {
@@ -32,20 +40,27 @@ UserRouter.get("/:id", async (req, res) => {
 
 UserRouter.post("/", async (req, res) => {
     try {
-        const User = req.body;
-        const result = await collections?.Users?.insertOne(User);
-
-        if (result?.acknowledged) {
-            console.log(`Created a new User: ID ${result.insertedId}.`);
-            res.status(201).send({some:`Created a new User: ID ${result.insertedId}.`});
+        const { firstName, lastName, email, password, profilePic } = req.body;
+        const user = new User( {firstName, lastName, email, password, profilePic });
+        console.log(req.body);
+        const { BackendServerUrl } = process.env;
+        const imageName = await writeImageToDisk(profilePic, email);
+        console.log("Done writing image to disk");
+        user.profilePic = BackendServerUrl + imageName;
+        console.log("Saving user to database");
+        user.markModified("polls");
+        const result = await user.save();
+        console.log("Done saving user to database");
+        console.log(result);
+        // const result2 = await collections?.Users?.insertOne(user);
+        res.status(201).send(result);
+      } catch (error: any) {
+        if (error instanceof mongoose.Error.ValidationError) {
+          res.status(400).send(error.message);
         } else {
-            console.log("Failed to create a new User.");
-            res.status(500).send("Failed to create a new User.");
+          res.status(500).send(error.message);
         }
-    } catch (error) {
-        console.error(error);
-        res.status(400).send(error instanceof Error ? error.message : "Unknown error");
-    }
+      }
 });
 
 UserRouter.put("/:id", async (req, res) => {
@@ -88,3 +103,12 @@ UserRouter.delete("/:id", async (req, res) => {
         res.status(400).send(message);
     }
 });
+
+
+async function writeImageToDisk(image: string, email: string) {
+    const base64String = image;
+    const buffer = Buffer.from(base64String, 'base64');
+    const fileName = `Images/image${email}.jpg`;
+    writeFileSync(fileName, buffer);
+    return fileName;
+  }

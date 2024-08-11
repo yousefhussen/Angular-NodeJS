@@ -1,9 +1,11 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
-import { collections } from "./Database";
+import { collections } from "../Database";
 
 export const BookRouter = express.Router();
 BookRouter.use(express.json());
+
+BookRouter.use(express.urlencoded({ extended: true }));
 
 BookRouter.get("/", async (_req, res) => {
   try {
@@ -35,6 +37,7 @@ BookRouter.get("/:id", async (req, res) => {
 BookRouter.post("/", async (req, res) => {
   try {
     const Book = req.body;
+    console.log(req);
     const result = await collections?.Books?.insertOne(Book);
 
     if (result?.acknowledged) {

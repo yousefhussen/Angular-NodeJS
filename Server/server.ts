@@ -2,8 +2,10 @@ import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { connectToDatabase } from "./Database";
-import { UserRouter } from "./user.route";
-import { BookRouter } from "./book.route";
+import { UserRouter } from "./Routes/user.route";
+import { BookRouter } from "./Routes/book.route";
+import { ImageRouter } from "./Routes/image.route";
+import mongoose from "mongoose";
 
 // Load environment variables from the .env file, where the ATLAS_URI is configured
 dotenv.config();
@@ -17,12 +19,18 @@ if (!ATLAS_URI) {
   process.exit(1);
 }
 
+mongoose.connect(
+  process.env.ATLAS_URI??""
+
+);
+
 connectToDatabase(ATLAS_URI)
   .then(() => {
     const app = express();
     app.use(cors());
     app.use("/Users", UserRouter);
     app.use("/Books", BookRouter);
+    app.use("/Images", ImageRouter);
 
     // Add a middleware function to log every request
     app.use((req, res, next) => {

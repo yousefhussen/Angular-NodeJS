@@ -84,14 +84,43 @@ tbody td i:hover {
   color: #007bff; /* Change color on hover */
 }
 
+/* Updated add-icon styling */
 .add-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ccd5ae;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
   position: absolute;
-  top: 0px;
-  right: 20px;
+  top: -40px; /* Position above the table */
+  right: 10px; /* Center above Actions column */
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
 }
 
-.add-icon img {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
+.add-icon a {
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.add-icon i {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.add-icon:hover {
+  background-color: #b7c9a7; /* Slightly darker shade for hover effect */
+}
+
+.photo-thumbnail {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 5px;
 }
