@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { connectToDatabase } from "./Database";
 import { UserRouter } from "./user.route";
+import { BookRouter } from "./book.route";
 
 // Load environment variables from the .env file, where the ATLAS_URI is configured
 dotenv.config();
@@ -21,6 +22,7 @@ connectToDatabase(ATLAS_URI)
     const app = express();
     app.use(cors());
     app.use("/Users", UserRouter);
+    app.use("/Books", BookRouter);
 
     // Add a middleware function to log every request
     app.use((req, res, next) => {
