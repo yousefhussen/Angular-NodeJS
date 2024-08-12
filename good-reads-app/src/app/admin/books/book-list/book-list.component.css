@@ -152,3 +152,8 @@ tbody td i:hover {
   display: flex;
   justify-content: flex-end;
 }
+.plus i {
+  size: 1.25rem;
+  width: 20%;
+  height: 20%;
+}

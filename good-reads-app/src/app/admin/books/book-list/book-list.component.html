@@ -1,79 +1,119 @@
 <div class="container">
-    <div class="navbar">
-        <a href="#">Categories</a>
-        <a href="#">Books</a>
-        <a href="#">Authors</a>
+  <div class="navbar">
+    <a href="#">Categories</a>
+    <a href="#">Books</a>
+    <a href="#">Authors</a>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>CategoryID</th>
+          <th>AuthorID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books; let i = index">
+          <td>{{ book.id }}</td>
+          <td>
+            <img src="{{ book.photo }}" alt="{{ book.name }}" width="50" />
+          </td>
+          <td>{{ book.name }}</td>
+          <td>{{ book.categoryId }}</td>
+          <td>{{ book.authorId }}</td>
+          <td>
+            <a (click)="editBook(book, i)"><i class="fas fa-pen"></i></a>
+            <a (click)="deleteBook(i)"><i class="fas fa-trash"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="add-icon">
+      <button class="btn btn-primary" (click)="openAddBookModal()">
+        <i class="plus" class="fa-solid fa-circle-plus"></i>
+      </button>
     </div>
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Photo</th>
-                    <th>Name</th>
-                    <th>CategoryID</th>
-                    <th>AuthorID</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let book of books; let i = index">
-                    <td>{{ book.id }}</td>
-                    <td><img src="{{ book.photo }}" alt="{{ book.name }}" width="50"></td>
-                    <td>{{ book.name }}</td>
-                    <td>{{ book.categoryId }}</td>
-                    <td>{{ book.authorId }}</td>
-                    <td>
-                        <a (click)="editBook(book, i)"><i class="fas fa-pen"></i></a>
-                        <a (click)="deleteBook(i)"><i class="fas fa-trash"></i></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="add-icon">
-            <button class="btn btn-primary" (click)="openAddBookModal()">
-                <i class="fas fa-plus"></i> Add Book
-            </button>
-        </div>
-    </div>
+  </div>
 </div>
 
 <!-- Add Book Modal -->
-<div class="modal" tabindex="-1" [ngClass]="{ 'show': showAddBookModal }" style="display: block;" *ngIf="showAddBookModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Book</h5>
-                <button type="button" class="close" (click)="closeAddBookModal()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="bookName">Book Name</label>
-                        <input type="text" class="form-control" id="bookName" [(ngModel)]="newBook.name">
-                    </div>
-                    <div class="form-group">
-                        <label for="bookCategory">Category</label>
-                        <select class="form-control" id="bookCategory" [(ngModel)]="newBook.categoryId">
-                            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="bookAuthor">Author</label>
-                        <select class="form-control" id="bookAuthor" [(ngModel)]="newBook.authorId">
-                            <option *ngFor="let author of authors" [value]="author.id">{{ author.name }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="bookImage">Upload Image</label>
-                        <input type="file" class="form-control" id="bookImage" (change)="onImageSelected($event)">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeAddBookModal()">Close</button>
-                <button type="button" class="btn btn-primary" (click)="addBook()">Add Book</button>
-            </div>
-        </div>
+<div
+  class="modal"
+  tabindex="-1"
+  [ngClass]="{ show: showAddBookModal }"
+  style="display: block"
+  *ngIf="showAddBookModal"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Book</h5>
+        <button type="button" class="close" (click)="closeAddBookModal()">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="bookName">Book Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="bookName"
+              [(ngModel)]="newBook.name"
+            />
+          </div>
+          <div class="form-group">
+            <label for="bookCategory">Category</label>
+            <select
+              class="form-control"
+              id="bookCategory"
+              [(ngModel)]="newBook.categoryId"
+            >
+              <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookAuthor">Author</label>
+            <select
+              class="form-control"
+              id="bookAuthor"
+              [(ngModel)]="newBook.authorId"
+            >
+              <option *ngFor="let author of authors" [value]="author.id">
+                {{ author.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookImage">Upload Image</label>
+            <input
+              type="file"
+              class="form-control"
+              id="bookImage"
+              (change)="onImageSelected($event)"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeAddBookModal()"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="addBook()">
+          Add Book
+        </button>
+      </div>
     </div>
+  </div>
 </div>
