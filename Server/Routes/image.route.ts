@@ -1,6 +1,5 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
-import { collections } from "../Database";
 import { User as UserModel } from "../Schemas/users.schema";
 import { ImageModel } from "../Schemas/images.schema";
 import path from "path";
@@ -12,7 +11,7 @@ ImageRouter.use(express.json());
 ImageRouter.use(express.urlencoded({ extended: true }));
 ImageRouter.get("/", async (_req, res) => {
     try {
-        const Images = await collections?.Images?.find({}).toArray();
+        const Images = await ImageModel?.find({});
         res.status(200).send(Images);
     } catch (error) {
         res.status(500).send(error instanceof Error ? error.message : "Unknown error");
@@ -23,7 +22,7 @@ ImageRouter.get("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new ObjectId(id) };
-        const Image = await collections?.Images?.findOne(query);
+        const Image = await ImageModel?.findOne(query);
 
         if (Image) {
             res.status(200).send(Image);
@@ -52,7 +51,7 @@ ImageRouter.get("/BookID/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new ObjectId(id) };
-        const Image = await collections?.Images?.findOne(query);
+        const Image = await ImageModel?.findOne(query);
 
         if (Image) {
             res.status(200).send(Image);
@@ -68,22 +67,24 @@ ImageRouter.get("/BookID/:id", async (req, res) => {
 
 
 ImageRouter.post("/", async (req, res) => {
-    try {
+    console.log("Can't Post Imgaes");
+    res.status(500).send({some:`Can't Post Images`});
+    // try {
 
-        const Image = req.body;
-        const result = await collections?.Images?.insertOne(Image);
+    //     const Image = req.body;
+    //     const result = await ImageModel?.insertOne(Image);
 
-        if (result?.acknowledged) {
-            console.log(`Created a new Image: ID ${result.insertedId}.`);
-            res.status(201).send({some:`Created a new Image: ID ${result.insertedId}.`});
-        } else {
-            console.log("Failed to create a new Image.");
-            res.status(500).send("Failed to create a new Image.");
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(400).send(error instanceof Error ? error.message : "Unknown error");
-    }
+    //     if (result?.acknowledged) {
+    //         console.log(`Created a new Image: ID ${result.insertedId}.`);
+    //         res.status(201).send({some:`Created a new Image: ID ${result.insertedId}.`});
+    //     } else {
+    //         console.log("Failed to create a new Image.");
+    //         res.status(500).send("Failed to create a new Image.");
+    //     }
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(400).send(error instanceof Error ? error.message : "Unknown error");
+    // }
 });
 
 ImageRouter.put("/:id", async (req, res) => {
@@ -91,7 +92,7 @@ ImageRouter.put("/:id", async (req, res) => {
         const id = req?.params?.id;
         const Image = req.body;
         const query = { _id: new ObjectId(id) };
-        const result = await collections?.Images?.updateOne(query, { $set: Image });
+        const result = await ImageModel?.updateOne(query, { $set: Image });
 
         if (result && result.matchedCount) {
             res.status(200).send(`Updated an Image: ID ${id}.`);
@@ -111,7 +112,7 @@ ImageRouter.delete("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new ObjectId(id) };
-        const result = await collections?.Images?.deleteOne(query);
+        const result = await ImageModel?.deleteOne(query);
 
         if (result && result.deletedCount) {
             res.status(202).send(`Removed an Image: ID ${id}`);

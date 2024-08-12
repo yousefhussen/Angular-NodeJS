@@ -1,75 +1,77 @@
 <div class="container">
-  <div class="navbar">
-      <a href="#">Categories</a>
-      <a href="#">Books</a>
-      <a href="#">Authors</a>
-  </div>
-  <div class="table-container">
-      <table>
-          <thead>
-              <tr>
-                  <th>ID</th>
-                  <th>Photo</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Date of Birth</th>
-                  <th>Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let author of authors; let i = index">
-                  <td>{{ author.id }}</td>
-                  <td><img [src]="author.photo" alt="{{ author.firstName }} {{ author.lastName }}" width="50"></td>
-                  <td>{{ author.firstName }}</td>
-                  <td>{{ author.lastName }}</td>
-                  <td>{{ author.dateOfBirth | date: 'mediumDate' }}</td>
-                  <td>
-                      <a (click)="editAuthor(author, i)"><i class="fas fa-pen"></i></a>
-                      <a (click)="deleteAuthor(i)"><i class="fas fa-trash"></i></a>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-      <div class="add-icon">
-          <button class="btn btn-primary" (click)="openAddAuthorModal()">
-              <i class="fas fa-plus"></i> Add Author
-          </button>
-      </div>
-  </div>
+    <div class="navbar">
+        <a href="#">Categories</a>
+        <a href="#">Books</a>
+        <a href="#">Authors</a>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Photo</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let author of authors; let i = index">
+                    <td>{{ author.id }}</td>
+                    <td><img [src]="author.photo" alt="{{ author.firstName }} {{ author.lastName }}" width="50"></td>
+                    <td>{{ author.firstName }}</td>
+                    <td>{{ author.lastName }}</td>
+                    <td>{{ author.dateOfBirth | date: 'mediumDate' }}</td>
+                    <td>
+                        <a (click)="editAuthor(author, i)"><i class="fas fa-pen"></i></a>
+                        <a (click)="deleteAuthor(i)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="add-icon">
+            <button class="btn btn-primary" (click)="openAddAuthorModal()">
+                <i class="fas fa-plus"></i> Add Author
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Add Author Modal -->
-<div class="modal" tabindex="-1" [ngClass]="{ 'show': showAddAuthorModal }" style="display: block;" *ngIf="showAddAuthorModal">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title">Add New Author</h5>
-              <button type="button" class="close" (click)="closeAddAuthorModal()">&times;</button>
-          </div>
-          <div class="modal-body">
-              <form>
-                  <div class="form-group">
-                      <label for="authorFirstName">First Name</label>
-                      <input type="text" class="form-control" id="authorFirstName" [(ngModel)]="newAuthor.firstName">
-                  </div>
-                  <div class="form-group">
-                      <label for="authorLastName">Last Name</label>
-                      <input type="text" class="form-control" id="authorLastName" [(ngModel)]="newAuthor.lastName">
-                  </div>
-                  <div class="form-group">
-                      <label for="authorDateOfBirth">Date of Birth</label>
-                      <input type="date" class="form-control" id="authorDateOfBirth" [(ngModel)]="newAuthor.dateOfBirth">
-                  </div>
-                  <div class="form-group">
-                      <label for="authorPhoto">Upload Photo</label>
-                      <input type="file" class="form-control" id="authorPhoto" (change)="onImageSelected($event)">
-                  </div>
-              </form>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="closeAddAuthorModal()">Close</button>
-              <button type="button" class="btn btn-primary" (click)="addAuthor()">Add Author</button>
-          </div>
-      </div>
-  </div>
+<div class="modal" tabindex="-1" [ngClass]="{ 'show': showAddAuthorModal }" style="display: block;"
+    *ngIf="showAddAuthorModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Author</h5>
+                <button type="button" class="close" (click)="closeAddAuthorModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="authorFirstName">First Name</label>
+                        <input type="text" class="form-control" id="authorFirstName" [(ngModel)]="newAuthor.firstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorLastName">Last Name</label>
+                        <input type="text" class="form-control" id="authorLastName" [(ngModel)]="newAuthor.lastName">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorDateOfBirth">Date of Birth</label>
+                        <input type="date" class="form-control" id="authorDateOfBirth"
+                            [(ngModel)]="newAuthor.dateOfBirth">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorPhoto">Upload Photo</label>
+                        <input type="file" class="form-control" id="authorPhoto" (change)="onImageSelected($event)">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeAddAuthorModal()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="addAuthor()">Add Author</button>
+            </div>
+        </div>
+    </div>
 </div>

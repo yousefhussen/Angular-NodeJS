@@ -10,6 +10,14 @@ nav {
   z-index: 1000;
 }
 
+/* Logo styling */
+.navbar-brand .logo {
+  width: 100px;
+  /* Adjust size as needed */
+  height: auto;
+  margin-right: 20px;
+}
+
 /* Links on the left */
 .navbar-nav .nav-link {
   margin-right: 20px;
@@ -63,7 +71,8 @@ nav {
 
 .content {
   display: flex;
-  margin-top: 60px; /* Adjust for navbar height */
+  margin-top: 60px;
+  /* Adjust for navbar height */
 }
 
 .side-menu {
@@ -146,12 +155,11 @@ nav {
   border-color: #6c757d;
 }
 
-/* Other styles omitted for brevity */
-
 .pageNextandPrev {
   display: flex;
   justify-content: space-evenly;
 }
+
 .pagination {
   margin-top: 20px;
   margin-bottom: 20px;

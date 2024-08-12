@@ -71,4 +71,11 @@ export class HomeComponent implements OnInit {
       );
     }
   }
+
+  onSearch(event: any) {
+    const query = event.target.value.toLowerCase();
+    this.filteredBooks = this.books.filter((book) =>
+      book.title.toLowerCase().includes(query)
+    );
+  }
 }

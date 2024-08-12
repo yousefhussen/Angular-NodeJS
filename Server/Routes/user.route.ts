@@ -1,8 +1,7 @@
 import * as express from "express";
 import * as dotenv from "dotenv";
 import { ObjectId, UUID } from "mongodb";
-import { collections } from "../Database";
-import { User } from "../Schemas/users.schema";
+import { User as MUser } from "../Schemas/users.schema";
 import axios from 'axios';
 dotenv.config();
 import {writeFileSync} from 'fs';
@@ -15,7 +14,7 @@ UserRouter.use(express.urlencoded({ extended: true }));
 
 UserRouter.get("/", async (_req, res) => {
     try {
-        const Users = await collections?.Users?.find({}).toArray();
+        const Users = await MUser.find({});
         res.status(200).send(Users);
     } catch (error) {
         res.status(500).send(error instanceof Error ? error.message : "Unknown error");
@@ -26,7 +25,7 @@ UserRouter.get("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new ObjectId(id) };
-        const User = await collections?.Users?.findOne(query);
+        const User = await MUser.findOne(query);
 
         if (User) {
             res.status(200).send(User);
@@ -41,7 +40,7 @@ UserRouter.get("/:id", async (req, res) => {
 UserRouter.post("/", async (req, res) => {
     try {
         const { firstName, lastName, email, password, profilePic } = req.body;
-        const user = new User( {firstName, lastName, email, password, profilePic });
+        const user = new MUser( {firstName, lastName, email, password, profilePic });
 
         const { BackendServerUrl } = process.env;
         const imageName = await writeImageToDisk(profilePic, user.id);
@@ -74,7 +73,7 @@ UserRouter.put("/:id", async (req, res) => {
         const id = req?.params?.id;
         const User = req.body;
         const query = { _id: new ObjectId(id) };
-        const result = await collections?.Users?.updateOne(query, { $set: User });
+        const result = await MUser?.updateOne(query, { $set: User });
 
         if (result && result.matchedCount) {
             res.status(200).send(`Updated an User: ID ${id}.`);
@@ -94,7 +93,7 @@ UserRouter.delete("/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new ObjectId(id) };
-        const result = await collections?.Users?.deleteOne(query);
+        const result = await MUser?.deleteOne(query);
 
         if (result && result.deletedCount) {
             res.status(202).send(`Removed an User: ID ${id}`);

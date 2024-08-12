@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import { connectToDatabase } from "./Database";
+
 import { UserRouter } from "./Routes/user.route";
 import { BookRouter } from "./Routes/book.route";
 import { ImageRouter } from "./Routes/image.route";
@@ -22,10 +22,9 @@ if (!ATLAS_URI) {
 mongoose.connect(
   process.env.ATLAS_URI??""
 
-);
+).then(() => {
+  console.log("Database Connected")
 
-connectToDatabase(ATLAS_URI)
-  .then(() => {
     const app = express();
     app.use(cors());
     app.use("/Users", UserRouter);

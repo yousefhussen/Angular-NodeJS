@@ -8,7 +8,8 @@ import { AuthorsComponent } from '../authors/authors.component';
 import { BookComponent } from '../books/book/book.component';
 
 const routes: Routes = [
-  { path: 'Home', component: HomeComponent },
+  // { path: '', component: MainComponent },
+  { path: '', component: HomeComponent },
   {
     path: 'books',
     children: [

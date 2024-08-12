@@ -1,6 +1,6 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
-import { collections } from "../Database";
+import { BookModel } from "../Schemas/books.schema"
 
 export const BookRouter = express.Router();
 BookRouter.use(express.json());
@@ -9,7 +9,7 @@ BookRouter.use(express.urlencoded({ extended: true }));
 
 BookRouter.get("/", async (_req, res) => {
   try {
-    const Books = await collections?.Books?.find({}).toArray();
+    const Books = await BookModel?.find({});
     res.status(200).send(Books);
   } catch (error) {
     res
@@ -22,7 +22,7 @@ BookRouter.get("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
     const query = { _id: new ObjectId(id) };
-    const Book = await collections?.Books?.findOne(query);
+    const Book = await BookModel?.findOne(query);
 
     if (Book) {
       res.status(200).send(Book);
@@ -36,16 +36,17 @@ BookRouter.get("/:id", async (req, res) => {
 
 BookRouter.post("/", async (req, res) => {
   try {
-    const Book = req.body;
+    const { name, content, Rating, Reviews, Author }  = req.body;
     console.log(req);
-    const result = await collections?.Books?.insertOne(Book);
+    const book = new BookModel({ name, content, Rating, Reviews, Author });
+    const result = await book.save();
 
-    if (result?.acknowledged) {
-      console.log(`Created a new Book: ID ${result.insertedId}.`);
-      console.log(Book);
+    if (result) {
+      console.log(`Created a new Book: ID ${result.id}.`);
+      
       res
         .status(201)
-        .send({ some: `Created a new Book: ID ${result.insertedId}.` });
+        .send({ some: `Created a new Book: ID ${result.id}.` });
     } else {
       console.log("Failed to create a new Book.");
       res.status(500).send("Failed to create a new Book.");
@@ -63,7 +64,7 @@ BookRouter.put("/:id", async (req, res) => {
     const id = req?.params?.id;
     const Book = req.body;
     const query = { _id: new ObjectId(id) };
-    const result = await collections?.Books?.updateOne(query, { $set: Book });
+    const result = await BookModel?.updateOne(query, { $set: Book });
 
     if (result && result.matchedCount) {
       res.status(200).send(`Updated an Book: ID ${id}.`);
@@ -83,7 +84,7 @@ BookRouter.delete("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
     const query = { _id: new ObjectId(id) };
-    const result = await collections?.Books?.deleteOne(query);
+    const result = await BookModel?.deleteOne(query);
 
     if (result && result.deletedCount) {
       res.status(202).send(`Removed an Book: ID ${id}`);
