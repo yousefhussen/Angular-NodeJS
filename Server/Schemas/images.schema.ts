@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+const { MongooseFindByReference } = require('mongoose-find-by-reference');
 const imagesSchema = new mongoose.Schema({
   _id: {},
   name: {
@@ -14,7 +15,9 @@ const imagesSchema = new mongoose.Schema({
   Author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
 
 });
-
+imagesSchema.plugin(MongooseFindByReference);
+const ImageModel = mongoose.model('Image', imagesSchema);
 export {
+  ImageModel,
     imagesSchema 
  };

@@ -42,18 +42,24 @@ UserRouter.post("/", async (req, res) => {
     try {
         const { firstName, lastName, email, password, profilePic } = req.body;
         const user = new User( {firstName, lastName, email, password, profilePic });
-        console.log(req.body);
+
         const { BackendServerUrl } = process.env;
-        const imageName = await writeImageToDisk(profilePic, email);
-        console.log("Done writing image to disk");
+        const imageName = await writeImageToDisk(profilePic, user.id);
+
         user.profilePic = BackendServerUrl + imageName;
-        console.log("Saving user to database");
-        user.markModified("polls");
+
+
         const result = await user.save();
-        console.log("Done saving user to database");
-        console.log(result);
-        // const result2 = await collections?.Users?.insertOne(user);
+
+
         res.status(201).send(result);
+        // send to store image in database
+        axios.post(`${BackendServerUrl}Images`, {
+            name: imageName,
+            path: imageName,
+            User: result._id
+            
+        })
       } catch (error: any) {
         if (error instanceof mongoose.Error.ValidationError) {
           res.status(400).send(error.message);
@@ -108,7 +114,8 @@ UserRouter.delete("/:id", async (req, res) => {
 async function writeImageToDisk(image: string, email: string) {
     const base64String = image;
     const buffer = Buffer.from(base64String, 'base64');
-    const fileName = `Images/image${email}.jpg`;
+    const fileNameNoExt = `Images/User/${email}`;
+    const fileName = `${fileNameNoExt}.jpg`;
     writeFileSync(fileName, buffer);
-    return fileName;
+    return fileNameNoExt;
   }

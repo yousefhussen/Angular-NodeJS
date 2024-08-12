@@ -1,10 +1,15 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
 import { collections } from "../Database";
+import { User as UserModel } from "../Schemas/users.schema";
+import { ImageModel } from "../Schemas/images.schema";
+import path from "path";
+
+
 
 export const ImageRouter = express.Router();
 ImageRouter.use(express.json());
-
+ImageRouter.use(express.urlencoded({ extended: true }));
 ImageRouter.get("/", async (_req, res) => {
     try {
         const Images = await collections?.Images?.find({}).toArray();
@@ -23,46 +28,27 @@ ImageRouter.get("/:id", async (req, res) => {
         if (Image) {
             res.status(200).send(Image);
         } else {
-            res.status(404).send(`Failed to find an Image: ID ${id}`);
+            res.status(404).send(`essefesfefsFailed to find an Image: ID ${id}`);
         }
     } catch (error) {
-        res.status(404).send(`Failed to find an Image: ID ${req?.params?.id}`);
+        res.status(404).send(`wadwdawadFailed to find an Image: ID ${req?.params?.id}`);
     }
 });
 
-ImageRouter.get("UserID/:id", async (req, res) => {
+ImageRouter.get("/User/:id", async (req, res) => {
     try {
-        const id = req?.params?.id;
-        const query = { User: new ObjectId(id) };
-        const Image = await collections?.Images?.findOne(query);
+        const filename = req.params.id+".jpg";
+        const imagePath = path.join(__dirname, "../Images/User", filename);
 
-        if (Image) {
-            res.status(200).send(Image);
-        } else {
-            res.status(404).send(`Failed to find an Image: ID ${id}`);
-        }
+        res.sendFile(imagePath);
     } catch (error) {
         res.status(404).send(`Failed to find an Image: ID ${req?.params?.id}`);
     }
 });
 
-ImageRouter.get("UserID/:id", async (req, res) => {
-    try {
-        const id = req?.params?.id;
-        const query = { UserID: new ObjectId(id) };
-        const Image = await collections?.Images?.findOne(query);
 
-        if (Image) {
-            res.status(200).send(Image);
-        } else {
-            res.status(404).send(`Failed to find an Image: ID ${id}`);
-        }
-    } catch (error) {
-        res.status(404).send(`Failed to find an Image: ID ${req?.params?.id}`);
-    }
-});
 
-ImageRouter.get("BookID/:id", async (req, res) => {
+ImageRouter.get("/BookID/:id", async (req, res) => {
     try {
         const id = req?.params?.id;
         const query = { _id: new ObjectId(id) };
@@ -79,24 +65,11 @@ ImageRouter.get("BookID/:id", async (req, res) => {
 });
 
 
-ImageRouter.get("UserID/:id", async (req, res) => {
-    try {
-        const id = req?.params?.id;
-        const query = { _id: new ObjectId(id) };
-        const Image = await collections?.Images?.findOne(query);
 
-        if (Image) {
-            res.status(200).send(Image);
-        } else {
-            res.status(404).send(`Failed to find an Image: ID ${id}`);
-        }
-    } catch (error) {
-        res.status(404).send(`Failed to find an Image: ID ${req?.params?.id}`);
-    }
-});
 
 ImageRouter.post("/", async (req, res) => {
     try {
+
         const Image = req.body;
         const result = await collections?.Images?.insertOne(Image);
 
