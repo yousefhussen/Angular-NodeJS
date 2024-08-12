@@ -30,8 +30,9 @@ export class UserService extends BaseService {
     return this.get<User>(`${this.usersEndpoint}/${id}`);
   }
 
-  async createUser(user: User): Promise<User | null> {
-    return this.post<User>(`${this.usersEndpoint}`, user);
+  async createUser(user: User):Promise<any>  {
+    const response = await this.post<any>(`${this.usersEndpoint}`, user);
+    return response;
   }
 
   async updateUser(id: string, user: User): Promise<User | null> {

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { User } from '../../shared/services/User/User'; // Adjust the path as needed
 import { UserService } from '../../shared/services/User/user.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { response } from 'express';
 
 @Component({
   selector: 'app-signup',
@@ -147,7 +148,13 @@ export class SignupComponent implements OnInit {
       };
   
       // Perform registration logic here
-      this.UserService.createUser(this.user);
+      this.UserService.createUser(this.user).then(response=>{
+        console.log(response);
+        if (response) {
+          sessionStorage.setItem("token",response.token);
+          this.router.navigate(['main/']);
+        }
+      })
     } else {
       Object.keys(this.registerForm.controls).forEach((controlName) => {
         const control = this.registerForm.get(controlName);

@@ -1,6 +1,5 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
-import { User as UserModel } from "../Schemas/users.schema";
 import { ImageModel } from "../Schemas/images.schema";
 import path from "path";
 

@@ -2,10 +2,12 @@ import * as express from "express";
 import * as dotenv from "dotenv";
 import { ObjectId, UUID } from "mongodb";
 import { User as MUser } from "../Schemas/users.schema";
-import axios from 'axios';
+const jwt = require('jsonwebtoken');
 dotenv.config();
 import {writeFileSync} from 'fs';
 import mongoose from "mongoose";
+// import { generateAuthToken } from 'auth';
+
 mongoose.set('debug', true)
 export const UserRouter = express.Router();
 UserRouter.use(express.json());
@@ -50,15 +52,17 @@ UserRouter.post("/", async (req, res) => {
 
         const result = await user.save();
 
-
-        res.status(201).send(result);
+        const token = jwt.sign({ userId: user._id }, 'key', {
+            expiresIn: '1h',
+            });
+        res.status(200).json({ token });
         // send to store image in database
-        axios.post(`${BackendServerUrl}Images`, {
-            name: imageName,
-            path: imageName,
-            User: result._id
+        // axios.post(`${BackendServerUrl}Images`, {
+        //     name: imageName,
+        //     path: imageName,
+        //     User: result._id
             
-        })
+        // })
       } catch (error: any) {
         if (error instanceof mongoose.Error.ValidationError) {
           res.status(400).send(error.message);

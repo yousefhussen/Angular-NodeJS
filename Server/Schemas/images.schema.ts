@@ -16,7 +16,7 @@ const imagesSchema = new mongoose.Schema({
 
 });
 imagesSchema.plugin(MongooseFindByReference);
-const ImageModel = mongoose.model('Image', imagesSchema);
+const ImageModel = mongoose.model('image', imagesSchema);
 export {
   ImageModel,
     imagesSchema 
