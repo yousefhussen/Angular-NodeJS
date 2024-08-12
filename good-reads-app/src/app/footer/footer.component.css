@@ -1,0 +1,45 @@
+/* Footer Styling */
+.footer {
+    background-color: #ccd5ae;
+    color: #000;
+    padding: 20px 0;
+    margin-top: 10px;
+}
+
+.footer-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-logo .logo {
+    width: 100px;
+    height: auto;
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-menu .footer-link {
+    text-decoration: none;
+    color: black;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.footer-menu .footer-link:hover {
+    color: #343a40;
+}
+
+.copyright-row {
+    background-color: #e0e5b6;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.footer small {
+    color: #343a40;
+}

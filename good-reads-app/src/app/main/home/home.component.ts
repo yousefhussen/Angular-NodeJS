@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { NavbarComponent } from '../../navbar/navbar.component';
+import { FooterComponent } from '../../footer/footer.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NavbarComponent, FooterComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -72,8 +74,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onSearch(event: any) {
-    const query = event.target.value.toLowerCase();
+  handleSearch(query: string) {
     this.filteredBooks = this.books.filter((book) =>
       book.title.toLowerCase().includes(query)
     );

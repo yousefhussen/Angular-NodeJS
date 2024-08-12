@@ -1,0 +1,94 @@
+nav {
+    width: 100%;
+    background-color: #ccd5ae;
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 0 20px;
+}
+
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 0px !important;
+    border: 1px solid transparent;
+}
+
+/* Logo styling */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar-brand .logo {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+/* Links on the left */
+.navbar-nav .nav-link {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Search bar styling */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: whitesmoke;
+    border-radius: 25px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-container .search-bar {
+    border: none;
+    border-radius: 25px;
+    padding: 8px 12px;
+    width: 100%;
+    background-color: transparent;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-container .search {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #555;
+}
+
+.search-container .search-icon {
+    margin-left: 10px;
+    font-size: 18px;
+    color: #555;
+}
+
+.profile-icon {
+    margin-right: 10px;
+    color: #000000;
+}
+
+.username {
+    color: #000000;
+    margin-right: 20px;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #000000;
+    font-size: 18px;
+    margin-right: 20px;
+    transition: transform 0.2s ease;
+}
+
+.logout-button:hover {
+    transform: scale(1.1);
+}
