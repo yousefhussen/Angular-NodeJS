@@ -10,6 +10,7 @@
   "author": "Stanimira Vlaeva",
   "license": "Apache 2.0",
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "auth": "^1.1.1",
     "axios": "^1.7.3",
     "cors": "^2.8.5",
@@ -22,7 +23,8 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.5.2",
     "mongoose-find-by-reference": "^1.0.8",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "tsc": "^2.0.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
