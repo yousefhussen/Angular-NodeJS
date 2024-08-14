@@ -1,100 +1,159 @@
-Reset some basic styles for better cross-browser consistency
+/* Reset basic styles for consistency across browsers */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-html, body {
+  }
+  
+  html, body {
     height: 100%;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-}
-
-.container {
+  }
+  
+  .container {
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
     margin: 0;
-}
-
-.navbar {
+  }
+  
+  .navbar {
     display: flex;
     justify-content: flex-start;
-    background-color: #CCD5AE;
+    background-color: #ccd5ae;
     padding: 10px;
-}
-
-.navbar a {
+  }
+  
+  .navbar a {
     margin-right: 20px;
     text-decoration: none;
     color: #000;
     font-weight: bold;
-}
-
-.table-container {
-    flex: 1; /* Make the table container grow to fill the available space */
-    background-color: #FEFAE0;
+  }
+  
+  .table-container {
+    flex: 1;
+    background-color: #fefae0;
     padding: 20px;
     margin-top: 10px;
     border-radius: 5px;
     position: relative;
-    overflow: auto; /* Allow scrolling if content overflows */
-}
-
-table {
+    overflow: auto; /* Enable scrolling if content overflows */
+  }
+  
+  table {
     width: 100%;
     border-collapse: collapse;
-}
-
-thead th {
+  }
+  
+  thead th {
     background-color: #f0f0f0;
     text-align: left;
     padding: 10px;
     border-bottom: 1px solid #ddd;
-}
-
-tbody td {
+  }
+  
+  tbody td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-}
-
-tbody tr:nth-child(even) {
+  }
+  
+  tbody tr:nth-child(even) {
     background-color: #f9f9f9;
-}
-
-tbody tr:last-child td {
+  }
+  
+  tbody tr:last-child td {
     border-bottom: none;
-}
-
-tbody td a {
-    margin-right: 10px;
-    color: #000;
-    text-decoration: none;
-}
-
-tbody td i {
+  }
+  
+  tbody td button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  tbody td button .fa {
     font-size: 18px;
+    margin-right: 5px;
+  }
+  
+  tbody td button.edit-btn .fa {
+    color: #141413; /* Yellow color for edit icon */
+  }
+  
+  tbody td button.delete-btn .fa {
+    color: #0f0f0f; /* Red color for delete icon */
+  }
+  
+  tbody td button .fa:hover {
+    opacity: 0.7; /* Slightly reduce opacity on hover */
+  }
+  
+  .add-icon button {
+    background-color: #ccd5ae;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 13px;
     cursor: pointer;
-}
-
-tbody td i:hover {
-    color: #007bff; /* Change color on hover */
-}
-
-.add-icon {
-    position: absolute;
-    top: 0px;
-    right: 20px;
-}
-
-.add-icon img {
-    width: 30px;
-    height: 30px;
+    font-size: 16px;
+  }
+  
+  .add-icon button i {
+    margin-right: 5px;
+  }
+  
+  .modal {
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+  }
+  
+  .modal-dialog {
+    background-color: #ffffff;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-header .close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
     cursor: pointer;
-}
-
-.Hidden{
-    display: none;
-}
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+  }
+  
+  .modal-body {
+    margin: 20px 0;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .plus i {
+    font-size: 1.25rem;
+  }
+  
