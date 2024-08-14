@@ -1,38 +1,110 @@
-// const dotenv = require('dotenv');
-// const express = require("express");
-// const cors = require("cors");
-// import {users} from "./fake-data/user.FakeData";
-// const mongoose = require("mongoose");
-// import {User} from "./Schemas/users.schema";
-// dotenv.config();
+const { faker } = require('@faker-js/faker');
 
-// const { ATLAS_URI } = process.env;
+const {User }= require('./Schemas/users.schema');
+const {Author }= require('./Schemas/authors.schema');
+const {Book }= require('./Schemas/books.schema');
+const {Category }= require('./Schemas/categories.schema');
+const {generateAuthors} = require('./fake-data/author.FakeData');
+const {generateUsers} = require('./fake-data/user.FakeData');
+const {generateBooks} = require('./fake-data/book.FakeData');
+const {generateCategories} = require('./fake-data/category.FakeData');
+const mongoose = require('mongoose');
 
-// if (!ATLAS_URI) {
-//   console.error(
-//     "No ATLAS_URI environment variable has been defined in config.env"
-//   );
-//   process.exit(1);
-// }
+class Seeder {
+    Objects: { Author: typeof  Author[], User: typeof  User[], Book: typeof  Book[], Category: typeof  Category[] };
 
-// mongoose
-//   .connect(process.env.ATLAS_URI ?? "")
-//   .then(() => {
-//     console.log("Database Connected");
+  
+    constructor() {
+        this.Objects = {
+            Author: [],
+            User: [],
+            Book: [],
+            Category:[],
+        };
 
-//     const app = express();
-//     app.use(cors());
+    const connectDB = async () => {
+      try {
+        await mongoose.connect("mongodb://localhost:27017/GoodReads");
+        console.log("connected to db");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    connectDB();
 
-//     User.insertMany(users)
-//       .then((docs) => {
-//         console.log(`Inserted ${docs.length} users`);
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//     // start the Express server
-//     app.listen(5200, () => {
-//       console.log(`Server running at http://localhost:5200...`);
-//     });
-//   })
-//   .catch((error) => console.error(error));
+  }
+  
+  async GenerateFakeData(model: any, num: number)    {
+    const generators = {
+        Author: generateAuthors,
+        User: generateUsers,
+        Book: generateBooks,
+        Category: generateCategories,
+    };
+    
+    const generator = generators[`${model.modelName}`];
+    if (!generator) {
+        console.error(`No generator found for model: ${model.modelName}`);
+      
+        return;
+      }
+    const data = generator(num);
+      
+    await model.insertMany(data).then(docs =>
+        { 
+            this.Objects[model.modelName] = docs;
+            console.log(`${docs.length} ${model.modelName} have been inserted into the database.`);
+            console.log(this.Objects[model.modelName]);
+        
+        })
+    .catch(err => {
+      console.error(err);
+      console.error(`${err.writeErrors?.length ?? 0} errors occurred during the insertMany operation.`);
+    });
+    
+  }
+
+  async FillRefrrences(model: any, FieldToBeFilled: string, data: any[], referenceData: any[]) {
+    const schema = model.schema;
+    // Collect the paths where the field needs to be filled
+    const referencePaths = Object.keys(schema.paths).filter(path => path === FieldToBeFilled);
+
+    const savePromises = data.map((doc, index) => {
+        // Loop through each path where the field needs to be filled
+        referencePaths.forEach((referencePath) => {
+            // Get the reference ID from the reference data
+            const referenceId = referenceData[index]._id;
+            // Set the reference ID in the document
+            doc[referencePath] = referenceId;
+        });
+
+        // Return the save promise
+        return doc.save();
+    });
+
+    // Wait for all save operations to complete
+    await Promise.all(savePromises);
+}
+  EndConnection() {
+    mongoose.connection.close();
+  }
+}
+const SeederOvbject = new Seeder();
+async function AllInOrder() {
+    await SeederOvbject.GenerateFakeData(Book, 10);
+    await SeederOvbject.GenerateFakeData(Author, 10);
+    await SeederOvbject.FillRefrrences(Book,"Author", SeederOvbject.Objects.Book, SeederOvbject.Objects.Author);
+    await SeederOvbject.GenerateFakeData(Category, 10);
+    await SeederOvbject.FillRefrrences(Book,"Category", SeederOvbject.Objects.Book, SeederOvbject.Objects.Category);
+    SeederOvbject.EndConnection();
+
+}
+
+AllInOrder();
+
+//end connection and  exit
+
+
+
+
+

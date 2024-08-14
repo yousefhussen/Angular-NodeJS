@@ -1,19 +1,19 @@
-const faker = require('faker');
+const { faker } = require('@faker-js/faker');
 const { ObjectId } = require('mongodb');
 
 const generateAuthors = (num) => {
-    const user = [];
+    const author = [];
   
     for (let i = 0; i < num; i++) {
-      const firstName = faker.name.firstName();
-      const lastName = faker.name.lastName();
+      const FirstName = faker.name.firstName();
+      const LastName = faker.name.lastName();
         const DateOfBirth = faker.date.recent();
         const Photo = faker.image.avatar();
-        const Books = new ObjectId();
+        const Books = [new ObjectId()];
   
       author.push({
-        firstName,
-        lastName,
+        FirstName,
+        LastName,
         DateOfBirth,
         Photo,
         Books,

@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { User } from '../../shared/services/User/User'; // Adjust the path as needed
 import { UserService } from '../../shared/services/User/user.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { response } from 'express';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +22,7 @@ import { response } from 'express';
 export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   uploadInProgress: boolean = false;
-  file!: File;
+  file!: File | null;
   uploadProgress: number = 0;
   uploadDone: boolean = false;
   imagePreviewUrl: string | ArrayBuffer | null = null;
@@ -83,38 +82,53 @@ export class SignupComponent implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     this.file = file;
-    console.log(this.file);
-  
+
     if (file) {
       const fileType = file.type;
-  
+
       // Ensure the selected file is an image
       if (fileType.startsWith('image/')) {
         this.uploadInProgress = true;
         this.uploadDone = false;
-  
+        this.uploadProgress = 0; 
         // Show image preview
         const reader = new FileReader();
         reader.onload = () => {
           this.imagePreviewUrl = reader.result;
         };
         reader.readAsDataURL(file);
-  
+
+        // Simulate upload progress
+        let uploadInterval = setInterval(() => {
+          if (this.uploadProgress < 100) {
+            this.uploadProgress += 5; // Increment progress (adjust as needed)
+          } else {
+            clearInterval(uploadInterval);
+            this.uploadDone = true; // Mark upload as done
+            this.uploadInProgress = false;
+          }
+        }, 100); // Adjust interval time as needed
+
         // Compress image
         reader.onloadend = (e: any) => {
           const image = e.target.result;
           this.imageCompress.compressFile(image, -1, 50, 50).then(
             (compressedImage: string) => {
               const compressedBlob = this.dataURItoBlob(compressedImage);
-  
+
               // Convert Blob to File
               this.file = new File([compressedBlob], file.name, {
                 type: file.type,
-                lastModified: file.lastModified
+                lastModified: file.lastModified,
               });
-  
-              this.uploadInProgress = false;
-              this.uploadDone = true;
+
+              // After compression, complete the progress
+              setTimeout(() => {
+                this.uploadProgress = 100;
+                clearInterval(uploadInterval);
+                this.uploadDone = true;
+                this.uploadInProgress = false;
+              }, 1000); // Wait a bit before marking as done, for a smoother UI experience
             },
             (error) => {
               console.error('Image compression failed:', error);
@@ -125,7 +139,7 @@ export class SignupComponent implements OnInit {
       }
     }
   }
-  
+
   dataURItoBlob(dataURI: string): Blob {
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -136,7 +150,7 @@ export class SignupComponent implements OnInit {
     }
     return new Blob([ab], { type: mimeString });
   }
-  
+
   async register() {
     if (this.registerForm.valid) {
       this.user = {
@@ -144,9 +158,9 @@ export class SignupComponent implements OnInit {
         lastName: this.registerForm.value.lastName,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
-        profilePic: await this.handleFileInput(this.file),
+        profilePic: await this.handleFileInput(this.file!),
       };
-  
+
       // Perform registration logic here
       this.UserService.createUser(this.user).then(response=>{
         console.log(response);
@@ -166,9 +180,17 @@ export class SignupComponent implements OnInit {
       console.log('Form is invalid');
     }
   }
-  removeImage(){
-    
+
+  removeImage() {
+    this.imagePreviewUrl = null;
+    this.file = null;
+    this.uploadDone = false;
+    this.uploadProgress = 0;
+
+    // Optionally, clear the file input field
+    this.registerForm.get('image')?.reset();
   }
+
   handleFileInput(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       if (file != null) {
@@ -184,4 +206,4 @@ export class SignupComponent implements OnInit {
       }
     });
   }
-    }
+}

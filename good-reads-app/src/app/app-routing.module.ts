@@ -4,11 +4,16 @@ import { authGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthRoutingModule } from './auth/auth-routing/auth-routing.module';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./main/main.module').then((m) => m.MainModule),
+  },
+  {
+    path: 'landing-page',
+    component: LandingPageComponent,
   },
   {
     path: 'admin',

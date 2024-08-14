@@ -7,10 +7,10 @@
 
         <!-- Links on the left -->
         <div class="navbar-nav me-auto">
-            <a routerLink="/categories" class="nav-link">Home</a>
-            <a routerLink="/categories" class="nav-link">Categories</a>
-            <a routerLink="/books" class="nav-link">Books</a>
-            <a routerLink="/authors" class="nav-link">Authors</a>
+            <a (click)="router.navigate(['/'])" class="nav-link">Home</a>
+            <a (click)="router.navigate(['/main/categories'])" class="nav-link">Categories</a>
+            <a (click)="router.navigate(['/main/books'])" class="nav-link">Books</a>
+            <a (click)="router.navigate(['/main/authors'])" class="nav-link">Authors</a>
         </div>
 
         <!-- Search bar in the middle -->
@@ -25,6 +25,26 @@
                 </span>
             </div>
         </div>
+
+
+
+
+        <!-- admin or user button--> 
+
+
+
+        <div class="btn-group rounded-btn">
+            <button type="button" class="btn btn-primary user-btn" (click)="router.navigate(['/auth/login'])" > User </button>
+            <span class="separator">|</span>
+            <button type="button" class="btn btn-primary admin-btn" (click)="router.navigate(['/admin/admin-login'])" >Admin</button>
+          </div>
+          
+          
+
+
+
+
+
 
         <!-- Profile icon, username, and logout button on the right -->
         <div class="d-flex align-items-center ms-auto">

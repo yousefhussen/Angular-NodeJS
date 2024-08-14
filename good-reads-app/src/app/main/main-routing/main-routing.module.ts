@@ -6,6 +6,7 @@ import { BooksComponent } from '../books/books.component';
 import { CategoriesComponent } from '../categories/categories.component';
 import { AuthorsComponent } from '../authors/authors.component';
 import { BookComponent } from '../books/book/book.component';
+import { AuthorComponent } from '../authors/author/author.component';
 
 const routes: Routes = [
   // { path: '', component: MainComponent },
@@ -18,7 +19,11 @@ const routes: Routes = [
     ],
   },
   { path: 'categories', component: CategoriesComponent },
-  { path: 'authors', component: AuthorsComponent },
+  {     path: 'authors' ,
+    children: [
+      { path: '', component: AuthorsComponent },
+      { path: ':id', component: AuthorComponent },
+    ], },
 ];
 
 @NgModule({

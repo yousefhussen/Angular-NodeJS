@@ -12,7 +12,7 @@ export class NavbarComponent {
 
   username: string | null = '';
 
-  constructor(private router: Router) {}
+  constructor(protected router: Router) {}
 
   ngOnInit() {
     this.username = localStorage.getItem('loggedInUser');
@@ -27,4 +27,9 @@ export class NavbarComponent {
     const query = event.target.value.toLowerCase();
     this.search.emit(query);
   }
+
+
+
+
+  
 }

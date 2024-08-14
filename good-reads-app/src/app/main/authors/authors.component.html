@@ -4,16 +4,11 @@
   <div class="row">
     <div
       class="col-md-3"
-      *ngFor="let i of [].constructor(10); let index = index"
-    >
+      *ngFor="let Author of AuthorsList | paginate: { itemsPerPage:this.itemsPerPage, currentPage: this.currentPage }">
       <div class="author">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="author 4"
-          class="author-image"
-        />
+        <img src={{Author.Photo}} alt="author 4" class="author-image"/>
         <h2 class="author-title">
-          <a>Author {{ index }}</a>
+          <a  (click)="Rrouter.navigate(['/authors', Author._id])" >{{Author.FirstName}}  {{Author.LastName}}</a>
         </h2>
       </div>
     </div>
@@ -21,21 +16,22 @@
 
   <div class="row">
     <div class="col-md-12">
+      
+
       <ul class="pagination" style="display: inline-flex">
         <li class="mr-1 page-item">
-          <a class="page-link" href="#"
+          <button  class="page-link" (click)="previousPage()" [disabled]="this.currentPage === 1"
             ><i class="fa-solid fa-circle-arrow-left"></i
-          ></a>
+          ></button>
         </li>
-        <li class="page-item active">
-          <a class="m-1 page-link" href="#">1</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <!-- add class active to the current page -->
+        <li *ngFor="let i of [].constructor(this.totalPages); let index = index" class="page-item" [ngClass]="{ 'active': index + 1 === currentPage }">
+          <button  (click)="ToPage(index+1)" class="m-1 page-link" >{{index+1}}</button></li>
+
         <li class="page-item">
-          <a class="page-link" href="#"
+          <button  (click)="nextPage()" [disabled]="this.currentPage === this.totalPages" class="page-link" 
             ><i class="fa-solid fa-circle-arrow-right"></i
-          ></a>
+          ></button>
         </li>
       </ul>
     </div>

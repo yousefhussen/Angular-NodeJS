@@ -91,7 +91,8 @@
               </option>
             </select>
           </div>
-          <div class="form-group">
+
+          <!-- <div class="form-group">
             <label for="bookImage">Upload Image</label>
             <input
               type="file"
@@ -99,6 +100,30 @@
               id="bookImage"
               (change)="onImageSelected($event)"
             />
+          </div> -->
+
+
+          <div class="form-group">
+            <label for="image" class="upload-image-label">Upload Your Image</label>
+            <input id="image" type="file" formControlName="image" (change)="onFileSelected($event)" accept="image/*" />
+      
+            <div class="progress-container" *ngIf="uploadInProgress">
+              <div class="progress-bar" [style.width.%]="uploadProgress"></div>
+            </div>
+      
+            <small *ngIf="uploadDone" class="upload-done">Upload done!</small>
+      
+            <!-- Image Preview and Remove Button -->
+            <div class="image-preview-container" *ngIf="imagePreviewUrl">
+              <img [src]="imagePreviewUrl" alt="Image Preview" class="image-preview" />
+              <button type="button" class="remove-image-btn" (click)="removeImage()">Remove</button>
+            </div>
+      
+            <div *ngIf="registerForm.get('image')?.invalid && registerForm.get('image')?.touched">
+              <small *ngIf="registerForm.get('image')?.errors?.['required']">
+                Image is required.
+              </small>
+            </div>
           </div>
         </form>
       </div>

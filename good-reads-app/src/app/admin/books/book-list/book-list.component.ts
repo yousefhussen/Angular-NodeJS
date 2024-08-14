@@ -10,6 +10,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent {
+registerForm: any;
+removeImage() {
+throw new Error('Method not implemented.');
+}
   books = [
     // Example book data
     { id: 1, photo: '', name: 'Jess', categoryId: 111, authorId: 222 },
@@ -49,6 +53,13 @@ export class BookListComponent {
   newBook = { id: 0, photo: '', name: '', categoryId: 0, authorId: 0 };
 
   showAddBookModal = false;
+    uploadDone: boolean | undefined;
+  uploadInProgress: boolean = false;
+  uploadProgress!: number;
+  dataURItoBlob: any;
+  imageCompress: any;
+  file: File | undefined;
+  imagePreviewUrl: string | ArrayBuffer | null | undefined;
 
   openAddBookModal() {
     this.showAddBookModal = true;
@@ -94,4 +105,67 @@ export class BookListComponent {
       // const reader: any
     }
   }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    this.file = file;
+
+    if (file) {
+      const fileType = file.type;
+
+      // Ensure the selected file is an image
+      if (fileType.startsWith('image/')) {
+        this.uploadInProgress = true;
+        this.uploadDone = false;
+        this.uploadProgress = 0; 
+        // Show image preview
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagePreviewUrl = reader.result;
+        };
+        reader.readAsDataURL(file);
+
+        // Simulate upload progress
+        let uploadInterval = setInterval(() => {
+          if (this.uploadProgress < 100) {
+            this.uploadProgress += 5; // Increment progress (adjust as needed)
+          } else {
+            clearInterval(uploadInterval);
+            this.uploadDone = true; // Mark upload as done
+            this.uploadInProgress = false;
+          }
+        }, 100); // Adjust interval time as needed
+
+        // Compress image
+        reader.onloadend = (e: any) => {
+          const image = e.target.result;
+          this.imageCompress.compressFile(image, -1, 50, 50).then(
+            (compressedImage: string) => {
+              const compressedBlob = this.dataURItoBlob(compressedImage);
+
+              // Convert Blob to File
+              this.file = new File([compressedBlob], file.name, {
+                type: file.type,
+                lastModified: file.lastModified,
+              });
+
+              // After compression, complete the progress
+              setTimeout(() => {
+                this.uploadProgress = 100;
+                clearInterval(uploadInterval);
+                this.uploadDone = true;
+                this.uploadInProgress = false;
+              }, 1000); // Wait a bit before marking as done, for a smoother UI experience
+            },
+            (error: any) => {
+              console.error('Image compression failed:', error);
+              this.uploadInProgress = false;
+            }
+          );
+        };
+      }
+    }
+  }
+
+
 }

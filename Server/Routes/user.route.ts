@@ -55,7 +55,7 @@ UserRouter.post("/", async (req, res) => {
         const token = jwt.sign({ userId: user._id }, 'key', {
             expiresIn: '1h',
             });
-        res.status(200).json({ token });
+        res.status(200).json({ token,  user});
         // send to store image in database
         // axios.post(`${BackendServerUrl}Images`, {
         //     name: imageName,

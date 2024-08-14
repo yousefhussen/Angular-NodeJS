@@ -4,19 +4,20 @@
   <div class="row">
     <div
       class="col-md-3"
-      *ngFor="let i of [].constructor(10); let index = index"
+      *ngFor="let book of paginatedBooks; let index = index"
     >
       <div class="book">
-        <img
-          src="https://via.placeholder.com/150"
-          alt="Book 4"
-          class="book-image"
-        />
+        <img src="{{ book.CoverPhoto }}" alt="Book {{ index }}" class="book-image" />
         <h2 class="book-title">
-          <a>Book Title {{ index }}</a>
+          <a>{{ book.name }} </a>
         </h2>
-        <p><a> Alice Johnson</a></p>
-        <p>Year: 2017</p>
+        <p>
+          <a>{{ book.Author.FirstName }}</a>
+        </p>
+        <p>
+          <a>{{ book.Rating }}</a>
+        </p>
+        <p>Year: {{ book.Year }}</p>
       </div>
     </div>
   </div>
@@ -24,15 +25,23 @@
   <div class="row">
     <div class="col-md-12">
       <ul class="pagination" style="display: inline-flex">
-        <li class="mr-1 page-item">
-          <a class="page-link" href="#">Previous</a>
+        <li class="mr-1 page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" href="#" (click)="previousPage()">
+            Previous
+          </button>
         </li>
-        <li class="page-item active">
-          <a class="m-1 page-link" href="#">1</a>
+        <li
+          *ngFor="let page of pages"
+          class="page-item"
+          [class.active]="page === currentPage"
+        >
+          <button class="m-1 page-link" href="#" (click)="goToPage(page)">
+            {{ page }}
+          </button>
         </li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" href="#" (click)="nextPage()">Next</button>
+        </li>
       </ul>
     </div>
   </div>

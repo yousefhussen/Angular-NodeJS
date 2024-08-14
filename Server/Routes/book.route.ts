@@ -1,6 +1,7 @@
 import * as express from "express";
-import { ObjectId } from "mongodb";
-import { BookModel } from "../Schemas/books.schema"
+import * as mongoose from "mongoose";
+
+import { Book as BookModel } from "../Schemas/books.schema"
 
 export const BookRouter = express.Router();
 BookRouter.use(express.json());
@@ -9,9 +10,11 @@ BookRouter.use(express.urlencoded({ extended: true }));
 
 BookRouter.get("/", async (_req, res) => {
   try {
-    const Books = await BookModel?.find({});
+
+    const Books = await BookModel.find().populate("Author");
     res.status(200).send(Books);
   } catch (error) {
+    console.error(error);
     res
       .status(500)
       .send(error instanceof Error ? error.message : "Unknown error");
@@ -21,7 +24,7 @@ BookRouter.get("/", async (_req, res) => {
 BookRouter.get("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
-    const query = { _id: new ObjectId(id) };
+    const query = { _id: new mongoose.SchemaTypes.ObjectId(id) };
     const Book = await BookModel?.findOne(query);
 
     if (Book) {
@@ -63,7 +66,7 @@ BookRouter.put("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
     const Book = req.body;
-    const query = { _id: new ObjectId(id) };
+    const query = { _id: new mongoose.SchemaTypes.ObjectId(id) };
     const result = await BookModel?.updateOne(query, { $set: Book });
 
     if (result && result.matchedCount) {
@@ -83,7 +86,7 @@ BookRouter.put("/:id", async (req, res) => {
 BookRouter.delete("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
-    const query = { _id: new ObjectId(id) };
+    const query = { _id: new mongoose.SchemaTypes.ObjectId(id) };
     const result = await BookModel?.deleteOne(query);
 
     if (result && result.deletedCount) {

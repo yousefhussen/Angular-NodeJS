@@ -92,3 +92,54 @@ nav {
 .logout-button:hover {
     transform: scale(1.1);
 }
+
+
+
+.rounded-btn {
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: white;
+    color: black;
+    margin-right: 50px;
+    
+  }
+  
+  .user-btn, .admin-btn {
+    border: none;
+    background-color: transparent;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 0;
+    font-weight: bold;
+    border: 1px solid #fff;
+  }
+  
+  .separator {
+    padding: 0 10px;
+    color: black;
+    font-weight: bold;
+    background-color: white;
+  }
+  
+  .user-btn {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: black;
+  }
+  
+  .admin-btn {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    color: #000000;
+  }
+  
+  .user-btn:hover, .admin-btn:hover {
+    background-color: #ccd5ae;
+  }
+  
+  .user-btn:focus, .admin-btn:focus {
+    background-color: #ccd5ae !important;
+  }
+  

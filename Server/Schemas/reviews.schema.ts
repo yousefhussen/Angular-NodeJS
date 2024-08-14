@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 const { MongooseFindByReference } = require('mongoose-find-by-reference');
 const reviewsSchema = new mongoose.Schema({
-  _id: {},
+
   Title: {
     type: String,
     required: true,
