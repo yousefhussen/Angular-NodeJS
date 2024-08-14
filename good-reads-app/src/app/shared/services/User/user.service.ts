@@ -8,6 +8,12 @@ import { BaseService } from '../BaseService';
   providedIn: 'root',
 })
 export class UserService extends BaseService {
+  ResetPassword(email: string, Password: string) {
+    return this.post(`${this.usersEndpoint}/reset-password/`, {
+      email: email,
+      password: Password,
+    });
+  }
   private usersEndpoint = 'Users';
   Users$ = signal<User[]>([]);
   User$ = signal<User | null>(null);
@@ -30,7 +36,7 @@ export class UserService extends BaseService {
     return this.get<User>(`${this.usersEndpoint}/${id}`);
   }
 
-  async createUser(user: User):Promise<any>  {
+  async createUser(user: User): Promise<any> {
     const response = await this.post<any>(`${this.usersEndpoint}`, user);
     return response;
   }
@@ -41,5 +47,8 @@ export class UserService extends BaseService {
 
   async deleteUser(id: string): Promise<User | null> {
     return this.delete<User>(`${this.usersEndpoint}/${id}`);
+  }
+  async ForgetPasswordRequest(email: string): Promise<User> {
+    return this.get(`${this.usersEndpoint}/ForgetPassword/${email}`);
   }
 }

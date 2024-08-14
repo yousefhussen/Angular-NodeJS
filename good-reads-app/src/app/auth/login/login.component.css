@@ -73,3 +73,26 @@ h3:after {
 .form-group {
   margin-bottom: 1.5rem;
 }
+
+.modal-content {
+  background-color: #fefae0;
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #e0e5b6;
+}
+
+.modal-footer {
+  border-top: 1px solid #e0e5b6;
+}
+
+.btn-primary {
+  background-color: #ccd5ae;
+  border-color: #ccd5ae;
+}
+
+.btn-primary:hover {
+  background-color: #e0e5b6;
+  border-color: #e0e5b6;
+}

@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../../shared/services/Category/category.service';
+import { Category } from '../../shared/services/Category/category';
+import { CommonModule, NgStyle } from '@angular/common';
 
 @Component({
-  selector: 'app-categories',
+  selector: 'app-category',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
+  imports: [CommonModule, NgStyle],
+  standalone: true,
 })
 export class CategoriesComponent implements OnInit {
-  categories = [
-    { name: 'Economics', icon: 'fas fa-chart-line', color: '#CCD5AE' },
-    { name: 'Sport', icon: 'fas fa-futbol', color: '#E0E5B6' },
-    { name: 'Society', icon: 'fas fa-users', color: '#FAEDCE' },
-    { name: 'Art', icon: 'fas fa-paint-brush', color: '#FEFAE0' },
-    { name: 'Horror', icon: 'fas fa-ghost', color: '#CCD5AE' },
-    { name: 'Paranormal', icon: 'fas fa-superpowers', color: '#E0E5B6' },
-    { name: 'Fantasy', icon: 'fas fa-dragon', color: '#FAEDCE' },
-    { name: 'Fiction', icon: 'fas fa-book-open', color: '#FEFAE0' },
-    { name: 'Romance', icon: 'fas fa-heart', color: '#CCD5AE' },
-  ];
+  categories!: Category[];
 
-  constructor() {}
+  constructor(private CategoryService: CategoryService) {
+    this.CategoryService = CategoryService;
+  }
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    try {
+      this.categories = await this.CategoryService.getCategories();
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
 }

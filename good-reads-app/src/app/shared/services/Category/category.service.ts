@@ -2,13 +2,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../BaseService';
-
-export interface Category {
-  id: string;
-  name: string;
-  icon: string;
-  color: string;
-}
+import { Category } from './category';
 
 @Injectable({
   providedIn: 'root',
@@ -31,3 +25,4 @@ export class CategoryService extends BaseService {
     return this.Categories$() ?? [];
   }
 }
+export { Category };

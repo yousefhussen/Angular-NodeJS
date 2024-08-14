@@ -1,7 +1,6 @@
 import * as mongoose from "mongoose";
 const { MongooseFindByReference } = require("mongoose-find-by-reference");
 const booksSchema = new mongoose.Schema({
-  
   name: {
     type: String,
     required: true,
@@ -23,11 +22,10 @@ const booksSchema = new mongoose.Schema({
     required: true,
   },
 
-  Reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
 
-  Author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
-  Category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
 });
-booksSchema.plugin(MongooseFindByReference);
 const BookModel = mongoose.model("Book", booksSchema);
 export { BookModel as Book, booksSchema };

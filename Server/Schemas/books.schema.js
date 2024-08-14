@@ -24,11 +24,10 @@ var booksSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    Reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
-    Author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
-    Category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "Author" },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
 });
 exports.booksSchema = booksSchema;
-booksSchema.plugin(MongooseFindByReference);
 var BookModel = mongoose.model("Book", booksSchema);
 exports.Book = BookModel;

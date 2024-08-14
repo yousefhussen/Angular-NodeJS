@@ -10,8 +10,6 @@ import { AuthorRouter } from "./Routes/author.route";
 import { CategoryRouter } from "./Routes/category.route";
 import { ReviewRouter } from "./Routes/review.route";
 
-
-
 // Load environment variables from the .env file, where the ATLAS_URI is configured
 dotenv.config();
 
@@ -23,12 +21,11 @@ if (!ATLAS_URI) {
   );
   process.exit(1);
 }
-
-mongoose.connect(
-  process.env.ATLAS_URI??""
-
-).then(() => {
-  console.log("Database Connected")
+mongoose.set("strictPopulate", false);
+mongoose
+  .connect(process.env.ATLAS_URI ?? "")
+  .then(() => {
+    console.log("Database Connected");
 
     const app = express();
     app.use(cors());

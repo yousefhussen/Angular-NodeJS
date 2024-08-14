@@ -19,11 +19,13 @@ const routes: Routes = [
     ],
   },
   { path: 'categories', component: CategoriesComponent },
-  {     path: 'authors' ,
+  {
+    path: 'authors',
     children: [
       { path: '', component: AuthorsComponent },
       { path: ':id', component: AuthorComponent },
-    ], },
+    ],
+  },
 ];
 
 @NgModule({

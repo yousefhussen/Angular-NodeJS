@@ -1,58 +1,51 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #ccd5ae">
-    <div class="container-fluid">
-        <!-- Logo on the left -->
-        <a class="navbar-brand" href="#">
-            <img src="../../assets/logo.png" alt="Logo" class="logo" />
-        </a>
+  <div class="container-fluid">
+    <!-- Logo on the left -->
+    <a class="navbar-brand" href="#">
+      <img src="../../assets/logo.png" alt="Logo" class="logo" />
+    </a>
 
-        <!-- Links on the left -->
-        <div class="navbar-nav me-auto">
-            <a (click)="router.navigate(['/'])" class="nav-link">Home</a>
-            <a (click)="router.navigate(['/main/categories'])" class="nav-link">Categories</a>
-            <a (click)="router.navigate(['/main/books'])" class="nav-link">Books</a>
-            <a (click)="router.navigate(['/main/authors'])" class="nav-link">Authors</a>
-        </div>
+    <!-- Sidebar toggle button on the right -->
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+      <span class="navbar-toggler-icon">
+        <i class="fa-solid fa-bars"></i>
+      </span>
+    </button>
 
-        <!-- Search bar in the middle -->
-        <div class="d-flex justify-content-center flex-grow-1">
-            <div class="search-container">
-                <span class="search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </span>
-                <input type="text" class="search-bar" placeholder="Search..." (input)="onSearch($event)" />
-                <span class="search-icon">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </span>
-            </div>
-        </div>
-
-
-
-
-        <!-- admin or user button--> 
-
-
-
-        <div class="btn-group rounded-btn">
-            <button type="button" class="btn btn-primary user-btn" (click)="router.navigate(['/auth/login'])" > User </button>
-            <span class="separator">|</span>
-            <button type="button" class="btn btn-primary admin-btn" (click)="router.navigate(['/admin/admin-login'])" >Admin</button>
-          </div>
-          
-          
-
-
-
-
-
-
-        <!-- Profile icon, username, and logout button on the right -->
-        <div class="d-flex align-items-center ms-auto">
-            <i class="fa-solid fa-user profile-icon"></i>
-            <span class="username">{{ username }}</span>
-            <button class="logout-button" (click)="logout()">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </button>
-        </div>
+    <!-- Links and buttons on the left -->
+    <div class="navbar-nav me-auto" [class.show-sidebar]="sidebarOpen">
+      <a (click)="router.navigate(['/'])" class="nav-link">Home</a>
+      <a (click)="router.navigate(['/main/categories'])" class="nav-link"
+        >Categories</a
+      >
+      <a (click)="router.navigate(['/main/books'])" class="nav-link">Books</a>
+      <a (click)="router.navigate(['/main/authors'])" class="nav-link"
+        >Authors</a
+      >
+      <div class="btn-group rounded-btn">
+        <button
+          type="button"
+          class="btn btn-primary user-btn"
+          (click)="router.navigate(['/auth/login'])"
+        >
+          User
+        </button>
+        <span class="separator">|</span>
+        <button
+          type="button"
+          class="btn btn-primary admin-btn"
+          (click)="router.navigate(['/admin/admin-login'])"
+        >
+          Admin
+        </button>
+      </div>
+      <div class="d-flex align-items-center ms-auto">
+        <i class="fa-solid fa-user profile-icon"></i>
+        <span class="username">{{ username }}</span>
+        <button class="logout-button" (click)="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
     </div>
+  </div>
 </nav>

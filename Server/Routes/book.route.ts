@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as mongoose from "mongoose";
 
-import { Book as BookModel } from "../Schemas/books.schema"
+import { Book as BookModel } from "../Schemas/books.schema";
 
 export const BookRouter = express.Router();
 BookRouter.use(express.json());
@@ -10,8 +10,7 @@ BookRouter.use(express.urlencoded({ extended: true }));
 
 BookRouter.get("/", async (_req, res) => {
   try {
-
-    const Books = await BookModel.find().populate("Author");
+    const Books = await BookModel.find().populate("author").exec();
     res.status(200).send(Books);
   } catch (error) {
     console.error(error);
@@ -39,17 +38,15 @@ BookRouter.get("/:id", async (req, res) => {
 
 BookRouter.post("/", async (req, res) => {
   try {
-    const { name, content, Rating, Reviews, Author }  = req.body;
+    const { name, content, Rating, Reviews, Author } = req.body;
     console.log(req);
     const book = new BookModel({ name, content, Rating, Reviews, Author });
     const result = await book.save();
 
     if (result) {
       console.log(`Created a new Book: ID ${result.id}.`);
-      
-      res
-        .status(201)
-        .send({ some: `Created a new Book: ID ${result.id}.` });
+
+      res.status(201).send({ some: `Created a new Book: ID ${result.id}.` });
     } else {
       console.log("Failed to create a new Book.");
       res.status(500).send("Failed to create a new Book.");

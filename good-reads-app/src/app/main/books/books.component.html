@@ -7,12 +7,16 @@
       *ngFor="let book of paginatedBooks; let index = index"
     >
       <div class="book">
-        <img src="{{ book.CoverPhoto }}" alt="Book {{ index }}" class="book-image" />
+        <img
+          src="{{ book.CoverPhoto }}"
+          alt="Book {{ index }}"
+          class="book-image"
+        />
         <h2 class="book-title">
           <a>{{ book.name }} </a>
         </h2>
         <p>
-          <a>{{ book.Author.FirstName }}</a>
+          <a>{{ book.author.FirstName }}</a>
         </p>
         <p>
           <a>{{ book.Rating }}</a>
