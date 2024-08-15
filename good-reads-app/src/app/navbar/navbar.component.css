@@ -50,6 +50,7 @@ nav {
   margin-right: 10px;
   color: #000000;
   display: none; /* Hidden by default */
+  cursor: pointer;
 }
 
 .username {
@@ -156,6 +157,9 @@ nav {
     display: block;
   }
 
+  .navbar-nav.me-auto.show-sidebar {
+    position: static;
+}
   .navbar-nav .nav-link {
     margin-right: 0;
     margin-bottom: 10px;
@@ -177,6 +181,10 @@ nav {
   }
 }
 
+i.fa-solid.fa-bars {
+  display: none;
+}
+
 /* Align buttons and icons to the right on larger screens */
 @media (min-width: 993px) {
   .navbar-nav {
@@ -187,3 +195,4 @@ nav {
     margin-left: auto;
   }
 }
+

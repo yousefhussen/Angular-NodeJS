@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../shared/services/Book/book.service';
 import { Book } from '../../shared/services/Book/Book';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-books',
@@ -11,6 +12,28 @@ import { Book } from '../../shared/services/Book/Book';
   styleUrl: './books.component.css',
 })
 export class BooksComponent implements OnInit {
+
+  ToPage(arg0: number) {
+    this.currentPage = arg0;
+  }
+   
+    previousPage(): void {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    }
+  
+    nextPage(): void {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    }
+goToAuthorDetails(arg0: import("bson").ObjectId|undefined) {
+  this.Rrouter.navigate(['/authors', arg0]);
+}
+goToBookDetails(_t6: import("bson").ObjectId|undefined) {
+  this.Rrouter.navigate(['/books', _t6]);
+}
   books: Book[] = [
     
   ];
@@ -20,7 +43,7 @@ export class BooksComponent implements OnInit {
   itemsPerPage = 8;
   totalPages = 1;
 
-  constructor(protected BookService: BookService) {
+  constructor(protected BookService: BookService, protected Rrouter:Router) {
     this.BookService.getBooks().then((books) => {
       this.books = books;
       this.totalPages = Math.ceil(this.books.length / this.itemsPerPage);
@@ -40,24 +63,7 @@ export class BooksComponent implements OnInit {
     console.log(this.paginatedBooks);
   }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePaginatedBooks();
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePaginatedBooks();
-    }
-  }
-
-  goToPage(page: number) {
-    this.currentPage = page;
-    this.updatePaginatedBooks();
-  }
+ 
 
   get pages() {
     return Array(this.totalPages)

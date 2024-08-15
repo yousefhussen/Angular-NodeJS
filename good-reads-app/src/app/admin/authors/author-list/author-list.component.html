@@ -1,10 +1,10 @@
-<div class="container">
+<div class="FullHeight">
     <div class="navbar">
-        <a href="#">Categories</a>
-        <a href="#">Books</a>
-        <a href="#">Authors</a>
+        <a [routerLink]="['/admin/categories']" routerLinkActive="router-link-active" >Categories</a>
+        <a [routerLink]="['/admin/books']" routerLinkActive="router-link-active">Books</a>
+        <a [routerLink]="['/admin/authors']" routerLinkActive="router-link-active">Authors</a>
     </div>
-    <div class="table-container">
+    <div class="table-container ">
         <table>
             <thead>
                 <tr>
@@ -13,13 +13,21 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Date of Birth</th>
-                    <th>Actions</th>
+                    <th class="">
+                        <div class="text-center d-inline float-sm-start align-baseline mt-2">Actions</div>
+                        
+                        <div class="add-icon  float-sm-end " >
+                            <button   class="btn btn-primary" (click)="openAddAuthorModal()">
+                                <i class="fas fa-plus"></i> Add Author
+                            </button>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let author of authors; let i = index">
                     <td>{{ author.id }}</td>
-                    <td><img [src]="author.photo" alt="{{ author.firstName }} {{ author.lastName }}" width="50"></td>
+                    <td><img src="https://via.placeholder.com/50" alt="{{ author.firstName }} {{ author.lastName }}" width="50"></td>
                     <td>{{ author.firstName }}</td>
                     <td>{{ author.lastName }}</td>
                     <td>{{ author.dateOfBirth | date: 'mediumDate' }}</td>
@@ -30,13 +38,10 @@
                 </tr>
             </tbody>
         </table>
-        <div class="add-icon">
-            <button class="btn btn-primary" (click)="openAddAuthorModal()">
-                <i class="fas fa-plus"></i> Add Author
-            </button>
-        </div>
+        
     </div>
 </div>
+
 
 <!-- Add Author Modal -->
 <div class="modal" tabindex="-1" [ngClass]="{ 'show': showAddAuthorModal }" style="display: block;"
@@ -70,7 +75,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeAddAuthorModal()">Close</button>
-                <button type="button" class="btn btn-primary" (click)="addAuthor()">Add Author</button>
+                <button type="button" class="btn btn-primary AddAuthorBtn"  (click)="addAuthor()">Add Author</button>
             </div>
         </div>
     </div>

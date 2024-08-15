@@ -3,13 +3,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 html,
 body {
-  height: 100%;
+  height: 100vh;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
+}
+
+.FullHeight {
+  height: 100vh;
+  font-family: "Roboto" !important;
+  
 }
 
 .container {
@@ -24,14 +31,29 @@ body {
   display: flex;
   justify-content: flex-start;
   background-color: #ccd5ae;
-  padding: 10px;
+  padding: 25px;
+  border-radius: 0%;
+  margin: 0;
+  font-family: "Oswald" !important;
+  letter-spacing: 2px;
+  font-size: x-large;
+  
 }
 
 .navbar a {
+  transition: all 0.3s ease;
   margin-right: 20px;
   text-decoration: none;
   color: #000;
   font-weight: bold;
+}
+
+.navbar a:hover {
+
+  /* font  stroke */
+  text-shadow: 0px 0px 2px #000000, 0px 0px 2px #000000, 0px 0px 2px #000000;
+  color: #FFDE95;
+  /* Change color on hover */
 }
 
 .table-container {
@@ -39,8 +61,9 @@ body {
   /* Make the table container grow to fill the available space */
   background-color: #fefae0;
   padding: 20px;
-  margin-top: 10px;
-  border-radius: 5px;
+  height: 100%;
+  /* margin-top: 10px; */
+  /* border-radius: 5px; */
   position: relative;
   overflow: auto;
   /* Allow scrolling if content overflows */
@@ -88,9 +111,12 @@ tbody td i:hover {
 }
 
 .add-icon {
-  position: absolute;
-  top: 10px;
-  right: 20px;
+  display: inline;
+}
+.add-icon button:hover{
+  background-color: burlywood;
+  
+  /* Change color on hover */
 }
 
 .add-icon button {
@@ -108,6 +134,7 @@ tbody td i:hover {
 }
 
 .modal {
+  font-family: "Roboto" !important;
   background: rgba(0, 0, 0, 0.5);
   display: none;
   overflow: auto;
@@ -121,30 +148,36 @@ tbody td i:hover {
   justify-content: center;
   align-items: center;
 }
+.modal-content {
+  background-color: #fefae0;
+
+}
 
 .modal-dialog {
-  background-color: #ffffff;
+  background-color: #fefae0;
   border-radius: 5px;
   max-width: 500px;
   width: 100%;
-  padding: 20px;
+ 
 }
 
 .modal-header {
   display: flex;
-  justify-content: space-between;
+  
   align-items: center;
 }
 
 .modal-header .close {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   cursor: pointer;
 }
 
 .modal-title {
-  font-size: 1.25rem;
+  font-family: "Oswald" !important;
+  margin-right: auto;
+  font-size: 2.25rem;
 }
 
 .modal-body {
@@ -162,4 +195,24 @@ tbody td img {
   object-fit: cover;
   width: 50px;
   height: 50px;
+}
+
+td i:hover {
+  text-shadow: 0px 0px 2px #000000, 0px 0px 2px #000000, 0px 0px 2px #000000;
+  color: #FFDE95 !important;
+}
+
+.close:hover{
+  text-shadow: #000 0px 0px 2px;
+}
+.AddAuthorBtn{
+  background-color: #ccd5ae;
+  border-color: #ccd5ae;
+}
+
+.AddAuthorBtn:hover{
+  background-color: #e0e5b6;
+  border-color: #e0e5b6;
+
+  color: #000;
 }

@@ -8,6 +8,8 @@ const generateCategories = (num) => {
       const name = faker.word.noun();
       category.push({
       name,
+      icon,
+      color,
         
       });
     }

@@ -8,6 +8,12 @@ import { BaseService } from '../BaseService';
   providedIn: 'root',
 })
 export class UserService extends BaseService {
+  login(email: string, password: string) {
+    return this.post(`${this.usersEndpoint}/login/`, {
+      email: email,
+      password: password,
+    });
+  }
   ResetPassword(email: string, Password: string) {
     return this.post(`${this.usersEndpoint}/reset-password/`, {
       email: email,

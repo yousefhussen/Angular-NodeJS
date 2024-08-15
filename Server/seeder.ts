@@ -90,9 +90,7 @@ class Seeder {
       // Loop through each path where the field needs to be filled
       referencePaths.forEach((referencePath) => {
         // Get the reference ID from the reference data
-        console.log(
-          "heeeeeeeeeeeeeeeeeeeeeeeeeeeeeereeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-        );
+
         console.log(referenceData[index]._id);
         console.log(typeof referenceData[index]._id);
         const referenceId = new ObjectId(referenceData[index]._id);

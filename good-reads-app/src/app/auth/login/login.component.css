@@ -96,3 +96,15 @@ h3:after {
   background-color: #e0e5b6;
   border-color: #e0e5b6;
 }
+
+forget-password-btn:focus {
+  color: #5a5a5a;
+  text-decoration: none;
+  background-color: #ccd5ae;
+
+}
+
+button.btn.btn-primary.forget-password-btn:active {
+  background-color: #ccd5ae;
+  color: #5a5a5a;
+}

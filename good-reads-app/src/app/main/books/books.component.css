@@ -4,6 +4,9 @@
   border: 1px solid #ddd;
   margin-bottom: 20px;
 }
+a{
+  cursor: pointer;
+}
 .book-title {
   font-size: 24px;
   margin-bottom: 10px;
@@ -29,9 +32,11 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 .page-item {
   margin-right: 10px;
 }
+
 .page-link {
   padding: 10px 20px;
   border: 1px solid #e0e5b6 !important;
@@ -40,10 +45,12 @@
   text-decoration: none;
   transition: all 0.3s ease;
 }
+
 .page-link:hover {
   background-color: #ccd5ae;
   color: #fff;
 }
+
 .active .page-link {
   background-color: #ccd5ae;
   color: #fff;

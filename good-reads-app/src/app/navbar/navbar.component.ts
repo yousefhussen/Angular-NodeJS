@@ -31,7 +31,9 @@ export class NavbarComponent {
   logout() {
     localStorage.removeItem('loggedInUser');
     sessionStorage.removeItem('token'); // Clear the token on logout
-    this.router.navigate(['/auth/signup']);
+    sessionStorage.removeItem('User');
+
+    window.location.href = '/auth/login';
   }
 
   onSearch(event: any) {

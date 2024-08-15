@@ -5,10 +5,13 @@ const usersSchema = new mongoose.Schema({
     email: String,
     password: String,
     profilePic: String,
+    isAdmin: Boolean,
+
   });
   const User = mongoose.model("User", usersSchema);
 
 export {
     User,
     usersSchema
+    
  };

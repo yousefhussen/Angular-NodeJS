@@ -14,10 +14,24 @@ UserRouter.use(express.json());
 
 UserRouter.use(express.urlencoded({ extended: true }));
 
-UserRouter.get("/", async (_req, res) => {
+UserRouter.post("/login/", async (_req, res) => {
   try {
-    const Users = await MUser.find({});
-    res.status(200).send(Users);
+    const { email, password } = _req.body;
+    const User = await MUser.findOne({ email: email, password: password });
+
+    // const User = await MUser.findOne({});
+    if (User !== null) {
+
+        const token = jwt.sign({ userId: User._id }, "key", {
+        expiresIn: "1h",
+      });
+      //exclude password from response
+      User.password = "";
+      res.status(200).json({ token : token, User: User });
+    }else{
+      res.status(404).send(`Failed to find an User: email ${email}`);
+    }
+    
   } catch (error) {
     res
       .status(500)
