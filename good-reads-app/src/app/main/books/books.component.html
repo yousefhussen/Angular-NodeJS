@@ -9,7 +9,7 @@
           <a (click)="goToBookDetails(book._id)">{{ book.name }} </a>
         </h2>
         <p>
-          <a (click)="goToAuthorDetails(book.author._id)">{{ book.author.FirstName }}</a>
+          <a (click)="goToAuthorDetails(book.author?._id)">{{ book.author?.FirstName }}</a>
         </p>
         <p>Rating: {{ book.Rating | number:'1.1-1' }}</p>
         <p>Year: {{ book.Year | date:'yyyy' }}</p>

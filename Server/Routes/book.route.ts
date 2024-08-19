@@ -2,6 +2,8 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 
 import { Book as BookModel } from "../Schemas/books.schema";
+import { ObjectId } from "mongodb";
+import { writeImageToDisk } from "../helpers/image.helper";
 
 export const BookRouter = express.Router();
 BookRouter.use(express.json());
@@ -23,7 +25,7 @@ BookRouter.get("/", async (_req, res) => {
 BookRouter.get("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
-    const query = { _id: new mongoose.SchemaTypes.ObjectId(id) };
+    const query = { _id: new ObjectId(id) };
     const Book = await BookModel?.findOne(query);
 
     if (Book) {
@@ -38,9 +40,15 @@ BookRouter.get("/:id", async (req, res) => {
 
 BookRouter.post("/", async (req, res) => {
   try {
-    const { name, content, Rating, Reviews, Author } = req.body;
-    console.log(req);
-    const book = new BookModel({ name, content, Rating, Reviews, Author });
+    const { name,CoverPhoto,Year, content, Rating, Reviews, Author } = req.body;
+    
+    const book = new BookModel({ name,CoverPhoto,Year, content, Rating, Reviews, Author });
+    if(book.CoverPhoto.startsWith("http")){
+      book.CoverPhoto = book.CoverPhoto
+    }
+    else{
+      book.CoverPhoto = await writeImageToDisk(book.CoverPhoto, book.id);
+    }
     const result = await book.save();
 
     if (result) {
@@ -63,7 +71,7 @@ BookRouter.put("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
     const Book = req.body;
-    const query = { _id: new mongoose.SchemaTypes.ObjectId(id) };
+    const query = { _id: new ObjectId(id) };
     const result = await BookModel?.updateOne(query, { $set: Book });
 
     if (result && result.matchedCount) {
@@ -83,15 +91,15 @@ BookRouter.put("/:id", async (req, res) => {
 BookRouter.delete("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
-    const query = { _id: new mongoose.SchemaTypes.ObjectId(id) };
+    const query = { _id: new ObjectId(id) };
     const result = await BookModel?.deleteOne(query);
 
     if (result && result.deletedCount) {
-      res.status(202).send(`Removed an Book: ID ${id}`);
+      res.status(202).send({some:`Removed an Book: ID ${id}`});
     } else if (!result) {
-      res.status(400).send(`Failed to remove an Book: ID ${id}`);
+      res.status(400).send({some:`Failed to remove an Book: ID ${id}`});
     } else if (!result.deletedCount) {
-      res.status(404).send(`Failed to find an Book: ID ${id}`);
+      res.status(404).send({some:`Failed to find an Book: ID ${id}`});
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

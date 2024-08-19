@@ -27,35 +27,6 @@ body {
   margin: 0;
 }
 
-.navbar {
-  display: flex;
-  justify-content: flex-start;
-  background-color: #ccd5ae;
-  padding: 25px;
-  border-radius: 0%;
-  margin: 0;
-  font-family: "Oswald" !important;
-  letter-spacing: 2px;
-  font-size: x-large;
-  
-}
-
-.navbar a {
-  transition: all 0.3s ease;
-  margin-right: 20px;
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-}
-
-.navbar a:hover {
-
-  /* font  stroke */
-  text-shadow: 0px 0px 2px #000000, 0px 0px 2px #000000, 0px 0px 2px #000000;
-  color: #FFDE95;
-  /* Change color on hover */
-}
-
 .table-container {
   flex: 1;
   /* Make the table container grow to fill the available space */
@@ -197,9 +168,13 @@ tbody td img {
   height: 50px;
 }
 
-td i:hover {
+td .edit:hover {
   text-shadow: 0px 0px 2px #000000, 0px 0px 2px #000000, 0px 0px 2px #000000;
   color: #FFDE95 !important;
+}
+td .delete:hover {
+  text-shadow: 0px 0px 2px #000000, 0px 0px 2px #000000, 0px 0px 2px #000000;
+  color: #fa320f !important;
 }
 
 .close:hover{
@@ -215,4 +190,32 @@ td i:hover {
   border-color: #e0e5b6;
 
   color: #000;
+}
+
+.pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-item {
+  margin-right: 10px;
+}
+
+.page-link {
+  padding: 10px 20px;
+  border: 1px solid #e0e5b6 !important;
+  border-radius: 5px;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #ccd5ae;
+  color: #fff;
+}
+
+.active .page-link {
+  background-color: #ccd5ae;
+  color: #fff;
 }

@@ -16,13 +16,18 @@ export class AuthorService extends BaseService {
     super(httpClient);
   }
 
-  private async refreshAuthors(): Promise<void> {
+  
+
+  public async refreshAuthors(): Promise<void> {
     const Authors = await this.get<Author[]>(this.AuthorsEndpoint);
+    
     this.Authors$.set(Authors ?? []);
   }
 
   async getAuthors(): Promise<Author[]> {
     await this.refreshAuthors();
+   
+    
     return this.Authors$() ?? [];
   }
 
@@ -36,7 +41,13 @@ export class AuthorService extends BaseService {
   }
 
   async updateAuthor(id: string, Author: Author): Promise<Author | null> {
-    return this.put<Author>(`${this.AuthorsEndpoint}/${id}`, Author);
+    console.log(Author);
+    try {
+    return this.patch<Author>(`${this.AuthorsEndpoint}/${id}`, Author);
+    } catch (error) {
+      console.error("Error updating author:", error);
+      return null;
+    }
   }
 
   async deleteAuthor(id: string): Promise<Author | null> {

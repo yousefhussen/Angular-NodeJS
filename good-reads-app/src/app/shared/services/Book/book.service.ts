@@ -16,7 +16,12 @@ export class BookService extends BaseService {
     super(httpClient);
   }
 
-  private async refreshBooks(): Promise<void> {
+  public async refreshBooks(): Promise<void> {
+    const users = await this.get<Book[]>(this.booksEndpoint);
+    this.Books$.set(users ?? []);
+  }
+
+  public async refresh(): Promise<void> {
     const users = await this.get<Book[]>(this.booksEndpoint);
     this.Books$.set(users ?? []);
   }
@@ -35,7 +40,21 @@ export class BookService extends BaseService {
     return response;
   }
 
+  async fetch(): Promise<Book[]> {
+    await this.refreshBooks();
+    return this.Books$() ?? [];
+  }
+
+  async create(user: Book):Promise<any>  {
+    const response = await this.post<any>(`${this.booksEndpoint}`, user);
+    return response;
+  }
+
   async updateBook(id: string, user: Book): Promise<Book | null> {
+    return this.put<Book>(`${this.booksEndpoint}/${id}`, user);
+  }
+
+  async update(id: string, user: Book): Promise<Book | null> {
     return this.put<Book>(`${this.booksEndpoint}/${id}`, user);
   }
 

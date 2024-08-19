@@ -115,7 +115,7 @@ class Seeder {
 const SeederOvbject = new Seeder();
 async function AllInOrder() {
   await SeederOvbject.GenerateFakeData(Book, 1);
-  await SeederOvbject.GenerateFakeData(Author, 1);
+  await SeederOvbject.GenerateFakeData(Author, 10);
   await SeederOvbject.FillRefrrences(
     Book,
     "author",

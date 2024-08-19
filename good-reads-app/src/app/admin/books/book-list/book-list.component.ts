@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BookService } from '../../../shared/services/Book/book.service';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { PaginateService } from '../../../shared/services/Pagination/pagination.service';
+import { dataURItoBlob, handleFileInput } from '../../../shared/helpers/Image64.helper';
+import { Book } from '../../../shared/services/Book/Book';
+import mongoose from 'mongoose';
+import { ObjectId } from 'mongodb';
 
 @Component({
   selector: 'app-book-list',
@@ -10,114 +17,130 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent {
-registerForm: any;
-removeImage() {
-throw new Error('Method not implemented.');
-}
-  books = [
-    // Example book data
-    { id: 1, photo: '', name: 'Jess', categoryId: 111, authorId: 222 },
-    {
-      id: 2,
-      photo: 'path-to-photo2.jpg',
-      name: 'Jess',
-      categoryId: 111,
-      authorId: 222,
-    },
-    {
-      id: 3,
-      photo: 'path-to-photo3.jpg',
-      name: 'Jess',
-      categoryId: 111,
-      authorId: 222,
-    },
-    {
-      id: 4,
-      photo: 'path-to-photo4.jpg',
-      name: 'Jess',
-      categoryId: 111,
-      authorId: 222,
-    },
-  ];
-
-  categories = [
-    { id: 111, name: 'Category 1' },
-    { id: 112, name: 'Category 2' },
-  ];
-
-  authors = [
-    { id: 222, name: 'Author 1' },
-    { id: 223, name: 'Author 2' },
-  ];
-
-  newBook = { id: 0, photo: '', name: '', categoryId: 0, authorId: 0 };
-
-  showAddBookModal = false;
-    uploadDone: boolean | undefined;
-  uploadInProgress: boolean = false;
-  uploadProgress!: number;
-  dataURItoBlob: any;
-  imageCompress: any;
-  file: File | undefined;
   imagePreviewUrl: string | ArrayBuffer | null | undefined;
+  emptyItem:Book = {
+    name: '',
+    content: 'ww',
+    Rating: '1',
+    Reviews: '',
+    CoverPhoto: '',
+    Category: '',
+    author: null,
+    Year: new Date()
+  }
+  public newItem: Book = this.emptyItem;
+  public modalAction: string = 'Add';
+  public showModal = false;
 
-  openAddBookModal() {
-    this.showAddBookModal = true;
+  constructor(private BookService: BookService,private cdr: ChangeDetectorRef,private imageCompress: NgxImageCompressService,
+     protected PaginationService: PaginateService<Book>) {
+    this.loadItems();
   }
 
-  closeAddBookModal() {
-    this.showAddBookModal = false;
+  loadItems(): void {
+    this.BookService.getBooks().then((data: any[]) => { 
+      this.PaginationService.items = data;
+      this.PaginationService.updatePaginatedItems();
+    });
   }
 
-  addBook() {
-    if (this.newBook.name && this.newBook.categoryId && this.newBook.authorId) {
-      const newBook = {
-        ...this.newBook,
-        id: this.books.length + 1,
-      };
-      this.books.push(newBook);
-      this.closeAddBookModal();
+
+
+
+
+
+
+
+  openModal(action: string, id?: any): void {
+
+    this.modalAction = action;
+    this.showModal = true;
+    if (action === 'Edit' && id) {
+
+      this.populateFormData(id);
     }
   }
 
-  deleteBook(index: number) {
-    this.books.splice(index, 1);
+  closeModal(): void {
+    this.showModal = false;
+    this.newItem = this.emptyItem; 
   }
 
-  editBook(
-    book: {
-      id: number;
-      photo: string;
-      name: string;
-      categoryId: number;
-      authorId: number;
-    },
-    index: number
-  ) {
-    this.newBook = { ...book };
-    this.books.splice(index, 1);
-    this.openAddBookModal();
+  addItem(): void {
+    console.log(this.newItem);
+    this.BookService.createBook(this.newItem).then(() => {
+      this.loadItems();
+      this.closeModal();
+    });
   }
 
-  onImageSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      // const reader: any
+  editItem(id: any): void {
+    console.log(this.newItem.CoverPhoto);
+
+    this.BookService.updateBook(id.toString(), this.newItem).then(() => { 
+      this.loadItems();
+      this.closeModal();
+    });
+    
+  }
+
+  deleteItem(id: ObjectId): void {
+   
+      this.BookService.deleteBook(id.toString()).then(() => { 
+      this.loadItems();
+      console.log('Deleted item with ID:', id);
+      })
+    
+    
+  }
+
+  populateFormData(id: any): void {
+    const item = this.PaginationService.items.find(a => a._id == id);
+    // year only no time and month  
+    const year = item?.Year.toISOString().split('T')[0];
+
+
+    if (item) {
+      this.newItem = { ...item , Year:new Date(year!) };
+
+      this.cdr.detectChanges(); 
+    } else {
+      console.log('Item not found with id:', id);  
     }
+  }
+
+  SubmitModal(): void {
+    const modalForm = document.getElementById("modalform") as HTMLElement;
+
+    if (this.modalAction === "Add") {
+      this.addItem();
+    } else if (this.modalAction === "Edit") {
+      const itemIdElement = modalForm.querySelector<HTMLInputElement>('#ItemId');
+      if (itemIdElement) {
+        const itemId = itemIdElement.value;
+        this.editItem(itemId);
+      } else {
+        console.error('ItemId element not found');
+      }
+    }
+
+    
+    this.BookService.refreshBooks().then(() => {
+      this.closeModal();
+      this.loadItems();
+    });
   }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    this.file = file;
+    
 
     if (file) {
       const fileType = file.type;
 
       // Ensure the selected file is an image
       if (fileType.startsWith('image/')) {
-        this.uploadInProgress = true;
-        this.uploadDone = false;
-        this.uploadProgress = 0; 
+        
         // Show image preview
         const reader = new FileReader();
         reader.onload = () => {
@@ -125,41 +148,28 @@ throw new Error('Method not implemented.');
         };
         reader.readAsDataURL(file);
 
-        // Simulate upload progress
-        let uploadInterval = setInterval(() => {
-          if (this.uploadProgress < 100) {
-            this.uploadProgress += 5; // Increment progress (adjust as needed)
-          } else {
-            clearInterval(uploadInterval);
-            this.uploadDone = true; // Mark upload as done
-            this.uploadInProgress = false;
-          }
-        }, 100); // Adjust interval time as needed
+        
 
         // Compress image
         reader.onloadend = (e: any) => {
           const image = e.target.result;
           this.imageCompress.compressFile(image, -1, 50, 50).then(
             (compressedImage: string) => {
-              const compressedBlob = this.dataURItoBlob(compressedImage);
+              const compressedBlob = dataURItoBlob(compressedImage);
 
               // Convert Blob to File
-              this.file = new File([compressedBlob], file.name, {
+              handleFileInput( new File([compressedBlob], file.name, {
                 type: file.type,
                 lastModified: file.lastModified,
+              })).then((image: any) => {
+                this.newItem.CoverPhoto = image;
               });
 
-              // After compression, complete the progress
-              setTimeout(() => {
-                this.uploadProgress = 100;
-                clearInterval(uploadInterval);
-                this.uploadDone = true;
-                this.uploadInProgress = false;
-              }, 1000); // Wait a bit before marking as done, for a smoother UI experience
+              
             },
-            (error: any) => {
+            (error) => {
               console.error('Image compression failed:', error);
-              this.uploadInProgress = false;
+              
             }
           );
         };

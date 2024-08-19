@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { User } from '../../shared/services/User/User'; // Adjust the path as needed
 import { UserService } from '../../shared/services/User/user.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import  {handleFileInput, dataURItoBlob} from '../../shared/helpers/Image64.helper';
 
 @Component({
   selector: 'app-signup',
@@ -114,7 +115,7 @@ export class SignupComponent implements OnInit {
           const image = e.target.result;
           this.imageCompress.compressFile(image, -1, 50, 50).then(
             (compressedImage: string) => {
-              const compressedBlob = this.dataURItoBlob(compressedImage);
+              const compressedBlob = dataURItoBlob(compressedImage);
 
               // Convert Blob to File
               this.file = new File([compressedBlob], file.name, {
@@ -140,16 +141,7 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  dataURItoBlob(dataURI: string): Blob {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
+
 
   async register() {
     if (this.registerForm.valid) {
@@ -158,7 +150,7 @@ export class SignupComponent implements OnInit {
         lastName: this.registerForm.value.lastName,
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
-        profilePic: await this.handleFileInput(this.file!),
+        profilePic: await handleFileInput(this.file!),
       };
 
       // Perform registration logic here
@@ -191,19 +183,5 @@ export class SignupComponent implements OnInit {
     this.registerForm.get('image')?.reset();
   }
 
-  handleFileInput(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (file != null) {
-        const reader = new FileReader();
-        reader.onload = (event: any) => {
-          const binaryString = event.target.result;
-          const base64String = btoa(binaryString);
-          resolve(base64String);
-        };
-        reader.readAsBinaryString(file);
-      } else {
-        reject('Error: File input is null or undefined');
-      }
-    });
-  }
+
 }

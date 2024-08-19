@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { Author } from '../../../shared/services/Author/Author';
+import { AuthorService } from '../../../shared/services/Author/author.service';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import  {handleFileInput, dataURItoBlob} from '../../../shared/helpers/Image64.helper';
+import { PaginateService } from '../../../shared/services/Pagination/pagination.service';
 
 
 @Component({
@@ -12,62 +17,153 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./author-list.component.css']
 })
 export class AuthorListComponent {
+  imagePreviewUrl: string | ArrayBuffer | null | undefined;
+  public newItem: any = {};
+  public modalAction: string = 'Add';
+  public showModal = false;
 
-  authors = [
-    // Example author data
-    { id: 1, photo: 'path-to-photo1.jpg', firstName: 'John', lastName: 'Doe', dateOfBirth: '1985-05-15' },
-    { id: 2, photo: 'path-to-photo2.jpg', firstName: 'Jane', lastName: 'Smith', dateOfBirth: '1990-07-20' },
-    { id: 3, photo: 'path-to-photo3.jpg', firstName: 'Steve', lastName: 'Johnson', dateOfBirth: '1975-11-30' },
-    { id: 4, photo: 'path-to-photo4.jpg', firstName: 'Mary', lastName: 'Brown', dateOfBirth: '1980-02-10' }
-  ];
-
-  newAuthor = {
-    id: 0,
-    photo: '',
-    firstName: '',
-    lastName: '',
-    dateOfBirth: ''
-  };
-
-  showAddAuthorModal = false;
-
-  openAddAuthorModal() {
-    this.showAddAuthorModal = true;
+  constructor(private AuthorService: AuthorService,private cdr: ChangeDetectorRef,private imageCompress: NgxImageCompressService,
+     protected PaginationService: PaginateService<Author>) {
+    this.loadItems();
   }
 
-  closeAddAuthorModal() {
-    this.showAddAuthorModal = false;
+  loadItems(): void {
+    this.AuthorService.getAuthors().then((data: any[]) => { 
+      this.PaginationService.items = data;
+      this.PaginationService.updatePaginatedItems();
+    });
   }
 
-  addAuthor() {
-    if (this.newAuthor.firstName && this.newAuthor.lastName && this.newAuthor.dateOfBirth) {
-      const newAuthor = {
-        ...this.newAuthor,
-        id: this.authors.length + 1
-      };
-      this.authors.push(newAuthor);
-      this.closeAddAuthorModal();
+
+
+
+
+
+
+
+  openModal(action: string, id?: any): void {
+
+    this.modalAction = action;
+    this.showModal = true;
+    if (action === 'Edit' && id) {
+
+      this.populateFormData(id);
     }
   }
 
-  deleteAuthor(index: number) {
-    this.authors.splice(index, 1);
+  closeModal(): void {
+    this.showModal = false;
+    this.newItem = {}; 
   }
 
-  editAuthor(author: { id: number; photo: string; firstName: string; lastName: string; dateOfBirth: string }, index: number) {
-    this.newAuthor = { ...author };
-    this.authors.splice(index, 1);
-    this.openAddAuthorModal();
+  addItem(): void {
+    this.AuthorService.createAuthor(this.newItem).then(() => {
+      this.loadItems();
+      this.closeModal();
+    });
   }
 
-  onImageSelected(event: any) {
+  editItem(id: any): void {
+    console.log(this.newItem.Photo);
+    if (this.newItem.Photo===null) {
+      //remove  that field
+      delete this.newItem.Photo
+      
+    }
+    this.AuthorService.updateAuthor(id.toString(), this.newItem).then(() => { 
+      this.loadItems();
+      this.closeModal();
+    });
+    this.newItem.Photo=null;
+  }
+
+  deleteItem(id: string): void {
+    
+    this.AuthorService.deleteAuthor(id).then(() => { 
+      this.loadItems();
+    });
+  }
+
+  populateFormData(id: any): void {
+    const item = this.PaginationService.items.find(a => a._id == id)??{DateOfBirth:new Date().toISOString().split('T')[0]};
+    // date only no time
+    const dateOfBirth = new Date(item.DateOfBirth).toISOString().split('T')[0];
+
+    if (item) {
+      this.newItem = { ...item, DateOfBirth: dateOfBirth };
+
+      this.cdr.detectChanges(); 
+    } else {
+      console.log('Item not found with id:', id);  
+    }
+  }
+
+  SubmitModal(): void {
+    const modalForm = document.getElementById("modalform") as HTMLElement;
+
+    if (this.modalAction === "Add") {
+      this.addItem();
+    } else if (this.modalAction === "Edit") {
+      const itemIdElement = modalForm.querySelector<HTMLInputElement>('#ItemId');
+      if (itemIdElement) {
+        const itemId = itemIdElement.value;
+        this.editItem(itemId);
+      } else {
+        console.error('ItemId element not found');
+      }
+    }
+
+    
+    this.AuthorService.refreshAuthors().then(() => {
+      this.closeModal();
+      this.loadItems();
+    });
+  }
+
+  onFileSelected(event: any) {
     const file = event.target.files[0];
+    
+
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.newAuthor.photo = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      const fileType = file.type;
+
+      // Ensure the selected file is an image
+      if (fileType.startsWith('image/')) {
+        
+        // Show image preview
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagePreviewUrl = reader.result;
+        };
+        reader.readAsDataURL(file);
+
+        
+
+        // Compress image
+        reader.onloadend = (e: any) => {
+          const image = e.target.result;
+          this.imageCompress.compressFile(image, -1, 50, 50).then(
+            (compressedImage: string) => {
+              const compressedBlob = dataURItoBlob(compressedImage);
+
+              // Convert Blob to File
+              handleFileInput( new File([compressedBlob], file.name, {
+                type: file.type,
+                lastModified: file.lastModified,
+              })).then((image: any) => {
+                this.newItem.Photo = image;
+              });
+
+              
+            },
+            (error) => {
+              console.error('Image compression failed:', error);
+              
+            }
+          );
+        };
+      }
     }
   }
+
 }

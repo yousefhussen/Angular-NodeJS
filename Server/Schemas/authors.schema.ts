@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 const { MongooseFindByReference } = require("mongoose-find-by-reference");
+const { dateFormat } = require("../helpers/dateNotTime");
 const authorsSchema = new mongoose.Schema({
   FirstName: {
     type: String,
@@ -12,6 +13,8 @@ const authorsSchema = new mongoose.Schema({
   DateOfBirth: {
     type: Date,
     required: true,
+    set: dateFormat,
+    get: dateFormat,
   },
   Photo: {
     type: String,

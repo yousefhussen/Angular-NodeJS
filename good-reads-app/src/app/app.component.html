@@ -1,5 +1,8 @@
-<ng-container *ngIf="showHeaderFooter">
+  <ng-container *ngIf="showHeaderFooter">
     <app-navbar></app-navbar>
+  </ng-container>
+  <ng-container *ngIf="!showHeaderFooter">
+    <app-admin-navbar></app-admin-navbar>
   </ng-container>
   <router-outlet></router-outlet>
   <ng-container *ngIf="showHeaderFooter">

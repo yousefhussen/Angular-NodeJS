@@ -24,6 +24,9 @@ export abstract class BaseService {
     return `${this.getBaseUrl()}/${endpoint}`;
   }
 
+  //refresh
+  
+
   protected async get<T>(endpoint: string): Promise<T> {
     const response = await firstValueFrom(
       this.httpClient.get<T>(this.getFullUrl(endpoint))
@@ -53,6 +56,16 @@ export abstract class BaseService {
     }
     return response;
   }
+
+  protected async patch<T>(endpoint: string, body: any): Promise<T> {
+    const response = await firstValueFrom(
+      this.httpClient.patch<T>(this.getFullUrl(endpoint), body)
+    );
+    if (!response) {
+      throw new Error('HTTP request failed');
+    }
+    return response;
+  }
   
   protected async delete<T>(endpoint: string): Promise<T> {
     const response = await firstValueFrom(
@@ -63,4 +76,5 @@ export abstract class BaseService {
     }
     return response;
   }
+
 }

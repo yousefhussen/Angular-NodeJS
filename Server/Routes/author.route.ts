@@ -1,6 +1,7 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
 import { Author as AuthorModel } from "../Schemas/authors.schema"
+import { writeImageToDisk } from "../helpers/image.helper";
 
 export const AuthorRouter = express.Router();
 AuthorRouter.use(express.json());
@@ -39,6 +40,9 @@ AuthorRouter.post("/", async (req, res) => {
     const { FirstName, LastName, DateOfBirth, Photo, Books }  = req.body;
     console.log(req);
     const Author = new AuthorModel({ FirstName, LastName, DateOfBirth, Photo, Books });
+
+    Author.Photo = await writeImageToDisk(Author.Photo, Author._id.toString());
+
     const result = await Author.save();
 
     if (result) {
@@ -59,10 +63,18 @@ AuthorRouter.post("/", async (req, res) => {
   }
 });
 
-AuthorRouter.put("/:id", async (req, res) => {
+AuthorRouter.patch("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
     const Author = req.body;
+    //if author.photo starts whith http then don't alter it
+    if(Author.Photo.startsWith("http")){
+      Author.Photo = Author.Photo
+    }
+    else{
+      Author.Photo = await writeImageToDisk(Author.Photo, id);
+    }
+    
     const query = { _id: new ObjectId(id) };
     const result = await AuthorModel?.updateOne(query, { $set: Author });
 
@@ -87,11 +99,11 @@ AuthorRouter.delete("/:id", async (req, res) => {
     const result = await AuthorModel?.deleteOne(query);
 
     if (result && result.deletedCount) {
-      res.status(202).send(`Removed an Author: ID ${id}`);
+      res.status(202).send({ some: `Removed an Author: ID ${id}.` });
     } else if (!result) {
-      res.status(400).send(`Failed to remove an Author: ID ${id}`);
+      res.status(400).send({ some: `Failed to remove an Author: ID ${id}.` });
     } else if (!result.deletedCount) {
-      res.status(404).send(`Failed to find an Author: ID ${id}`);
+      res.status(404).send({ some: `Failed to find an Author: ID ${id}.` });
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

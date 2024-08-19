@@ -2,9 +2,10 @@ import * as express from "express";
 import * as dotenv from "dotenv";
 import { ObjectId, UUID } from "mongodb";
 import { User as MUser } from "../Schemas/users.schema";
+import { writeImageToDisk } from "../helpers/image.helper";
 const jwt = require("jsonwebtoken");
 dotenv.config();
-import { writeFileSync } from "fs";
+
 import mongoose from "mongoose";
 // import { generateAuthToken } from 'auth';
 
@@ -100,10 +101,7 @@ UserRouter.post("/", async (req, res) => {
       profilePic,
     });
 
-    const { BackendServerUrl } = process.env;
-    const imageName = await writeImageToDisk(profilePic, user.id);
-
-    user.profilePic = BackendServerUrl + imageName;
+    user.profilePic = await writeImageToDisk(profilePic, user.id);
 
     const result = await user.save();
 
@@ -111,13 +109,7 @@ UserRouter.post("/", async (req, res) => {
       expiresIn: "1h",
     });
     res.status(200).json({ token, user });
-    // send to store image in database
-    // axios.post(`${BackendServerUrl}Images`, {
-    //     name: imageName,
-    //     path: imageName,
-    //     User: result._id
 
-    // })
   } catch (error: any) {
     if (error instanceof mongoose.Error.ValidationError) {
       res.status(400).send(error.message);
@@ -131,15 +123,16 @@ UserRouter.put("/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
     const User = req.body;
+    User.profilePic = await writeImageToDisk(User.profilePic, id);
     const query = { _id: new ObjectId(id) };
     const result = await MUser?.updateOne(query, { $set: User });
 
     if (result && result.matchedCount) {
-      res.status(200).send(`Updated an User: ID ${id}.`);
+      res.status(200).send({ message: `Updated an User: ID ${id}.` });
     } else if (!result?.matchedCount) {
-      res.status(404).send(`Failed to find an User: ID ${id}`);
+      res.status(404).send({ message: `Failed to find an User: ID ${id}` });
     } else {
-      res.status(304).send(`Failed to update an User: ID ${id}`);
+      res.status(304).send({ message: `Failed to update an User: ID ${id}` });
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
@@ -168,11 +161,4 @@ UserRouter.delete("/:id", async (req, res) => {
   }
 });
 
-async function writeImageToDisk(image: string, email: string) {
-  const base64String = image;
-  const buffer = Buffer.from(base64String, "base64");
-  const fileNameNoExt = `Images/User/${email}`;
-  const fileName = `${fileNameNoExt}.jpg`;
-  writeFileSync(fileName, buffer);
-  return fileNameNoExt;
-}
+
