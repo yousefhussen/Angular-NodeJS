@@ -28,6 +28,7 @@
     color: black;
     margin-left: 20px;
     font-weight: bold;
+    cursor: pointer;  /* Added to change cursor to hand shape */
 }
 
 .footer-menu .footer-link:hover {

@@ -80,18 +80,20 @@ export class BookListComponent {
   }
 
   editItem(id: any): void {
-    console.log(this.newItem.CoverPhoto);
+    
 
     this.BookService.updateBook(id.toString(), this.newItem).then(() => {
       this.loadItems();
       this.closeModal();
-    });
-    if (this.file) {
+      if (this.file) {
       this.BookService.updateBookPDF(id.toString(), this.file).then(() => {
+        console.log("PDF updated successfully");
         this.loadItems();
         this.closeModal();
       });
     }
+    });
+    
   }
 
   deleteItem(id: ObjectId): void {
@@ -105,7 +107,7 @@ export class BookListComponent {
     const item = this.PaginationService.items.find((a) => a._id == id);
     // year only no time and month
     const year = new Date(item?.Year ?? new Date()).toISOString().split('T')[0];
-    console.log(year);
+    
 
     if (item) {
       this.newItem = { ...item, Year: year! };
@@ -136,6 +138,17 @@ export class BookListComponent {
       this.closeModal();
       this.loadItems();
     });
+  }
+
+  onPDFFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file && this.newItem._id) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+     
+    }
   }
 
   onFileSelected(event: any) {

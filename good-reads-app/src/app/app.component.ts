@@ -5,14 +5,14 @@ import { HomeComponent } from './main/home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CommonModule } from '@angular/common';
-import { AdminNavbarComponent } from "./admin/admin-navbar/admin-navbar.component";
+// import { AdminNavbarComponent } from "./admin/admin-navbar/admin-navbar.component";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, HomeComponent, NavbarComponent, FooterComponent, AdminNavbarComponent],
+  imports: [CommonModule, RouterModule, HomeComponent, NavbarComponent, FooterComponent],
 })
 export class AppComponent {
   showHeaderFooter = true;

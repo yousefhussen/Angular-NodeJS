@@ -13,11 +13,11 @@
       </select>
     </div>
     <div class="col-md-8">
-      <h1>Book Title</h1>
-      <p>Author: John Doe</p>
-      <p>Year: 2020</p>
-      <p>Rating: <span id="rating">4.5</span>/5 ~ 1,000 reviews</p>
-
+      <h1>{{book.name}}</h1>
+      <p>Author: {{book.author?.FirstName}}  {{book.author?.LastName}}</p>
+      <p>Published: {{ book.Year | date:'yyyy-MM-dd' }}</p>
+      <p>Rating: <span id="rating">{{ book.Rating | number:'1.1-2' }}</span>/5 ~ 1,000 reviews</p>
+      
       <div class="rating-stars">
         <i class="fas fa-star"></i>
         <i class="fas fa-star"></i>
@@ -30,10 +30,7 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Book Description</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet
-        nulla auctor, vestibulum magna sed, convallis ex.
-      </p>
+      <p>{{book.content}}</p>
     </div>
   </div>
   <div class="row">

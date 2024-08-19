@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <!-- Add Author Modal -->
+  <!-- Add book Modal -->
   <div
     class="modal"
     tabindex="-1"
@@ -120,36 +120,37 @@
               [(ngModel)]="newItem._id"
             />
             <div class="form-group">
-              <label for="authorFirstName">Name</label>
+              <label for="bookFirstName">Name</label>
               <input
                 type="text"
                 class="form-control"
-                id="authorFirstName"
+                id="bookFirstName"
                 name="FirstName"
                 [(ngModel)]="newItem.name"
               />
             </div>
 
             <div class="form-group">
-              <label for="authorDateOfBirth">Year</label>
+              <label for="bookDateOfBirth">Year</label>
               <input
                 type="date"
                 class="form-control"
-                id="authorDateOfBirth"
+                id="bookDateOfBirth"
                 name="DateOfBirth"
                 [(ngModel)]="newItem.Year"
               />
             </div>
             <div class="form-group">
+              <label class="w-100" for="bookPDF">Upload PDF</label>
               <input
                 type="file"
-                (change)="onFileSelected($event)"
+                (change)="onPDFFileSelected($event)"
                 accept="application/pdf"
                 required
               />
             </div>
             <div class="form-group" *ngIf="this.modalAction == 'Edit'">
-              <label class="w-100" for="authorPhoto">Current Photo</label>
+              <label class="w-100" for="bookPhoto">Current Photo</label>
               <img
                 src="{{ newItem.CoverPhoto }}"
                 alt="{{ newItem.name }} "
@@ -157,11 +158,11 @@
               />
             </div>
             <div class="form-group">
-              <label for="authorPhoto">Upload Photo</label>
+              <label for="bookPhoto">Upload Photo</label>
               <input
                 type="file"
                 class="form-control"
-                id="authorPhoto"
+                id="bookPhoto"
                 name="Photo"
                 (change)="onFileSelected($event)"
               />
@@ -178,7 +179,7 @@
           </button>
           <button
             type="button"
-            class="btn btn-primary AddAuthorBtn"
+            class="btn btn-primary AddbookBtn"
             (click)="SubmitModal()"
           >
             Submit
