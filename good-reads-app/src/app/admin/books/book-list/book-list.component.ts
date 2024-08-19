@@ -4,7 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { BookService } from '../../../shared/services/Book/book.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { PaginateService } from '../../../shared/services/Pagination/pagination.service';
-import { dataURItoBlob, handleFileInput } from '../../../shared/helpers/Image64.helper';
+import {
+  dataURItoBlob,
+  handleFileInput,
+} from '../../../shared/helpers/Image64.helper';
 import { Book } from '../../../shared/services/Book/Book';
 import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
@@ -17,8 +20,16 @@ import { ObjectId } from 'mongodb';
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent {
+  onPDFSelected($event: Event) {
+    const input = event!.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0) {
+      this.file = input.files[0];
+    }
+  }
+  file: File | null = null;
   imagePreviewUrl: string | ArrayBuffer | null | undefined;
-  emptyItem:Book = {
+  emptyItem: Book = {
     name: '',
     content: 'ww',
     Rating: '1',
@@ -26,48 +37,42 @@ export class BookListComponent {
     CoverPhoto: '',
     Category: '',
     author: null,
-    Year: new Date()
-  }
+    Year: new Date().toISOString().split('T')[0],
+  };
   public newItem: Book = this.emptyItem;
   public modalAction: string = 'Add';
   public showModal = false;
 
-  constructor(private BookService: BookService,private cdr: ChangeDetectorRef,private imageCompress: NgxImageCompressService,
-     protected PaginationService: PaginateService<Book>) {
+  constructor(
+    private BookService: BookService,
+    private cdr: ChangeDetectorRef,
+    private imageCompress: NgxImageCompressService,
+    protected PaginationService: PaginateService<Book>
+  ) {
     this.loadItems();
   }
 
   loadItems(): void {
-    this.BookService.getBooks().then((data: any[]) => { 
+    this.BookService.getBooks().then((data: any[]) => {
       this.PaginationService.items = data;
       this.PaginationService.updatePaginatedItems();
     });
   }
 
-
-
-
-
-
-
-
   openModal(action: string, id?: any): void {
-
     this.modalAction = action;
     this.showModal = true;
     if (action === 'Edit' && id) {
-
       this.populateFormData(id);
     }
   }
 
   closeModal(): void {
     this.showModal = false;
-    this.newItem = this.emptyItem; 
+    this.newItem = this.emptyItem;
   }
 
   addItem(): void {
-    console.log(this.newItem);
     this.BookService.createBook(this.newItem).then(() => {
       this.loadItems();
       this.closeModal();
@@ -77,45 +82,48 @@ export class BookListComponent {
   editItem(id: any): void {
     console.log(this.newItem.CoverPhoto);
 
-    this.BookService.updateBook(id.toString(), this.newItem).then(() => { 
+    this.BookService.updateBook(id.toString(), this.newItem).then(() => {
       this.loadItems();
       this.closeModal();
     });
-    
+    if (this.file) {
+      this.BookService.updateBookPDF(id.toString(), this.file).then(() => {
+        this.loadItems();
+        this.closeModal();
+      });
+    }
   }
 
   deleteItem(id: ObjectId): void {
-   
-      this.BookService.deleteBook(id.toString()).then(() => { 
+    this.BookService.deleteBook(id.toString()).then(() => {
       this.loadItems();
       console.log('Deleted item with ID:', id);
-      })
-    
-    
+    });
   }
 
   populateFormData(id: any): void {
-    const item = this.PaginationService.items.find(a => a._id == id);
-    // year only no time and month  
-    const year = item?.Year.toISOString().split('T')[0];
-
+    const item = this.PaginationService.items.find((a) => a._id == id);
+    // year only no time and month
+    const year = new Date(item?.Year ?? new Date()).toISOString().split('T')[0];
+    console.log(year);
 
     if (item) {
-      this.newItem = { ...item , Year:new Date(year!) };
+      this.newItem = { ...item, Year: year! };
 
-      this.cdr.detectChanges(); 
+      this.cdr.detectChanges();
     } else {
-      console.log('Item not found with id:', id);  
+      console.log('Item not found with id:', id);
     }
   }
 
   SubmitModal(): void {
-    const modalForm = document.getElementById("modalform") as HTMLElement;
+    const modalForm = document.getElementById('modalform') as HTMLElement;
 
-    if (this.modalAction === "Add") {
+    if (this.modalAction === 'Add') {
       this.addItem();
-    } else if (this.modalAction === "Edit") {
-      const itemIdElement = modalForm.querySelector<HTMLInputElement>('#ItemId');
+    } else if (this.modalAction === 'Edit') {
+      const itemIdElement =
+        modalForm.querySelector<HTMLInputElement>('#ItemId');
       if (itemIdElement) {
         const itemId = itemIdElement.value;
         this.editItem(itemId);
@@ -124,7 +132,6 @@ export class BookListComponent {
       }
     }
 
-    
     this.BookService.refreshBooks().then(() => {
       this.closeModal();
       this.loadItems();
@@ -133,22 +140,18 @@ export class BookListComponent {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    
 
     if (file) {
       const fileType = file.type;
 
       // Ensure the selected file is an image
       if (fileType.startsWith('image/')) {
-        
         // Show image preview
         const reader = new FileReader();
         reader.onload = () => {
           this.imagePreviewUrl = reader.result;
         };
         reader.readAsDataURL(file);
-
-        
 
         // Compress image
         reader.onloadend = (e: any) => {
@@ -158,24 +161,21 @@ export class BookListComponent {
               const compressedBlob = dataURItoBlob(compressedImage);
 
               // Convert Blob to File
-              handleFileInput( new File([compressedBlob], file.name, {
-                type: file.type,
-                lastModified: file.lastModified,
-              })).then((image: any) => {
+              handleFileInput(
+                new File([compressedBlob], file.name, {
+                  type: file.type,
+                  lastModified: file.lastModified,
+                })
+              ).then((image: any) => {
                 this.newItem.CoverPhoto = image;
               });
-
-              
             },
             (error) => {
               console.error('Image compression failed:', error);
-              
             }
           );
         };
       }
     }
   }
-
-
 }

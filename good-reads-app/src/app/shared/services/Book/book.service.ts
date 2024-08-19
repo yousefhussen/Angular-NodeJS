@@ -1,4 +1,4 @@
-// user.service.ts
+// book.service.ts
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Book } from './Book';
@@ -17,13 +17,13 @@ export class BookService extends BaseService {
   }
 
   public async refreshBooks(): Promise<void> {
-    const users = await this.get<Book[]>(this.booksEndpoint);
-    this.Books$.set(users ?? []);
+    const books = await this.get<Book[]>(this.booksEndpoint);
+    this.Books$.set(books ?? []);
   }
 
   public async refresh(): Promise<void> {
-    const users = await this.get<Book[]>(this.booksEndpoint);
-    this.Books$.set(users ?? []);
+    const books = await this.get<Book[]>(this.booksEndpoint);
+    this.Books$.set(books ?? []);
   }
 
   async getBooks(): Promise<Book[]> {
@@ -35,8 +35,8 @@ export class BookService extends BaseService {
     return this.get<Book>(`${this.booksEndpoint}/${id}`);
   }
 
-  async createBook(user: Book):Promise<any>  {
-    const response = await this.post<any>(`${this.booksEndpoint}`, user);
+  async createBook(book: Book): Promise<any> {
+    const response = await this.post<any>(`${this.booksEndpoint}`, book);
     return response;
   }
 
@@ -45,17 +45,21 @@ export class BookService extends BaseService {
     return this.Books$() ?? [];
   }
 
-  async create(user: Book):Promise<any>  {
-    const response = await this.post<any>(`${this.booksEndpoint}`, user);
+  async create(book: Book): Promise<any> {
+    const response = await this.post<any>(`${this.booksEndpoint}`, book);
     return response;
   }
 
-  async updateBook(id: string, user: Book): Promise<Book | null> {
-    return this.put<Book>(`${this.booksEndpoint}/${id}`, user);
+  async updateBook(id: string, book: Book): Promise<Book | null> {
+    return this.put<Book>(`${this.booksEndpoint}/${id}`, book);
   }
 
-  async update(id: string, user: Book): Promise<Book | null> {
-    return this.put<Book>(`${this.booksEndpoint}/${id}`, user);
+  async updateBookPDF(id: string, book: File): Promise<File | null> {
+    return this.put<File>(`${this.booksEndpoint}/pdf/${id}`, book);
+  }
+
+  async update(id: string, book: Book): Promise<Book | null> {
+    return this.put<Book>(`${this.booksEndpoint}/${id}`, book);
   }
 
   async deleteBook(id: string): Promise<Book | null> {
