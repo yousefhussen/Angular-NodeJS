@@ -35,7 +35,7 @@ mongoose
     app.use("/Authors", AuthorRouter);
     app.use("/Categories", CategoryRouter);
     app.use("/Reviews", ReviewRouter);
-    app.post("/admin", adminRouter);
+    // app.post("/admin", adminRouter);
 
     // Add a middleware function to log every request
     app.use((req, res, next) => {

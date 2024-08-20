@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import { ObjectId, UUID } from "mongodb";
 import { User as MUser } from "../Schemas/users.schema";
 import { writeImageToDisk } from "../helpers/image.helper";
+const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 dotenv.config();
 
@@ -22,17 +23,15 @@ UserRouter.post("/login/", async (_req, res) => {
 
     // const User = await MUser.findOne({});
     if (User !== null) {
-
-        const token = jwt.sign({ userId: User._id }, "key", {
+      const token = jwt.sign({ userId: User._id }, "key", {
         expiresIn: "1h",
       });
       //exclude password from response
       User.password = "";
-      res.status(200).json({ token : token, User: User });
-    }else{
+      res.status(200).json({ token: token, User: User });
+    } else {
       res.status(404).send(`Failed to find an User: email ${email}`);
     }
-    
   } catch (error) {
     res
       .status(500)
@@ -109,7 +108,6 @@ UserRouter.post("/", async (req, res) => {
       expiresIn: "1h",
     });
     res.status(200).json({ token, user });
-
   } catch (error: any) {
     if (error instanceof mongoose.Error.ValidationError) {
       res.status(400).send(error.message);
@@ -159,6 +157,17 @@ UserRouter.delete("/:id", async (req, res) => {
     console.error(message);
     res.status(400).send(message);
   }
+
+  function vaidateUser(User: any) {
+    const schema = Joi.object({
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
+      email: Joi.string().required(),
+      profilePic: Joi.string().required(),
+      password: Joi.string()
+        .required()
+        .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+    });
+    return User;
+  }
 });
-
-
