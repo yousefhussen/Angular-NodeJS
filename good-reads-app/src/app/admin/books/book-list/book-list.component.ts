@@ -85,6 +85,7 @@ export class BookListComponent {
     this.BookService.updateBook(id.toString(), this.newItem).then(() => {
       this.loadItems();
       this.closeModal();
+      console.log(" updated successfully");
       if (this.file) {
       this.BookService.updateBookPDF(id.toString(), this.file).then(() => {
         console.log("PDF updated successfully");
@@ -143,11 +144,9 @@ export class BookListComponent {
   onPDFFileSelected(event: any) {
     const file: File = event.target.files[0];
 
-    if (file && this.newItem._id) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-     
+    console.log(file);
+    if (file) {
+     this.file = file;
     }
   }
 

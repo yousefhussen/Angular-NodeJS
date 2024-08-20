@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import { AuthorRouter } from "./Routes/author.route";
 import { CategoryRouter } from "./Routes/category.route";
 import { ReviewRouter } from "./Routes/review.route";
+import { AdminRouter } from "./Routes/admin.route";
 
 // Load environment variables from the .env file, where the ATLAS_URI is configured
 dotenv.config();
@@ -35,7 +36,7 @@ mongoose
     app.use("/Authors", AuthorRouter);
     app.use("/Categories", CategoryRouter);
     app.use("/Reviews", ReviewRouter);
-    // app.post("/admin", adminRouter);
+    app.use("/Admin", AdminRouter);
 
     // Add a middleware function to log every request
     app.use((req, res, next) => {

@@ -5,6 +5,7 @@ import { HomeComponent } from './main/home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CommonModule } from '@angular/common';
+import { AdminNavbarComponent } from "./admin/admin-navbar/admin-navbar.component";
 // import { AdminNavbarComponent } from "./admin/admin-navbar/admin-navbar.component";
 
 @Component({
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, HomeComponent, NavbarComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, HomeComponent, NavbarComponent, FooterComponent, AdminNavbarComponent],
 })
 export class AppComponent {
   showHeaderFooter = true;
@@ -25,7 +26,6 @@ export class AppComponent {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        // List of routes where the navbar and footer should not be shown
         const noHeaderFooterRoutes = ['/admin/books','/admin/authors','/admin/categories'];
         this.showHeaderFooter = !noHeaderFooterRoutes.includes(event.urlAfterRedirects);
       }

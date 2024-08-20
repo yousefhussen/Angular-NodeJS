@@ -159,15 +159,14 @@ BookRouter.put("/pdf/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
 
-    // Use ImageUpload middleware to handle the file upload
     ImageUpload.single('file')(req, res, async (error) => {
       if (error) {
         console.error(error);
-        return res.status(500).send("File upload error.");
+        return res.status(500).send({ some: "File upload error."});
       }
 
       if (!req.file) {
-        return res.status(400).send("No file uploaded.");
+        return res.status(406).send({ some: "No file uploaded."});
       }
 
       const tempPath = req.file.path;
@@ -177,7 +176,7 @@ BookRouter.put("/pdf/:id", async (req, res) => {
       fs.rename(tempPath, targetPath, async (err) => {
         if (err) {
           console.error(err);
-          return res.status(500).send("Failed to save file.");
+          return res.status(500).send({ some: "Failed to save file."});
         }
 
         const dataBuffer = fs.readFileSync(targetPath);
@@ -186,7 +185,7 @@ BookRouter.put("/pdf/:id", async (req, res) => {
 
           // Perform validations on PDF data
           if (data.text.length > 20 * 1024 * 1024) {
-            return res.status(400).send("PDF file is too big. Max size is 20MB.");
+            return res.status(400).send({ some: "PDF file is too big. Max size is 20MB."});
           }
 
           const query = { _id: new ObjectId(id) };
@@ -194,10 +193,10 @@ BookRouter.put("/pdf/:id", async (req, res) => {
             $set: { content: process.env.BackendServerUrl + "/Books/pdf/" + id },
           });
 
-          res.status(200).send("File uploaded successfully.");
+          res.status(200).send({ some: "File uploaded successfully."});
         } catch (error) {
           console.error(error);
-          res.status(500).send("Failed to process PDF.");
+          res.status(500).send({ some: "Failed to process PDF."});
         }
       });
     });

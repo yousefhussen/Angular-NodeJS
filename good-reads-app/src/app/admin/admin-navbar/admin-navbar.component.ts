@@ -52,7 +52,7 @@ export class AdminNavbarComponent {
 
   onSubmit() {
     if (this.adminForm.valid) {
-      this.navbarService.addAdmin(this.adminForm.value).subscribe(
+      this.navbarService.addAdmin(this.adminForm.value).then(
         (response: any) => {
           alert('Admin added successfully!');
           this.closeModal();

@@ -158,7 +158,7 @@ UserRouter.delete("/:id", async (req, res) => {
     res.status(400).send(message);
   }
 
-  function vaidateUser(User: any) {
+  function validateUser(User: any) {
     const schema = Joi.object({
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
@@ -170,4 +170,52 @@ UserRouter.delete("/:id", async (req, res) => {
     });
     return User;
   }
+
+
+  function validateBook(Book: any) {
+    const schema = Joi.object({
+      title: Joi.string().min(5).max(50).required(),
+      author: Joi.string().required(),
+      genre: Joi.string().required(),
+      image: Joi.string().required(),
+    });
+    return Book;
+  }
+
+  function validateAuthor(Author: any) {
+    const schema = Joi.object({
+      name: Joi.string().min(5).max(50).required(),
+      image: Joi.string().required(),
+    });
+    return Author;
+  }
+
+
+  function validateBookEdit(Book: any) {
+    const schema = Joi.object({
+      title: Joi.string().min(5).max(50), 
+      author: Joi.string(),
+      genre: Joi.string(),
+      image: Joi.string(),
+  });
+    return Book;
+  }
+
+  function validateAuthorEdit(Author: any) {
+    const schema = Joi.object({
+      name: Joi.string().min(5).max(50),
+      image: Joi.string(),
+    });
+    return Author;
+  }
+
 });
+
+// module.exports = 
+// {
+//   validateUser,
+//   validateBook,
+//   validateAuthor,
+//   validateBookEdit,
+//   validateAuthorEdit,
+// }
