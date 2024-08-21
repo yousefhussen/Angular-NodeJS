@@ -35,7 +35,7 @@ export class BookService extends BaseService {
     return this.get<Book>(`${this.booksEndpoint}/${id}`);
   }
 
-  async createBook(book: Book): Promise<any> {
+  async createBook(book: any): Promise<any> {
     const response = await this.post<any>(`${this.booksEndpoint}`, book);
     return response;
   }
@@ -54,7 +54,7 @@ export class BookService extends BaseService {
     return this.put<Book>(`${this.booksEndpoint}/${id}`, book);
   }
 
-  async updateBookPDF(id: string, file: File): Promise<File | null> {
+  async updateBookPDF(id: string, file: object): Promise<any | null> {
     console.log(file);
     
     return this.put<File>(`${this.booksEndpoint}/pdf/${id}`, file);

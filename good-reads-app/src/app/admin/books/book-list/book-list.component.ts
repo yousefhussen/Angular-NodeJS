@@ -9,8 +9,10 @@ import {
   handleFileInput,
 } from '../../../shared/helpers/Image64.helper';
 import { Book } from '../../../shared/services/Book/Book';
+import { Author } from '../../../shared/services/Author/Author';
 import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
+import { AuthorService } from '../../../shared/services/Author/author.service';
 
 @Component({
   selector: 'app-book-list',
@@ -20,14 +22,40 @@ import { ObjectId } from 'mongodb';
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent {
-  onPDFSelected($event: Event) {
-    const input = event!.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      this.file = input.files[0];
+authors: any;
+  selectedAuthor: any;
+LoadAuthors() {
+  this.authorService.getAuthors().then( 
+    (data) => {
+      this.authors = data;
+      this.cdr.detectChanges();
+    },
+    (error) => {
+      console.error('Error loading authors', error);
     }
-  }
-  file: File | null = null;
+  );
+}
+SelectAuthor($event: Event) {
+  const target = $event.target as HTMLSelectElement;
+  const selectedAuthorId = target.value;
+  this.selectedAuthor = this.authors.find(
+    (author: any) => author._id === selectedAuthorId
+    
+  );
+  // if (this.selectedAuthor) {
+  //   this.newItem.author = {
+  //     ...this.newItem.author,
+  //     _id: new ObjectId(selectedAuthorId),
+  //     FirstName: this.selectedAuthor.FirstName || '',
+  //     LastName: this.selectedAuthor.LastName || '',
+  //     DateOfBirth: this.selectedAuthor.DateOfBirth || '',
+  //     Photo: this.selectedAuthor.Photo || '',
+  //     Books: this.selectedAuthor.Books || [],
+  //   };
+  // }
+}
+
+  file: FormData | null = null;
   imagePreviewUrl: string | ArrayBuffer | null | undefined;
   emptyItem: Book = {
     name: '',
@@ -45,6 +73,7 @@ export class BookListComponent {
 
   constructor(
     private BookService: BookService,
+    private authorService: AuthorService,
     private cdr: ChangeDetectorRef,
     private imageCompress: NgxImageCompressService,
     protected PaginationService: PaginateService<Book>
@@ -73,9 +102,18 @@ export class BookListComponent {
   }
 
   addItem(): void {
-    this.BookService.createBook(this.newItem).then(() => {
+    this.BookService.createBook(this.newItem).then((res) => {
+
+      
       this.loadItems();
       this.closeModal();
+      if (this.file) {
+        this.BookService.updateBookPDF(res.id?.toString()??'NoId', this.file).then(() => {
+          console.log("PDF updated successfully");
+          this.loadItems();
+          this.closeModal();
+        });
+      }
     });
   }
 
@@ -143,10 +181,13 @@ export class BookListComponent {
 
   onPDFFileSelected(event: any) {
     const file: File = event.target.files[0];
-
-    console.log(file);
+    
+    console.log("file",file);
     if (file) {
-     this.file = file;
+    
+     const formData = new FormData();
+    formData.append('file', file, file.name);
+    this.file=formData;
     }
   }
 

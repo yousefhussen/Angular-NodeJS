@@ -128,3 +128,19 @@ img.img-fluid {
   background-color: #E0E5B6;
   border-color: #E0E5B6;
 }
+
+/* Hover effect for book titles */
+h2.book-title,
+h3.book-title,
+p.book-title {
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+h2.book-title:hover,
+h3.book-title:hover,
+p.book-title:hover {
+  color: #5a5a5a;
+  text-decoration: underline;
+}

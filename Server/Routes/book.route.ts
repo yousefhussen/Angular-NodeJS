@@ -8,6 +8,7 @@ import { Book as BookModel } from "../Schemas/books.schema";
 import { ObjectId } from "mongodb";
 import { writeImageToDisk } from "../helpers/image.helper";
 import path from "path";
+import { log } from "console";
 
 dotenv.config();
 const FilesStorage = multer.diskStorage({
@@ -30,7 +31,7 @@ const ImgaeStorage = multer.diskStorage({
 
 
 const ImageUpload = multer({
-  storage: FilesStorage,
+  storage: ImgaeStorage,
   fileFilter: (req, file, cb) => {
     if (file.mimetype !== "application/pdf") {
       return cb(new Error("Only PDFs are allowed"));
@@ -40,7 +41,7 @@ const ImageUpload = multer({
 });
 
 const FileUpload = multer({
-  storage: ImgaeStorage,
+  storage: FilesStorage,
   fileFilter: (req, file, cb) => {
     if (file.mimetype !== "application/pdf") {
       return cb(new Error("Only PDFs are allowed"));
@@ -106,7 +107,7 @@ BookRouter.post("/", async (req, res) => {
     if (result) {
       console.log(`Created a new Book: ID ${result.id}.`);
 
-      res.status(201).send({ some: `Created a new Book: ID ${result.id}.` });
+      res.status(201).send({ some: `Created a new Book: ID ${result.id}.` , id: result.id});
     } else {
       console.log("Failed to create a new Book.");
       res.status(500).send("Failed to create a new Book.");
@@ -142,7 +143,8 @@ BookRouter.put("/:id", async (req, res) => {
 
 BookRouter.get('/pdf/:id', (req, res) => {
   const id = req.params.id;
-  const pdfPath = path.join(__dirname, 'uploads', 'PDFs', `${id}.pdf`);
+  const pdfPath = path.join(__dirname, "..",'uploads', 'PDFs', `${id}.pdf`);
+  console.log(pdfPath);
 
   if (fs.existsSync(pdfPath)) {
     res.sendFile(pdfPath);
@@ -159,7 +161,7 @@ BookRouter.put("/pdf/:id", async (req, res) => {
   try {
     const id = req?.params?.id;
 
-    ImageUpload.single('file')(req, res, async (error) => {
+    FileUpload.single('file')(req, res, async (error) => {
       if (error) {
         console.error(error);
         return res.status(500).send({ some: "File upload error."});
@@ -169,9 +171,11 @@ BookRouter.put("/pdf/:id", async (req, res) => {
         return res.status(406).send({ some: "No file uploaded."});
       }
 
-      const tempPath = req.file.path;
-      const targetPath = path.join(__dirname, '..', '..', 'uploads', 'PDFs', `${id}.pdf`);
-
+      const tempPath = path.join(__dirname,'..', req.file.path);
+      const targetPath = path.join(__dirname, '..',  'uploads', 'PDFs', `${id}.pdf`);
+      console.log(targetPath);
+      console.log(tempPath);
+      
       // Move the file to the target path and rename it
       fs.rename(tempPath, targetPath, async (err) => {
         if (err) {
@@ -190,7 +194,7 @@ BookRouter.put("/pdf/:id", async (req, res) => {
 
           const query = { _id: new ObjectId(id) };
           const result = await BookModel?.updateOne(query, {
-            $set: { content: process.env.BackendServerUrl + "/Books/pdf/" + id },
+            $set: { content: process.env.BackendServerUrl + "Books/pdf/" + id },
           });
 
           res.status(200).send({ some: "File uploaded successfully."});
