@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import { ObjectId } from "mongodb";
 
 const { faker } = require("@faker-js/faker");
@@ -73,6 +74,18 @@ class Seeder {
         );
       });
   }
+  async loadDataFromJson(model: any, filePath: string) {
+    try {
+      const data = JSON.parse(readFileSync(filePath, 'utf-8'));
+      await model.insertMany(data).then((docs) => {
+        this.Objects[model.modelName] = docs;
+        console.log(`Data from ${filePath} has been successfully inserted into ${model.modelName} collection.`);
+      });
+      console.log(`Data from ${filePath} has been successfully inserted into ${model.modelName} collection.`);
+    } catch (error) {
+      console.log(`Failed to insert data from ${filePath}:`, error);
+    }
+  }
 
   async FillRefrrences(
     model: any,
@@ -114,14 +127,36 @@ class Seeder {
 }
 const SeederOvbject = new Seeder();
 async function AllInOrder() {
-  await SeederOvbject.GenerateFakeData(Book, 1);
-  await SeederOvbject.GenerateFakeData(Author, 10);
+  // await SeederOvbject.GenerateFakeData(Book, 1);
+  // await SeederOvbject.GenerateFakeData(Author, 10);
+  // await SeederOvbject.FillRefrrences(
+  //   Book,
+  //   "author",
+  //   SeederOvbject.Objects.Book,
+  //   SeederOvbject.Objects.Author
+  // );
+  await SeederOvbject.loadDataFromJson(Category, './fake-data/JSON/categories.json');
+  await SeederOvbject.loadDataFromJson(Author, './fake-data/JSON/authors.json');
+  await SeederOvbject.loadDataFromJson(Book, './fake-data/JSON/books.json');
   await SeederOvbject.FillRefrrences(
     Book,
     "author",
     SeederOvbject.Objects.Book,
     SeederOvbject.Objects.Author
   );
+  await SeederOvbject.FillRefrrences(
+    Book,
+    "category",
+    SeederOvbject.Objects.Book,
+    SeederOvbject.Objects.Category
+  );
+  await SeederOvbject.FillRefrrences(
+    Author,
+    "books",
+    SeederOvbject.Objects.Author,
+    SeederOvbject.Objects.Book
+  );
+
   SeederOvbject.EndConnection();
 }
 

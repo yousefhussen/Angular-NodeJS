@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var fs_1 = require("fs");
 var mongodb_1 = require("mongodb");
 var faker = require("@faker-js/faker").faker;
 var User = require("./Schemas/users.schema").User;
@@ -115,6 +116,32 @@ var Seeder = /** @class */ (function () {
             });
         });
     };
+    Seeder.prototype.loadDataFromJson = function (model, filePath) {
+        return __awaiter(this, void 0, void 0, function () {
+            var data, error_2;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        data = JSON.parse((0, fs_1.readFileSync)(filePath, 'utf-8'));
+                        return [4 /*yield*/, model.insertMany(data).then(function (docs) {
+                                _this.Objects[model.modelName] = docs;
+                                console.log("Data from ".concat(filePath, " has been successfully inserted into ").concat(model.modelName, " collection."));
+                            })];
+                    case 1:
+                        _a.sent();
+                        console.log("Data from ".concat(filePath, " has been successfully inserted into ").concat(model.modelName, " collection."));
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_2 = _a.sent();
+                        console.log("Failed to insert data from ".concat(filePath, ":"), error_2);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Seeder.prototype.FillRefrrences = function (model, FieldToBeFilled, data, referenceData) {
         return __awaiter(this, void 0, void 0, function () {
             var schema, referencePaths, savePromises;
@@ -158,14 +185,40 @@ function AllInOrder() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, SeederOvbject.GenerateFakeData(Book, 1)];
+                case 0: 
+                // await SeederOvbject.GenerateFakeData(Book, 1);
+                // await SeederOvbject.GenerateFakeData(Author, 10);
+                // await SeederOvbject.FillRefrrences(
+                //   Book,
+                //   "author",
+                //   SeederOvbject.Objects.Book,
+                //   SeederOvbject.Objects.Author
+                // );
+                return [4 /*yield*/, SeederOvbject.loadDataFromJson(Category, './fake-data/JSON/categories.json')];
                 case 1:
+                    // await SeederOvbject.GenerateFakeData(Book, 1);
+                    // await SeederOvbject.GenerateFakeData(Author, 10);
+                    // await SeederOvbject.FillRefrrences(
+                    //   Book,
+                    //   "author",
+                    //   SeederOvbject.Objects.Book,
+                    //   SeederOvbject.Objects.Author
+                    // );
                     _a.sent();
-                    return [4 /*yield*/, SeederOvbject.GenerateFakeData(Author, 10)];
+                    return [4 /*yield*/, SeederOvbject.loadDataFromJson(Author, './fake-data/JSON/authors.json')];
                 case 2:
                     _a.sent();
-                    return [4 /*yield*/, SeederOvbject.FillRefrrences(Book, "author", SeederOvbject.Objects.Book, SeederOvbject.Objects.Author)];
+                    return [4 /*yield*/, SeederOvbject.loadDataFromJson(Book, './fake-data/JSON/books.json')];
                 case 3:
+                    _a.sent();
+                    return [4 /*yield*/, SeederOvbject.FillRefrrences(Book, "author", SeederOvbject.Objects.Book, SeederOvbject.Objects.Author)];
+                case 4:
+                    _a.sent();
+                    return [4 /*yield*/, SeederOvbject.FillRefrrences(Book, "category", SeederOvbject.Objects.Book, SeederOvbject.Objects.Category)];
+                case 5:
+                    _a.sent();
+                    return [4 /*yield*/, SeederOvbject.FillRefrrences(Author, "books", SeederOvbject.Objects.Author, SeederOvbject.Objects.Book)];
+                case 6:
                     _a.sent();
                     SeederOvbject.EndConnection();
                     return [2 /*return*/];

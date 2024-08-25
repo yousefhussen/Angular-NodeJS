@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../shared/services/Category/category.service';
 import { Category } from '../../shared/services/Category/category';
 import { CommonModule, NgStyle } from '@angular/common';
+import { RouterModule } from '@angular/router'; 
+
 
 @Component({
   selector: 'app-category',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
-  imports: [CommonModule, NgStyle],
+  imports: [CommonModule,RouterModule, NgStyle],
   standalone: true,
 })
 export class CategoriesComponent implements OnInit {

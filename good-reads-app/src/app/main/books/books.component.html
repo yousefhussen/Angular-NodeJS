@@ -14,9 +14,8 @@
         <h2 class="book-title">
           <a (click)="goToBookDetails(book._id)">{{ book.name }} </a>
         </h2>
-        <h3 class="book-title">Book Title Here</h3>
         <p>
-          <a (click)="goToAuthorDetails(book.author?._id)">{{ book.author?.FirstName }}</a>
+          <a class="author" (click)="goToAuthorDetails(book.author?._id)">{{ book.author?.FirstName }}</a>
         </p>
         <p>Rating: {{ book.Rating | number:'1.1-1' }}</p>
         <p>Year: {{ book.Year | date:'yyyy' }}</p>

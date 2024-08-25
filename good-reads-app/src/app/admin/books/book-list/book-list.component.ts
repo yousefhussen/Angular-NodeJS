@@ -13,6 +13,7 @@ import { Author } from '../../../shared/services/Author/Author';
 import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
 import { AuthorService } from '../../../shared/services/Author/author.service';
+import { CategoryService } from '../../../shared/services/Category/category.service';
 
 @Component({
   selector: 'app-book-list',
@@ -22,9 +23,21 @@ import { AuthorService } from '../../../shared/services/Author/author.service';
   styleUrl: './book-list.component.css',
 })
 export class BookListComponent {
+categories: any;
+  
+SelectCategory($event: Event) {
+  const target = $event.target as HTMLSelectElement;
+  const selectedCategoryId = target.value;
+  this.newItem.categoryId = selectedCategoryId;
+
+  
+
+}
 authors: any;
   selectedAuthor: any;
 LoadAuthors() {
+  console.log('LoadAuthors');
+  
   this.authorService.getAuthors().then( 
     (data) => {
       this.authors = data;
@@ -35,6 +48,19 @@ LoadAuthors() {
     }
   );
 }
+LoadCategories() {
+  console.log('LoadCategories');
+  
+  this.CategoryService.getCategories().then( 
+    (data) => {
+      this.categories = data;
+      this.cdr.detectChanges();
+    },
+    (error) => {
+      console.error('Error loading categories', error);
+    }
+  );
+}
 SelectAuthor($event: Event) {
   const target = $event.target as HTMLSelectElement;
   const selectedAuthorId = target.value;
@@ -42,17 +68,12 @@ SelectAuthor($event: Event) {
     (author: any) => author._id === selectedAuthorId
     
   );
-  // if (this.selectedAuthor) {
-  //   this.newItem.author = {
-  //     ...this.newItem.author,
-  //     _id: new ObjectId(selectedAuthorId),
-  //     FirstName: this.selectedAuthor.FirstName || '',
-  //     LastName: this.selectedAuthor.LastName || '',
-  //     DateOfBirth: this.selectedAuthor.DateOfBirth || '',
-  //     Photo: this.selectedAuthor.Photo || '',
-  //     Books: this.selectedAuthor.Books || [],
-  //   };
-  // }
+  if (this.selectedAuthor) {
+  
+      this.newItem.authorId = selectedAuthorId;
+    
+    
+  }
 }
 
   file: FormData | null = null;
@@ -63,8 +84,10 @@ SelectAuthor($event: Event) {
     Rating: '1',
     Reviews: '',
     CoverPhoto: '',
-    Category: '',
+    Category: null,
+    categoryId: null,
     author: null,
+    authorId: null,
     Year: new Date().toISOString().split('T')[0],
   };
   public newItem: Book = this.emptyItem;
@@ -76,9 +99,11 @@ SelectAuthor($event: Event) {
     private authorService: AuthorService,
     private cdr: ChangeDetectorRef,
     private imageCompress: NgxImageCompressService,
-    protected PaginationService: PaginateService<Book>
+    protected PaginationService: PaginateService<Book>,
+    private CategoryService: CategoryService
   ) {
     this.loadItems();
+    this.LoadCategories();
   }
 
   loadItems(): void {
@@ -94,6 +119,7 @@ SelectAuthor($event: Event) {
     if (action === 'Edit' && id) {
       this.populateFormData(id);
     }
+    this.LoadAuthors();
   }
 
   closeModal(): void {
@@ -102,6 +128,7 @@ SelectAuthor($event: Event) {
   }
 
   addItem(): void {
+    console.log(this.newItem);
     this.BookService.createBook(this.newItem).then((res) => {
 
       
@@ -172,6 +199,7 @@ SelectAuthor($event: Event) {
         console.error('ItemId element not found');
       }
     }
+    this.resetItem();
 
     this.BookService.refreshBooks().then(() => {
       this.closeModal();
@@ -209,7 +237,7 @@ SelectAuthor($event: Event) {
         // Compress image
         reader.onloadend = (e: any) => {
           const image = e.target.result;
-          this.imageCompress.compressFile(image, -1, 50, 50).then(
+          this.imageCompress.compressFile(image, -1, 50, 50,500,500).then(
             (compressedImage: string) => {
               const compressedBlob = dataURItoBlob(compressedImage);
 
@@ -231,4 +259,10 @@ SelectAuthor($event: Event) {
       }
     }
   }
+   resetItem() {
+    this.newItem = this.emptyItem;
+
+  }
 }
+
+

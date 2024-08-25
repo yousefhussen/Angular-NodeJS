@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Dystopian",
+    "icon": "fa-solid fa-skull-crossbones",
+    "color": "#FF5733",
+    "Books": []
+  },
+  {
+    "name": "Fantasy",
+    "icon": "fa-solid fa-hat-wizard",
+    "color": "#8A2BE2",
+    "Books": []
+  },
+  {
+    "name": "Science Fiction",
+    "icon": "fa-solid fa-rocket",
+    "color": "#00BFFF",
+    "Books": []
+  },
+  {
+    "name": "Mystery",
+    "icon": "fa-solid fa-magnifying-glass",
+    "color": "#FFD700",
+    "Books": []
+  },
+  {
+    "name": "Classic",
+    "icon": "fa-solid fa-book",
+    "color": "#8B4513",
+    "Books": []
+  }
+]

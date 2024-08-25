@@ -22,9 +22,11 @@ export class BookComponent implements OnInit {
     Rating: '',
     Reviews: '',
     author: null,
+    authorId: null,
     Year: '',
     CoverPhoto: '',
-    Category: ''
+    Category: null,
+    categoryId: null,
   };
 
   constructor(private route: ActivatedRoute, protected bookService: BookService) {

@@ -5,6 +5,8 @@ import * as fs from "fs";
 import pdf from "pdf-parse";
 import * as dotenv from "dotenv";
 import { Book as BookModel } from "../Schemas/books.schema";
+import { Author as AuthorModel } from "../Schemas/authors.schema";
+import { Category as CategoryModel } from "../Schemas/categories.schema";
 import { ObjectId } from "mongodb";
 import { writeImageToDisk } from "../helpers/image.helper";
 import path from "path";
@@ -85,9 +87,18 @@ BookRouter.get("/:id", async (req, res) => {
 
 BookRouter.post("/", async (req, res) => {
   try {
-    const { name, CoverPhoto, Year, content, Rating, Reviews, Author } =
+    const { name, CoverPhoto, Year, content, Rating, Reviews, Author , authorId,categoryId } =
       req.body;
+    let author = null;
+    let category = null;
+  if (authorId ) {
+    //get the author
+     author = await AuthorModel.findOne({ _id: new ObjectId(authorId) });
 
+  }
+  if(categoryId){
+    category = await CategoryModel.findOne({ _id: new ObjectId(categoryId) });
+  }
     const book = new BookModel({
       name,
       CoverPhoto,
@@ -95,7 +106,8 @@ BookRouter.post("/", async (req, res) => {
       content,
       Rating,
       Reviews,
-      Author,
+      author,
+      category
     });
     if (book.CoverPhoto.startsWith("http")) {
       book.CoverPhoto = book.CoverPhoto;

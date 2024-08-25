@@ -7,6 +7,7 @@ import { CategoriesComponent } from '../categories/categories.component';
 import { AuthorsComponent } from '../authors/authors.component';
 import { BookComponent } from '../books/book/book.component';
 import { AuthorComponent } from '../authors/author/author.component';
+import { CategoryComponent } from '../categories/category/category.component';
 
 const routes: Routes = [
   // { path: '', component: MainComponent },
@@ -18,7 +19,13 @@ const routes: Routes = [
       { path: ':id', component: BookComponent },
     ],
   },
-  { path: 'categories', component: CategoriesComponent },
+  {
+    path: 'categories',
+    children: [
+      { path: '', component: CategoriesComponent },
+      { path: ':name', component: CategoryComponent },
+    ],
+  },
   {
     path: 'authors',
     children: [
