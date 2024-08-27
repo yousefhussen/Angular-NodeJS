@@ -50,7 +50,7 @@ export class BookService extends BaseService {
     return response;
   }
 
-  async updateBook(id: string, book: Book): Promise<Book | null> {
+  async updateBook(id: string, book: any): Promise<any | null> {
     return this.put<Book>(`${this.booksEndpoint}/${id}`, book);
   }
 
@@ -60,7 +60,7 @@ export class BookService extends BaseService {
     return this.put<File>(`${this.booksEndpoint}/pdf/${id}`, file);
   }
 
-  async update(id: string, book: Book): Promise<Book | null> {
+  async update(id: string, book: Book): Promise<any | null> {
     return this.put<Book>(`${this.booksEndpoint}/${id}`, book);
   }
 

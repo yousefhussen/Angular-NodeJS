@@ -3,35 +3,35 @@
     "FirstName": "George",
     "LastName": "Orwell",
     "DateOfBirth": "1903-06-25",
-    "Photo": "https://upload.wikimedia.org/wikipedia/commons/9/96/George_Orwell.jpg",
+    "Photo": "https://www.biography.com/.image/t_share/MTIwNjA4NjMzODEyMjUwNzQ4/george-orwell-9429833-1-402.jpg",
     "books": []
   },
   {
     "FirstName": "J.K.",
     "LastName": "Rowling",
     "DateOfBirth": "1965-07-31",
-    "Photo": "https://upload.wikimedia.org/wikipedia/commons/5/5a/J._K._Rowling_2010.jpg",
+    "Photo": "https://www.biography.com/.image/t_share/MTQ3NjM5MzQwNjU2MjUwNzQ4/jk-rowling-9460436-1-402.jpg",
     "books": []
   },
   {
     "FirstName": "Isaac",
     "LastName": "Asimov",
     "DateOfBirth": "1920-01-02",
-    "Photo": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Isaac_Asimov.jpg",
+    "Photo": "https://www.britannica.com/EBchecked/media/122394/Isaac-Asimov-1920-1992",
     "books": []
   },
   {
     "FirstName": "Agatha",
     "LastName": "Christie",
     "DateOfBirth": "1890-09-15",
-    "Photo": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Agatha_Christie.png",
+    "Photo": "https://www.biography.com/.image/t_share/MTIwNjA4NjMzODEyMjUwNzQ4/agatha-christie-9244685-1-402.jpg",
     "books": []
   },
   {
     "FirstName": "F. Scott",
     "LastName": "Fitzgerald",
     "DateOfBirth": "1896-09-24",
-    "Photo": "https://upload.wikimedia.org/wikipedia/commons/2/25/F_Scott_Fitzgerald_1921.jpg",
+    "Photo": "https://www.biography.com/.image/t_share/MTQ3NjM5MzQwNjU2MjUwNzQ4/f-scott-fitzgerald-9296261-1-402.jpg",
     "books": []
   }
 ]

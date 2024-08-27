@@ -34,9 +34,9 @@ SelectCategory($event: Event) {
 
 }
 authors: any;
-  selectedAuthor: any;
+selectedAuthor: any;
 LoadAuthors() {
-  console.log('LoadAuthors');
+
   
   this.authorService.getAuthors().then( 
     (data) => {
@@ -49,7 +49,7 @@ LoadAuthors() {
   );
 }
 LoadCategories() {
-  console.log('LoadCategories');
+
   
   this.CategoryService.getCategories().then( 
     (data) => {
@@ -75,8 +75,17 @@ SelectAuthor($event: Event) {
     
   }
 }
+newFormData(){
+  console.log("new form data",this.formData);
+  
+
+  this.formData = new FormData();
+
+}
 
   file: FormData | null = null;
+  image: FormData | null = null;
+  formData: FormData | null = null;
   imagePreviewUrl: string | ArrayBuffer | null | undefined;
   emptyItem: Book = {
     name: '',
@@ -125,39 +134,44 @@ SelectAuthor($event: Event) {
   closeModal(): void {
     this.showModal = false;
     this.newItem = this.emptyItem;
+    this.newFormData();
   }
 
   addItem(): void {
-    console.log(this.newItem);
-    this.BookService.createBook(this.newItem).then((res) => {
+    if (!this.formData) {
+      this.newFormData();
+    }
 
-      
+    const bookJson = JSON.stringify(this.newItem);
+    // const bookBlob = new Blob([bookJson], { type: 'application/json' });
+    this.formData!.append('Book', bookJson!);
+    // console.log(this.formData);
+    this.BookService.createBook(this.formData).then((res) => {    
       this.loadItems();
       this.closeModal();
-      if (this.file) {
-        this.BookService.updateBookPDF(res.id?.toString()??'NoId', this.file).then(() => {
-          console.log("PDF updated successfully");
-          this.loadItems();
-          this.closeModal();
-        });
-      }
+     
     });
   }
 
   editItem(id: any): void {
     
+    if (!this.formData) {
+      this.newFormData();
+    }
 
-    this.BookService.updateBook(id.toString(), this.newItem).then(() => {
+    const bookJson = JSON.stringify(this.newItem);
+    // const bookBlob = new Blob([bookJson], { type: 'application/json' });
+    this.formData!.append('Book', bookJson!);
+    // console.log(this.formData);
+    
+
+    this.BookService.updateBook(id.toString(), this.formData).then(() => {
       this.loadItems();
       this.closeModal();
+      this.newFormData();
+
       console.log(" updated successfully");
-      if (this.file) {
-      this.BookService.updateBookPDF(id.toString(), this.file).then(() => {
-        console.log("PDF updated successfully");
-        this.loadItems();
-        this.closeModal();
-      });
-    }
+    
     });
     
   }
@@ -212,51 +226,32 @@ SelectAuthor($event: Event) {
     
     console.log("file",file);
     if (file) {
+      if (!this.formData) {
+        const formData = new FormData();
+        formData.append('file', file, file.name);
+        this.formData=formData;
+      }
+      else {
+        this.formData.append('file', file, file.name);
+      }
     
-     const formData = new FormData();
-    formData.append('file', file, file.name);
-    this.file=formData;
     }
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-
+    const file: File = event.target.files[0];
+    
+    console.log("image",file);
     if (file) {
-      const fileType = file.type;
-
-      // Ensure the selected file is an image
-      if (fileType.startsWith('image/')) {
-        // Show image preview
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.imagePreviewUrl = reader.result;
-        };
-        reader.readAsDataURL(file);
-
-        // Compress image
-        reader.onloadend = (e: any) => {
-          const image = e.target.result;
-          this.imageCompress.compressFile(image, -1, 50, 50,500,500).then(
-            (compressedImage: string) => {
-              const compressedBlob = dataURItoBlob(compressedImage);
-
-              // Convert Blob to File
-              handleFileInput(
-                new File([compressedBlob], file.name, {
-                  type: file.type,
-                  lastModified: file.lastModified,
-                })
-              ).then((image: any) => {
-                this.newItem.CoverPhoto = image;
-              });
-            },
-            (error) => {
-              console.error('Image compression failed:', error);
-            }
-          );
-        };
+      if (!this.formData) {
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+        this.formData=formData;
       }
+      else {
+        this.formData.append('image', file, file.name);
+      }
+    
     }
   }
    resetItem() {
