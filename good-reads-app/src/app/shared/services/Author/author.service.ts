@@ -43,7 +43,7 @@ export class AuthorService extends BaseService {
   async updateAuthor(id: string, Author: Author): Promise<Author | null> {
     console.log(Author);
     try {
-    return this.patch<Author>(`${this.AuthorsEndpoint}/${id}`, Author);
+    return this.put<Author>(`${this.AuthorsEndpoint}/${id}`, Author);
     } catch (error) {
       console.error("Error updating author:", error);
       return null;

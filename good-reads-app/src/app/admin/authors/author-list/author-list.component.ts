@@ -21,6 +21,7 @@ export class AuthorListComponent {
   public newItem: any = {};
   public modalAction: string = 'Add';
   public showModal = false;
+  formData: any;
 
   constructor(private AuthorService: AuthorService,private cdr: ChangeDetectorRef,private imageCompress: NgxImageCompressService,
      protected PaginationService: PaginateService<Author>) {
@@ -51,30 +52,56 @@ export class AuthorListComponent {
     }
   }
 
+  newFormData(){
+    console.log("new form data",this.formData);
+    
+  
+    this.formData = new FormData();
+  
+  }
+
   closeModal(): void {
     this.showModal = false;
     this.newItem = {}; 
+    this.newFormData();
   }
 
   addItem(): void {
-    this.AuthorService.createAuthor(this.newItem).then(() => {
+    if (!this.formData) {
+      this.newFormData();
+    }
+
+    const authorJson = JSON.stringify(this.newItem);
+    // const bookBlob = new Blob([bookJson], { type: 'application/json' });
+    this.formData!.append('Author', authorJson!);
+    // console.log(this.formData);
+    this.AuthorService.createAuthor(this.formData).then((res) => {    
       this.loadItems();
       this.closeModal();
+     
     });
   }
 
   editItem(id: any): void {
-    console.log(this.newItem.Photo);
-    if (this.newItem.Photo===null) {
-      //remove  that field
-      delete this.newItem.Photo
-      
+    
+    if (!this.formData) {
+      this.newFormData();
     }
-    this.AuthorService.updateAuthor(id.toString(), this.newItem).then(() => { 
+
+    const authorJson = JSON.stringify(this.newItem);
+    // const bookBlob = new Blob([bookJson], { type: 'application/json' });
+    this.formData!.append('Author', authorJson!);
+    // console.log(this.formData);
+    
+
+    this.AuthorService.updateAuthor(id.toString(), this.formData).then(() => {
       this.loadItems();
       this.closeModal();
+      this.newFormData();
+
+      console.log(" updated successfully");
+    
     });
-    this.newItem.Photo=null;
   }
 
   deleteItem(id: string): void {
@@ -121,48 +148,19 @@ export class AuthorListComponent {
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
+    const file: File = event.target.files[0];
     
-
+    console.log("image",file);
     if (file) {
-      const fileType = file.type;
-
-      // Ensure the selected file is an image
-      if (fileType.startsWith('image/')) {
-        
-        // Show image preview
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.imagePreviewUrl = reader.result;
-        };
-        reader.readAsDataURL(file);
-
-        
-
-        // Compress image
-        reader.onloadend = (e: any) => {
-          const image = e.target.result;
-          this.imageCompress.compressFile(image, -1, 50, 50).then(
-            (compressedImage: string) => {
-              const compressedBlob = dataURItoBlob(compressedImage);
-
-              // Convert Blob to File
-              handleFileInput( new File([compressedBlob], file.name, {
-                type: file.type,
-                lastModified: file.lastModified,
-              })).then((image: any) => {
-                this.newItem.Photo = image;
-              });
-
-              
-            },
-            (error) => {
-              console.error('Image compression failed:', error);
-              
-            }
-          );
-        };
+      if (!this.formData) {
+        const formData = new FormData();
+        formData.append('image', file, file.name);
+        this.formData=formData;
       }
+      else {
+        this.formData.append('image', file, file.name);
+      }
+    
     }
   }
 

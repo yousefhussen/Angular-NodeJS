@@ -2,16 +2,13 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import multer from "multer";
 import * as fs from "fs";
-import pdf from "pdf-parse";
 import * as dotenv from "dotenv";
 import { Book as BookModel } from "../Schemas/books.schema";
 import { Author as AuthorModel } from "../Schemas/authors.schema";
 import { Category as CategoryModel } from "../Schemas/categories.schema";
 import { ObjectId } from "mongodb";
-import { writeImageToDisk } from "../helpers/image.helper";
 import path from "path";
-import { log } from "console";
-const bodyParser = require('body-parser');
+
 
 
 
@@ -36,35 +33,10 @@ const FilesStorage = multer.diskStorage({
   },
 });
 
-const ImgaeStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/Images/Books");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${file.originalname}`);
-  },
-});
-const Umulter = multer();
 
-const ImageUpload = multer({
-  storage: ImgaeStorage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype !== "application/pdf") {
-      return cb(new Error("Only PDFs are allowed"));
-    }
-    cb(null, true);
-  },
-});
 
-const FileUpload = multer({
-  storage: FilesStorage,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype !== "application/pdf") {
-      return cb(new Error("Only PDFs are allowed"));
-    }
-    cb(null, true);
-  },
-});
+
+
 
 const fileFilter = (req: any, file: any, cb: any) => {
   if (file.fieldname === 'image' && !file.originalname.match(/\.(jpg|jpeg|png|gif|bmp)$/)) {
@@ -268,61 +240,6 @@ BookRouter.get('/image/:id', (req, res) => {
 
 
 
-
-// Assuming ImageUpload is a middleware for handling file uploads
-BookRouter.put("/pdf/:id", async (req, res) => {
-  try {
-    const id = req?.params?.id;
-
-    FileUpload.single('file')(req, res, async (error) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).send({ some: "File upload error."});
-      }
-
-      if (!req.file) {
-        return res.status(406).send({ some: "No file uploaded."});
-      }
-
-      const tempPath = path.join(__dirname,'..', req.file.path);
-      const targetPath = path.join(__dirname, '..',  'uploads', 'PDFs', `${id}.pdf`);
-      console.log(targetPath);
-      console.log(tempPath);
-      
-      // Move the file to the target path and rename it
-      fs.rename(tempPath, targetPath, async (err) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send({ some: "Failed to save file."});
-        }
-
-        const dataBuffer = fs.readFileSync(targetPath);
-        try {
-          const data = await pdf(dataBuffer);
-
-          // Perform validations on PDF data
-          if (data.text.length > 20 * 1024 * 1024) {
-            return res.status(400).send({ some: "PDF file is too big. Max size is 20MB."});
-          }
-
-          const query = { _id: new ObjectId(id) };
-          const result = await BookModel?.updateOne(query, {
-            $set: { content: process.env.BackendServerUrl + "Books/pdf/" + id },
-          });
-
-          res.status(200).send({ some: "File uploaded successfully."});
-        } catch (error) {
-          console.error(error);
-          res.status(500).send({ some: "Failed to process PDF."});
-        }
-      });
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
-    console.error(message);
-    res.status(400).send(message);
-  }
-});
 
 BookRouter.delete("/:id", async (req, res) => {
   try {
