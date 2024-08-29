@@ -1,1 +1,19 @@
-<p>categories works!</p>
+<div class="fullPage">
+  <div class="container text-center my-4">
+    <h2>Book Categories</h2>
+    <div class="row">
+      <div
+        class="col-lg-4 col-md-6 col-sm-12 mb-4"
+        *ngFor="let category of categories"
+      >
+        <div
+          class="category-card"
+          [ngStyle]="{ 'background-color': category.color }"
+        >
+          <i [class]="category.icon"></i>
+          <h4  [routerLink]="['/categories/' + category.name]" >{{ category.name }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

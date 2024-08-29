@@ -1,0 +1,293 @@
+<div class="landingPage">
+  <!-- Carousel -->
+  <div id="landingCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button
+        type="button"
+        data-bs-target="#landingCarousel"
+        data-bs-slide-to="0"
+        class="active"
+        aria-current="true"
+        aria-label="Slide 1"
+      ></button>
+      <button
+        type="button"
+        data-bs-target="#landingCarousel"
+        data-bs-slide-to="1"
+        aria-label="Slide 2"
+      ></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="carousel-banner" style="background-color: #ccd5ae">
+          <img
+            src="../../../assets/Banner2.png"
+            class="d-block w-100"
+            alt="Banner 1"
+          />
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-banner" style="background-color: #e0e5b6">
+          <img
+            src="../../../assets/banner1.png"
+            class="d-block w-100"
+            alt="Banner 2"
+          />
+        </div>
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#landingCarousel"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#landingCarousel"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="introduction">
+      <h1>Welcome to ITI Book Shop</h1>
+      <p>
+        "Reading is escape, and the opposite of escape; it's a way to make
+        contact with reality after a day of making things up, and it's a way of
+        making contact with someone else's imagination after a day that's all
+        too real.” ― Nora Ephron
+      </p>
+      <button class="cta-button" [routerLink]="['/auth/login']">
+        Login or Register
+      </button>
+    </div>
+
+    <div class="features">
+      <h2>Our Features</h2>
+      <div class="feature-list">
+        <div class="feature-item">
+          <i class="fa-solid fa-book-open"></i>
+          <h3>Extensive Library</h3>
+          <p>
+            Access a wide range of books and articles across various topics.
+          </p>
+        </div>
+        <div class="feature-item">
+          <i class="fa-solid fa-users"></i>
+          <h3>Community</h3>
+          <p>Join a vibrant community of readers and contributors.</p>
+        </div>
+        <div class="feature-item">
+          <i class="fa-solid fa-award"></i>
+          <h3>Awards</h3>
+          <p>Earn badges and rewards as you contribute to the platform.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 6 Authors Section -->
+  <div class="authors-section">
+    <h2>Top 6 Authors in the World</h2>
+    <div class="authors-list">
+      <div class="author-card">
+        <div class="author-image-wrapper">
+          <img
+            src="https://www.jkrowling.com/wp-content/uploads/2022/05/J.K.-Rowling-2021-Photography-Debra-Hurford-Brown-scaled.jpg"
+            alt="J.K. Rowling"
+          />
+          <div class="author-overlay"></div>
+          <h3>J.K. Rowling</h3>
+        </div>
+        <p class="author-description">
+          Known for creating the magical world of Harry Potter, J.K. Rowling’s
+          impact on literature and pop culture is undeniable. Her imaginative
+          world-building and compelling characters have made her one of the most
+          beloved authors of all time.
+        </p>
+      </div>
+
+      <div class="author-card">
+        <div class="author-image-wrapper">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR04EsdMcSy60-LRf2b8pRuhe4-qCSxzu591A&s"
+            alt="Stephen King"
+          />
+          <div class="author-overlay"></div>
+          <h3>Stephen King</h3>
+        </div>
+        <p class="author-description">
+          The master of horror, Stephen King has captivated readers with his
+          ability to turn the ordinary into the terrifying. With a prolific
+          career spanning decades, King’s novels have left an indelible mark on
+          the literary world and beyond.
+        </p>
+      </div>
+
+      <div class="author-card">
+        <div class="author-image-wrapper">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Portrait_photoshoot_at_Worldcon_75%2C_Helsinki%2C_before_the_Hugo_Awards_%E2%80%93_George_R._R._Martin.jpg/1200px-Portrait_photoshoot_at_Worldcon_75%2C_Helsinki%2C_before_the_Hugo_Awards_%E2%80%93_George_R._R._Martin.jpg"
+            alt="George R.R. Martin"
+          />
+          <div class="author-overlay"></div>
+          <h3>George R.R. Martin</h3>
+        </div>
+        <p class="author-description">
+          The architect of the epic fantasy series "A Song of Ice and Fire,"
+          George R.R. Martin has redefined the fantasy genre. His complex
+          characters, intricate plots, and willingness to subvert expectations
+          have earned him a place among the literary greats.
+        </p>
+      </div>
+
+      <div class="author-card">
+        <div class="author-image-wrapper">
+          <img
+            src="https://m.media-amazon.com/images/M/MV5BMGMxMmRkNzctMWQzYy00MTY3LWEzMDAtMzEzMDhkZWI4MjZlXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg"
+            alt="J.R.R. Tolkien"
+          />
+          <div class="author-overlay"></div>
+          <h3>J.R.R. Tolkien</h3>
+        </div>
+        <p class="author-description">
+          Often hailed as the father of modern fantasy, J.R.R. Tolkien’s works,
+          including "The Lord of the Rings" and "The Hobbit," have set the
+          standard for world-building and epic storytelling. Tolkien’s influence
+          on the genre is immeasurable, inspiring countless authors and readers.
+        </p>
+      </div>
+
+      <div class="author-card">
+        <div class="author-image-wrapper">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Agatha_Christie.png"
+            alt="Agatha Christie"
+          />
+          <div class="author-overlay"></div>
+          <h3>Agatha Christie</h3>
+        </div>
+        <p class="author-description">
+          The undisputed Queen of Mystery, Agatha Christie’s detective novels,
+          particularly those featuring Hercule Poirot and Miss Marple, have
+          captivated readers for generations. Her intricate plots and memorable
+          characters continue to make her one of the best-selling authors of all
+          time.
+        </p>
+      </div>
+
+      <div class="author-card">
+        <div class="author-image-wrapper">
+          <img
+            src="https://cdn.britannica.com/99/220799-050-8E06F837/American-author-James-Patterson.jpg"
+            alt="James Patterson"
+          />
+          <div class="author-overlay"></div>
+          <h3>James Patterson</h3>
+        </div>
+        <p class="author-description">
+          A prolific author known for his page-turning thrillers, James
+          Patterson’s works have consistently topped bestseller lists. His
+          mastery of suspense and his ability to craft engaging stories across
+          various genres have earned him a loyal following worldwide.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 6 Books Section -->
+  <div class="books-section">
+    <h2>Top 6 Books Selling This Year</h2>
+    <div class="books-list">
+      <div class="book-card">
+        <img
+          src="https://diwanegypt.com/wp-content/uploads/2021/02/9781786892737.jpg"
+          alt="The Midnight Library"
+        />
+        <h3>"The Midnight Library" by Matt Haig</h3>
+        <p>
+          A unique exploration of life’s possibilities, "The Midnight Library"
+          invites readers to reflect on the choices they make and the lives they
+          could have led. Haig’s imaginative storytelling has captivated
+          millions, making this book a must-read for those seeking both
+          entertainment and introspection.
+        </p>
+      </div>
+      <div class="book-card">
+        <img
+          src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1577090827l/51791252.jpg"
+          alt="Book 2"
+        />
+        <h3>"The Vanishing Half" by Brit Bennett</h3>
+        <p>
+          A powerful and emotional tale of identity, family, and race, "The
+          Vanishing Half" follows the lives of twin sisters who choose to live
+          in very different worlds—one black and one white. Bennett’s
+          exploration of identity and transformation has struck a chord with
+          readers around the globe.
+        </p>
+      </div>
+      <div class="book-card">
+        <img
+          src="https://m.media-amazon.com/images/I/81e+mSqZvnL._AC_UF894,1000_QL80_.jpg"
+          alt="Book 2"
+        />
+        <h3>"Where the Crawdads Sing" by Delia Owens</h3>
+        <p>
+          A stunning mix of mystery, romance, and survival, Owens’ debut novel
+          has continued to enchant readers with its hauntingly beautiful
+          depiction of the North Carolina marshlands and the resilient spirit of
+          its protagonist, Kya Clark.
+        </p>
+      </div>
+      <div class="book-card">
+        <img
+          src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1594925043i/53138081.jpg"
+          alt="Book 2"
+        />
+        <h3>"The Four Winds" by Kristin Hannah</h3>
+        <p>
+          Set against the backdrop of the Great Depression, "The Four Winds" is
+          a testament to the indomitable human spirit. Hannah’s gripping
+          narrative about a woman’s fight for survival and dignity has been
+          embraced by readers looking for inspiration and hope.
+        </p>
+      </div>
+      <div class="book-card">
+        <img
+          src="https://diwanegypt.com/wp-content/uploads/2021/02/9781250784537.jpg"
+          alt="Book 2"
+        />
+        <h3>"The Invisible Life of Addie LaRue" by V.E. Schwab</h3>
+        <p>
+          Schwab’s tale of a young woman cursed to be forgotten by everyone she
+          meets is a timeless story of love, loss, and identity. "The Invisible
+          Life of Addie LaRue" has mesmerized readers with its blend of history,
+          fantasy, and romance.
+        </p>
+      </div>
+      <div class="book-card">
+        <img
+          src="https://m.media-amazon.com/images/I/91-6R0VxRiL._AC_UF1000,1000_QL80_.jpg"
+          alt="Book 2"
+        />
+        <h3>"A Promised Land" by Barack Obama</h3>
+        <p>
+          In this deeply personal memoir, former President Barack Obama reflects
+          on his journey to the White House, offering an intimate glimpse into
+          the challenges and triumphs of his presidency. Obama’s eloquence and
+          insight have made this book a bestseller worldwide.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

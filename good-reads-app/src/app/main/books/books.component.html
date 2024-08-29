@@ -1,1 +1,47 @@
-<p>books works!</p>
+<div class="container">
+  <h1 class="p-1">Book List</h1>
+
+  <div class="row">
+    <div class="col-md-3" *ngFor="let book of paginatedBooks; let index = index">
+      <div class="book">
+        <img 
+          src="{{ book.CoverPhoto }}" 
+          alt="Book {{ index }}" 
+          class="book-image" 
+          (click)="goToBookDetails(book._id)"
+          style="cursor: pointer;"
+        />
+        <h2 class="book-title">
+          <a (click)="goToBookDetails(book._id)">{{ book.name }} </a>
+        </h2>
+        <p>
+          <a class="author" (click)="goToAuthorDetails(book.author?._id)">{{ book.author?.FirstName }}</a>
+        </p>
+        <p>Rating: {{ book.Rating | number:'1.1-1' }}</p>
+        <p>Year: {{ book.Year | date:'yyyy' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="pagination" style="display: inline-flex">
+        <li class="mr-1 page-item">
+          <button  class="page-link" (click)="previousPage()" [disabled]="this.currentPage === 1"
+            ><i class="fa-solid fa-circle-arrow-left"></i
+          ></button>
+        </li>
+        <!-- Add class active to the current page -->
+        <li *ngFor="let i of [].constructor(this.totalPages); let index = index" class="page-item" [ngClass]="{ 'active': index + 1 === currentPage }">
+          <button  (click)="ToPage(index+1)" class="m-1 page-link" >{{index+1}}</button>
+        </li>
+
+        <li class="page-item">
+          <button  (click)="nextPage()" [disabled]="this.currentPage === this.totalPages" class="page-link" 
+            ><i class="fa-solid fa-circle-arrow-right"></i
+          ></button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

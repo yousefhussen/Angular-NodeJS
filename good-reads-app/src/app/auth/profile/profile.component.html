@@ -1,0 +1,15 @@
+<div class="profile-container">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Profile</h3>
+      <div class="profile-details">
+        <div class="profile-pic-container">
+          <img [src]="profile?.profilePic" alt="Profile Picture" class="profile-pic"/>
+        </div>
+        <p><strong>Full Name:</strong> {{ profile?.firstName }} {{ profile?.lastName }}</p>
+        <!-- <p><strong>Username:</strong> {{ profile?.lastName }}</p> -->
+        <p><strong>Email:</strong> {{ profile?.email }}</p>
+      </div>
+    </div>
+  </div>
+</div>

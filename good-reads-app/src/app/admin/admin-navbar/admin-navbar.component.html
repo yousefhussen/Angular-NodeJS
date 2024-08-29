@@ -1,0 +1,102 @@
+<div class="navbar">
+  <div class="d-flex w-100 justify-content-between">
+    <div class="d-inline   ">
+    <a [routerLink]="['/admin/categories']" routerLinkActive="router-link-active"
+      >Categories</a
+    > 
+    <a [routerLink]="['/admin/books']" routerLinkActive="router-link-active"
+      >Books</a
+    >
+    <a [routerLink]="['/admin/authors']" routerLinkActive="router-link-active"
+      >Authors</a
+    >
+    </div>
+    <button class="btn btn-primary" style="text-transform: none;" (click)="openModal()">
+      <i class="fa fa-user-plus" Style="color: black;text-transform: full-width;"> Add Admin</i>
+    </button>
+  </div>
+
+</div>
+
+
+<!-- Modal -->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngClass]="{ show: showModal, 'd-block': showModal }"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Admin</h5>
+        <button
+          type="button"
+          class="close"
+          (click)="closeModal()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                adminForm.get('username')?.invalid &&
+                adminForm.get('username')?.touched
+              "
+              class="text-danger"
+            >
+              Username is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              class="form-control"
+            />
+            <div
+              *ngIf="
+                adminForm.get('password')?.invalid &&
+                adminForm.get('password')?.touched
+              "
+              class="text-danger"
+            >
+              Password must meet security criteria. Must be at least 8
+              characters long, contain at least one uppercase letter, one
+              lowercase letter, one number, and one special character.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="adminForm.invalid"
+          >
+            Add Admin
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

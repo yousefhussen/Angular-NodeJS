@@ -1,1 +1,99 @@
-<p>signup works!</p>
+<div class="fullPage">
+  <div class="register-form" [formGroup]="registerForm">
+    <h2>Sign Up</h2>
+
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input id="firstName" type="text" formControlName="firstName" placeholder="First Name" />
+      <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+        <small *ngIf="registerForm.get('firstName')?.errors?.['required']">
+          First Name is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" type="text" formControlName="lastName" placeholder="Last Name" />
+      <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+        <small *ngIf="registerForm.get('lastName')?.errors?.['required']">
+          Last Name is required.
+        </small>
+      </div>
+    </div>
+
+    <!-- Email Address -->
+    <div class="form-group">
+      <label for="email">Enter Your Email</label>
+      <input id="email" type="email" formControlName="email" placeholder="Enter Your Email" />
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <small *ngIf="registerForm.get('email')?.errors?.['required']">
+          Email is required.
+        </small>
+        <small *ngIf="registerForm.get('email')?.errors?.['email']">
+          Invalid email format.
+        </small>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Enter Your Password</label>
+      <input id="password" type="password" formControlName="password" placeholder="Enter Your Password" />
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        <small *ngIf="registerForm.get('password')?.errors?.['required']">
+          Password is required.
+        </small>
+        <small *ngIf="registerForm.get('password')?.errors?.['pattern']">
+          Password must contain at least one lowercase letter, one uppercase
+          letter, one digit, and one special character.
+        </small>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-group">
+      <label for="confirmPassword">Retype Your Password</label>
+      <input id="confirmPassword" type="password" formControlName="confirmPassword"
+        placeholder="Retype Your Password" />
+      <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+        <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">
+          Confirm Password is required.
+        </small>
+        <small *ngIf="registerForm.errors?.['mustMatch']">
+          Passwords do not match.
+        </small>
+      </div>
+    </div>
+
+    <!-- Upload Image -->
+    <div class="form-group">
+      <label for="image" class="upload-image-label">Upload Your Image</label>
+      <input id="image" type="file" formControlName="image" (change)="onFileSelected($event)" accept="image/*" />
+
+      <div class="progress-container" *ngIf="uploadInProgress">
+        <div class="progress-bar" [style.width.%]="uploadProgress"></div>
+      </div>
+
+      <small *ngIf="uploadDone" class="upload-done">Upload done!</small>
+
+      <!-- Image Preview and Remove Button -->
+      <div class="image-preview-container" *ngIf="imagePreviewUrl">
+        <img [src]="imagePreviewUrl" alt="Image Preview" class="image-preview" />
+        <button type="button" class="remove-image-btn" (click)="removeImage()">Remove</button>
+      </div>
+
+      <div *ngIf="registerForm.get('image')?.invalid && registerForm.get('image')?.touched">
+        <small *ngIf="registerForm.get('image')?.errors?.['required']">
+          Image is required.
+        </small>
+      </div>
+    </div>
+
+    <button (click)="register()" class="register-btn">
+      Register
+    </button>
+  </div>
+</div>

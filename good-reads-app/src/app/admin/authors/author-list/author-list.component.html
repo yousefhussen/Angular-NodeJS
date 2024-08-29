@@ -1,1 +1,95 @@
-<p>author-list works!</p>
+<div class="FullHeight">
+    <div class="table-container d-flex flex-column justify-content-between">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Photo</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date of Birth</th>
+                    <th class="">
+                        <div class="text-center d-inline float-sm-start align-baseline mt-2">Actions</div>
+                        <div class="add-icon float-sm-end">
+                            <button class="btn btn-primary" (click)="openModal('Add')">
+                                <i class="fas fa-plus"></i> Add Author
+                            </button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let author of this.PaginationService.paginatedItems; let i = index">
+                    <td>{{ author._id }}</td>
+                    <td><img src="{{ author.Photo }}" alt="{{ author.FirstName }} {{ author.LastName }}" width="50"></td>
+                    <td>{{ author.FirstName }}</td>
+                    <td>{{ author.LastName }}</td>
+                    <td>{{ author.DateOfBirth | date: 'mediumDate' }}</td>
+                    <td>
+                        <a (click)="openModal('Edit',author._id)"><i class="fas fa-pen edit"></i></a>
+                        <a (click)="deleteItem(author._id?.toString()??'')"><i class="fas fa-trash delete"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="pagination" style="display: inline-flex">
+                    <li class="mr-1 page-item">
+                        <button class="page-link" (click)="this.PaginationService.previousPage()" [disabled]="this.PaginationService.currentPage === 1">
+                            <i class="fa-solid fa-circle-arrow-left"></i>
+                        </button>
+                    </li>
+                    <li *ngFor="let i of [].constructor(this.PaginationService.totalPages); let index = index" class="page-item" [ngClass]="{ 'active': index + 1 === this.PaginationService.currentPage }">
+                        <button (click)="this.PaginationService.ToPage(index + 1)" class="m-1 page-link">{{index + 1}}</button>
+                    </li>
+                    <li class="page-item">
+                        <button (click)="this.PaginationService.nextPage()" [disabled]="this.PaginationService.currentPage === this.PaginationService.totalPages" class="page-link">
+                            <i class="fa-solid fa-circle-arrow-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Author Modal -->
+    <div class="modal" tabindex="-1" [ngClass]="{ 'show': showModal }" style="display: block;" *ngIf="showModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{this.modalAction}} Author</h5>
+                    <button type="button" class="close" (click)="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form #modalform id="modalform">
+                        <input type="hidden" class="form-control" name="ItemId" id="ItemId" [(ngModel)]="newItem._id">
+                        <div class="form-group">
+                            <label for="authorFirstName">First Name</label>
+                            <input type="text" class="form-control" id="authorFirstName" name="FirstName" [(ngModel)]="newItem.FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="authorLastName">Last Name</label>
+                            <input type="text" class="form-control" id="authorLastName" name="LastName" [(ngModel)]="newItem.LastName">
+                        </div>
+                        <div class="form-group">
+                            <label for="authorDateOfBirth">Date of Birth</label>
+                            <input  type="date" class="form-control" id="authorDateOfBirth" name="DateOfBirth" [(ngModel)]="newItem.DateOfBirth">
+                        </div>
+                        <div class="form-group" *ngIf="this.modalAction == 'Edit'" >
+                            <label  class="w-100" for="authorPhoto">Cuurrent Photo</label>
+                            <img src="{{newItem.Photo}}" alt="{{newItem.FirstName}} {{newItem.LastName}}" width="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="authorPhoto">Upload Photo</label>
+                            <input type="file" class="form-control" id="authorPhoto" name="Photo" (change)="onFileSelected($event)">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                    <button type="button" class="btn btn-primary AddAuthorBtn" (click)="SubmitModal()"> Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>

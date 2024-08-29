@@ -1,0 +1,146 @@
+.container {
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 10px auto;
+}
+
+h1 {
+  color: #5a5a5a;
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+p {
+  color: #5a5a5a;
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+
+.rating-stars {
+  color: #E0E5B6;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+}
+
+.rating-stars .fas {
+  margin-right: 0.5rem;
+  transition: color 0.3s;
+}
+
+.rating-stars .fas:hover,
+.rating-stars .fas.active {
+  color: #98a372;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid #5a5a5a;
+  border-radius: 5px;
+  color: #5a5a5a;
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 1rem;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%235a5a5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.select::-ms-expand {
+  display: none;
+}
+
+img.img-fluid {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review {
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review h3 {
+  color: #5a5a5a;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.review p {
+  color: #5a5a5a;
+  font-size: 1rem;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-profile-picture img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.review-form {
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.review-form h3 {
+  color: #5a5a5a;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.review-form .form-group label {
+  color: #5a5a5a;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.review-form .btn-primary {
+  background-color: #CCD5AE;
+  border-color: #CCD5AE;
+  color: #5a5a5a;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.review-form .btn-primary:hover {
+  background-color: #E0E5B6;
+  border-color: #E0E5B6;
+}
+
+/* Hover effect for book titles */
+h2.book-title,
+h3.book-title,
+p.book-title {
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+h2.book-title:hover,
+h3.book-title:hover,
+p.book-title:hover {
+  color: #5a5a5a;
+  text-decoration: underline;
+}

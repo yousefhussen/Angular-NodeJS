@@ -1,1 +1,81 @@
-<p>home works!</p>
+<div class="fullPage">
+  <!-- Carousel -->
+  <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="carousel-banner" style="background-color: #CCD5AE;">
+          <img src="../../../assets/Banner2.png" class="d-block w-100" alt="Banner 1">
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-banner" style="background-color: #E0E5B6;">
+          <img src="../../../assets/banner1.png" class="d-block w-100" alt="Banner 2">
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div class="content">
+    <div class="side-menu">
+      <button class="filter-button" (click)="filterBooks('All')">All</button>
+      <button class="filter-button" (click)="filterBooks('Read')">Read</button>
+      <button class="filter-button" (click)="filterBooks('Reading')">
+        Currently Reading
+      </button>
+      <button class="filter-button" (click)="filterBooks('Want to Read')">
+        Want to Read
+      </button>
+    </div>
+
+    <div class="table-container">
+      <div class="filter-border">
+        <h3>{{ selectedFilter }}</h3>
+        <table class="table table-hover">
+          <thead class="bg-secondary text-light">
+            <tr>
+              <th>Cover</th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>Avg Rate</th>
+              <th>Rating</th>
+              <th>Shelve</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let book of filteredBooks">
+              <td><i class="fa-solid fa-book"></i></td>
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>
+                <i class="fa-regular fa-star" *ngFor="let star of [].constructor(book.avgRate)"></i>
+              </td>
+              <td>{{ book.rating }}</td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-outline-secondary" (click)="toggleShelf(book)">
+                    {{ book.currentShelf }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer component inclusion -->
+</div>

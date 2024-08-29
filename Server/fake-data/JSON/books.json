@@ -1,0 +1,42 @@
+[
+  {
+    "name": "1984",
+    "content": "A dystopian social science fiction novel and cautionary tale about the future.",
+    "Rating": 4.9,
+    "Year": "1949-06-08",
+    "CoverPhoto": "https://upload.wikimedia.org/wikipedia/en/8/8a/1984_first_edition.jpg",
+    "reviews": []
+  },
+  {
+    "name": "Harry Potter and the Philosopher's Stone",
+    "content": "The first novel in the Harry Potter series and Rowling's debut novel.",
+    "Rating": 4.8,
+    "Year": "1997-06-26",
+    "CoverPhoto": "https://upload.wikimedia.org/wikipedia/en/6/6b/Harry_Potter_and_the_Philosopher%27s_Stone.jpg",
+    "reviews": []
+  },
+  {
+    "name": "Foundation",
+    "content": "A science fiction novel about the collapse and rebirth of a galactic empire.",
+    "Rating": 4.7,
+    "Year": "1951-05-21",
+    "CoverPhoto": "https://upload.wikimedia.org/wikipedia/en/2/25/Foundation_by_Isaac_Asimov.jpg",
+    "reviews": []
+  },
+  {
+    "name": "Murder on the Orient Express",
+    "content": "A mystery novel by Agatha Christie featuring the detective Hercule Poirot.",
+    "Rating": 4.8,
+    "Year": "1934-01-01",
+    "CoverPhoto": "https://upload.wikimedia.org/wikipedia/en/8/88/Murder_on_the_Orient_Express_First_Edition_Cover_1934.jpg",
+    "reviews": []
+  },
+  {
+    "name": "The Great Gatsby",
+    "content": "A classic novel that explores themes of wealth, society, and the American Dream.",
+    "Rating": 4.4,
+    "Year": "1925-04-10",
+    "CoverPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/The_Great_Gatsby_cover_1925.jpg/800px-The_Great_Gatsby_cover_1925.jpg",
+    "reviews": []
+  }
+]

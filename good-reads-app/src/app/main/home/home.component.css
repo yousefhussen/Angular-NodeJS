@@ -1,0 +1,134 @@
+.fullPage {
+  background-color: #fefae0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  margin-top: 20px;
+}
+
+.side-menu {
+  width: auto;
+  background-color: #ccd5ae;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.carousel-indicators {
+  display: none;
+}
+
+.carousel-indicators .active {
+  width: 12px;
+  height: 4px;
+  margin: 0;
+  background-color: #ccd5ae;
+}
+
+.filter-button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fcfae0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: bold;
+}
+
+button.btn.btn-outline-secondary {
+  background-color: #ccd5af;
+  border: 1px solid;
+  color: #000;
+  width: auto !important;
+  height: 40px;
+}
+
+button.btn.btn-outline-secondary:hover {
+  background-color: #fcfae0;
+  border: 1px solid;
+  color: #000;
+  width: auto !important;
+}
+
+.table-container {
+  flex: 1;
+  background-color: #fefae0;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fcfae0 !important;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Media Queries */
+
+/* Medium devices (tablets, 768px to 1199px) */
+@media (max-width: 1199px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side-menu {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .table-container {
+    width: 100%;
+    padding: 15px;
+  }
+}
+
+/* Small devices (phones, 576px to 767px) */
+@media (max-width: 767px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side-menu {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .table-container {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side-menu {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .table-container {
+    width: 100%;
+    padding: 5px;
+  }
+
+  .table th,
+  .table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+}

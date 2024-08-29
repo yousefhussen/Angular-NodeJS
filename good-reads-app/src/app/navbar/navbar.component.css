@@ -1,0 +1,198 @@
+/* Default styles (Desktop) */
+nav {
+  width: 100%;
+  background-color: #ccd5ae;
+  color: #000000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 0 20px;
+}
+
+.navbar {
+  position: relative;
+  min-height: 50px;
+  margin-bottom: 0px !important;
+  border: 1px solid transparent;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar-brand .logo {
+  width: 100px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-grow: 1;
+}
+
+.navbar-nav .nav-link {
+  margin-right: 20px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ms-auto {
+  margin-left: auto !important;
+  display: flex;
+  align-items: center;
+}
+
+.profile-icon {
+  margin-right: 10px;
+  color: #000000;
+  display: none; /* Hidden by default */
+  cursor: pointer;
+}
+
+.username {
+  color: #000000;
+  margin-right: 20px;
+  display: none; /* Hidden by default */
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  font-size: 18px;
+  margin-right: 20px;
+  transition: transform 0.2s ease;
+  display: none; /* Hidden by default */
+}
+
+.logout-button:hover {
+  transform: scale(1.1);
+}
+
+.rounded-btn {
+  display: flex;
+  align-items: center;
+  border-radius: 25px;
+  overflow: hidden;
+  background-color: white;
+  color: black;
+  margin-right: 20px;
+  order: 2;
+}
+
+.user-btn,
+.admin-btn {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 0;
+  font-weight: bold;
+  border: 1px solid #fff;
+}
+
+.separator {
+  padding: 0 10px;
+  color: black;
+  font-weight: bold;
+  background-color: white;
+}
+
+.user-btn {
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.admin-btn {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.user-btn:hover,
+.admin-btn:hover {
+  background-color: #ccd5ae;
+}
+
+.user-btn:focus,
+.admin-btn:focus {
+  background-color: #ccd5ae !important;
+}
+
+/* Sidebar toggle button */
+.navbar-toggler {
+  display: none;
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Responsive styles (Tablets and Mobile) */
+@media (max-width: 992px) {
+  .navbar-toggler {
+    display: block;
+    margin-left: auto;
+    color: #000000;
+  }
+
+  .navbar-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #ccd5ae;
+    z-index: 999;
+    padding: 10px;
+    text-align: center; /* Center the list */
+  }
+
+  .navbar-nav.show-sidebar {
+    display: block;
+  }
+
+  .navbar-nav.me-auto.show-sidebar {
+    position: static;
+}
+  .navbar-nav .nav-link {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%; /* Make links full width */
+  }
+
+  .rounded-btn {
+    width: 50%;
+    margin: 10px auto; /* Center the button group */
+  }
+
+  .profile-icon,
+  .username,
+  .logout-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 10px auto;
+  }
+}
+
+i.fa-solid.fa-bars {
+  display: none;
+}
+
+/* Align buttons and icons to the right on larger screens */
+@media (min-width: 993px) {
+  .navbar-nav {
+    justify-content: flex-start;
+  }
+
+  .ms-auto {
+    margin-left: auto;
+  }
+}
+

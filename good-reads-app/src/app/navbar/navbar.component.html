@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #ccd5ae">
+  <div class="container-fluid">
+    <!-- Logo on the left -->
+    <a class="navbar-brand" href="#">
+      <img src="../../assets/logo.png" alt="Logo" class="logo" />
+    </a>
+
+    <!-- Sidebar toggle button on the right -->
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+      <span class="navbar-toggler-icon">
+        <i class="fa-solid fa-bars"></i>
+      </span>
+    </button>
+
+    <!-- Links and buttons on the left -->
+    <div class="navbar-nav me-auto" [class.show-sidebar]="sidebarOpen">
+      <a (click)="router.navigate(['/'])" class="nav-link">Home</a>
+      <a (click)="router.navigate(['/main/categories'])" class="nav-link"
+        >Categories</a
+      >
+      <a (click)="router.navigate(['/main/books'])" class="nav-link">Books</a>
+      <a (click)="router.navigate(['/main/authors'])" class="nav-link"
+        >Authors</a
+      >
+      <div class="btn-group rounded-btn">
+        <button
+          type="button"
+          class="btn btn-primary user-btn"
+          (click)="router.navigate(['/auth/login'])"
+        >
+          User
+        </button>
+        <span class="separator">|</span>
+        <button
+          type="button"
+          class="btn btn-primary admin-btn"
+          (click)="router.navigate(['/admin/admin-login'])"
+        >
+          Admin
+        </button>
+      </div>
+      <div class="d-flex align-items-center ms-auto">
+        <i class="fa-solid fa-user profile-icon" (click)="router.navigate(['/auth/profile'])"></i>
+        <span class="username">{{ username }}</span>
+        <button class="logout-button" (click)="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
