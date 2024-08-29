@@ -2,6 +2,6 @@
 /good-reads-app/.angular
 /good-reads-app/node_modules
 /good-reads-app/.vscode
+Server/node_modules/eslint/lib/rules/no-control-regex.js
 /Server/node_modules
-/Server/node_modules
-/Server/node_modules
+Server/node_modules
