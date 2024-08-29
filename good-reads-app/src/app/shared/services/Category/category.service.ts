@@ -10,6 +10,15 @@ import { Book } from '../Book/Book';
   providedIn: 'root',
 })
 export class CategoryService extends BaseService {
+  deleteCategory(id: string) {
+    return this.delete(this.CategoriesEndpoint + '/' + id);
+  }
+  updateCategory(id: any, formData: any) {
+    return this.put(this.CategoriesEndpoint + '/' + id, formData);
+  }
+  CreateCategory(formData: any) : Promise<Category> {
+    return this.post(this.CategoriesEndpoint, formData);
+  }
   private CategoriesEndpoint = 'Categories';
   Categories$ = signal<Category[]>([]);
 
@@ -27,7 +36,6 @@ export class CategoryService extends BaseService {
     return this.Categories$() ?? [];
   }
   async getCategoryBooks(categoryName: string): Promise<Book[]> {
-    
     return   await this.get<Book[]>(this.CategoriesEndpoint+"/"+categoryName);
   }
 }

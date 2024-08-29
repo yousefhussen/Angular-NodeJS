@@ -83,22 +83,22 @@ CategoryRouter.get("/:name", async (req, res) => {
 //   }
 // });
 
-// CategoryRouter.delete("/:id", async (req, res) => {
-//   try {
-//     const id = req?.params?.id;
-//     const query = { _id: new ObjectId(id) };
-//     const result = await CategoryModel?.deleteOne(query);
+CategoryRouter.delete("/:id", async (req, res) => {
+  try {
+    const id = req?.params?.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await CategoryModel?.deleteOne(query);
 
-//     if (result && result.deletedCount) {
-//       res.status(202).send(`Removed an Book: ID ${id}`);
-//     } else if (!result) {
-//       res.status(400).send(`Failed to remove an Book: ID ${id}`);
-//     } else if (!result.deletedCount) {
-//       res.status(404).send(`Failed to find an Book: ID ${id}`);
-//     }
-//   } catch (error) {
-//     const message = error instanceof Error ? error.message : "Unknown error";
-//     console.error(message);
-//     res.status(400).send(message);
-//   }
-// });
+    if (result && result.deletedCount) {
+      res.status(202).send({some:`Removed an Book: ID ${id}`});
+    } else if (!result) {
+      res.status(400).send({some:`Failed to remove an Book: ID ${id}`});
+    } else if (!result.deletedCount) {
+      res.status(404).send({some:`Failed to find an Book: ID ${id}`});
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error(message);
+    res.status(400).send(message);
+  }
+});

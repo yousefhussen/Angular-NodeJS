@@ -30,6 +30,7 @@
     "joi": "^17.13.3",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.2",
+    "ngx-color-picker": "^17.0.0",
     "ngx-image-compress": "^18.1.5",
     "ngx-pagination": "^6.0.3",
     "nodemon": "^3.1.4",

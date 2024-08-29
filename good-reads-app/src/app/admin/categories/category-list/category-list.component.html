@@ -1,93 +1,82 @@
-<div class="container">
-    <div class="navbar">
-      <a href="#">Categories</a>
-      <a href="#">Books</a>
-      <a href="#">Authors</a>
-    </div>
-    <div class="table-container">
+<div class="FullHeight">
+  <div class="table-container d-flex flex-column justify-content-between">
       <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th><div class="d-flex justify-content-between">
-                <div>Actions</div>
-                <div class="ml-auto add-icon">
-                    <button class="btn btn-primary" (click)="toggleAddCategoryForm()">
-                      <i class="fa fa-plus-circle"></i> Add Category
-                    </button>
-                  </div>
-            </div>
-                </th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let category of categories; let i = index">
-            <td>{{ category.id }}</td>
-            <td>{{ category.name }}</td>
-            <td>
-              <button class="btn btn-warning edit-btn" (click)="editCategory(category, i)">
-                <i class="fa fa-pen"></i>
-              </button>
-              <button class="btn btn-danger delete-btn" (click)="deleteCategory(i)">
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Icon</th>
+                  <th class="">
+                      <div class="text-center d-inline float-sm-start align-baseline mt-2">Actions</div>
+                      <div class="add-icon float-sm-end">
+                          <button class="btn btn-primary" (click)="openModal('Add')">
+                              <i class="fas fa-plus"></i> Add category
+                          </button>
+                      </div>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let category of this.PaginationService.paginatedItems; let i = index">
+                  <td>{{ category._id }}</td>
+                  <td>{{ category.name }}</td>
+                  <!-- icon is fontawesome class -->
+                  <td><i class="{{ category.icon }}"></i></td>
+                  <td>
+                      <a (click)="openModal('Edit', category._id)"><i class="fas fa-pen edit"></i></a>
+                      <a (click)="deleteItem(category._id?.toString()??'')"><i class="fas fa-trash delete"></i></a>
+                  </td>
+              </tr>
+          </tbody>
       </table>
-      <!-- <div class="add-icon">
-        <button class="btn btn-primary" (click)="toggleAddCategoryForm()">
-          <i class="fa fa-plus-circle"></i> Add Category
-        </button>
-      </div> -->
-    </div>
-  </div>
-  
-  <!-- Add/Edit Category Modal -->
-  <div
-    class="modal"
-    tabindex="-1"
-    [ngClass]="{ show: showAddCategoryForm }"
-    style="display: block"
-    *ngIf="showAddCategoryForm"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ newCategory.id ? 'Edit' : 'Add' }} Category</h5>
-          <button type="button" class="close" (click)="toggleAddCategoryForm()">
-            &times;
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="categoryName">Category Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="categoryName"
-                name="categoryName"
-                [(ngModel)]="newCategory.name"
-              />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="toggleAddCategoryForm()"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" (click)="addCategory()">
-            {{ newCategory.id ? 'Save Changes' : 'Add Category' }}
-          </button>
-        </div>
+      <div class="row">
+          <div class="col-md-12">
+              <ul class="pagination" style="display: inline-flex">
+                  <li class="mr-1 page-item">
+                      <button class="page-link" (click)="this.PaginationService.previousPage()" [disabled]="this.PaginationService.currentPage === 1">
+                          <i class="fa-solid fa-circle-arrow-left"></i>
+                      </button>
+                  </li>
+                  <li *ngFor="let i of [].constructor(this.PaginationService.totalPages); let index = index" class="page-item" [ngClass]="{ 'active': index + 1 === this.PaginationService.currentPage }">
+                      <button (click)="this.PaginationService.ToPage(index + 1)" class="m-1 page-link">{{index + 1}}</button>
+                  </li>
+                  <li class="page-item">
+                      <button (click)="this.PaginationService.nextPage()" [disabled]="this.PaginationService.currentPage === this.PaginationService.totalPages" class="page-link">
+                          <i class="fa-solid fa-circle-arrow-right"></i>
+                      </button>
+                  </li>
+              </ul>
+          </div>
       </div>
-    </div>
   </div>
-  
+
+  <!-- Add category Modal -->
+  <div class="modal" tabindex="-1" [ngClass]="{ 'show': showModal }" style="display: block;" *ngIf="showModal">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">{{this.modalAction}} category</h5>
+                  <button type="button" class="close" (click)="closeModal()">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form #modalform id="modalform">
+                    <input type="hidden" class="form-control" name="ItemId" id="ItemId" [(ngModel)]="newItem._id">
+                    <div class="form-group">
+                      <label for="categoryName">Category Name</label>
+                      <input type="text" class="form-control" id="categoryName" name="categoryName" [(ngModel)]="newItem.name">
+                    </div>
+                    <div class="form-group">
+                      <label for="categoryIcon">Icon</label>
+                      <input type="text" class="form-control" id="categoryIcon" name="categoryIcon" [(ngModel)]="newItem.icon">
+                    </div>
+                    
+                    <input [(colorPicker)]="newItem.color" [(ngModel)]="newItem.color" [ngModelOptions]="{standalone: true}"/>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                  <button type="button" class="btn btn-primary AddcategoryBtn" (click)="SubmitModal()"> Submit</button>
+              </div>
+          </div>
+      </div>
+  </div>
