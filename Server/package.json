@@ -4,7 +4,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "nodemon server.ts",
-    "build": "tsc",
+    "build": "nodemon server.ts",
     "test": "eslint ."
   },
   "author": "Stanimira Vlaeva",
