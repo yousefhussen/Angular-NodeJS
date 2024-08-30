@@ -50,7 +50,7 @@ mongoose
 
     // start the Express server
     app.listen(5200, () => {
-      console.log(`Server running at ${process.env.ATLAS_URI}...`);
+      console.log(`Server running at ${process.env.BackendServerUrl}...`);
     });
   })
   .catch((error) => console.error(error));
