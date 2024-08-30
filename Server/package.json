@@ -24,6 +24,7 @@
     "fs": "^0.0.1-security",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "mongodb": "^6.3.0",
     "mongoose": "^8.5.2",
     "mongoose-find-by-reference": "^1.0.8",
@@ -45,5 +46,8 @@
     "eslint": "^8.56.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
+  },
+  "_moduleAliases": {
+    "@helpers": "./helpers"
   }
 }

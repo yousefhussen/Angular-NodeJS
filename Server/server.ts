@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import express = require("express");
 import cors = require("cors");
+// require('module-alias/register');
 import { UserRouter } from "./Routes/user.route";
 import { BookRouter } from "./Routes/book.route";
 import { ImageRouter } from "./Routes/image.route";

@@ -3,7 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authorsSchema = exports.Author = void 0;
 var mongoose = require("mongoose");
 var MongooseFindByReference = require("mongoose-find-by-reference").MongooseFindByReference;
-var dateFormat = require("../helpers/dateNotTime.helper").dateFormat;
+const dateFormat = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+};
 var authorsSchema = new mongoose.Schema({
     FirstName: {
         type: String,

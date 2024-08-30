@@ -1,6 +1,7 @@
 "use strict";
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+// require('module-alias/register');
 var dotenv = require("dotenv");
 var express = require("express");
 var cors = require("cors");
