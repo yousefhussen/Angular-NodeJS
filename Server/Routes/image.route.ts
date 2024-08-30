@@ -1,7 +1,7 @@
 import * as express from "express";
 import { ObjectId } from "mongodb";
 import { ImageModel } from "../Schemas/images.schema";
-import path from "path";
+import * as path from "path";
 
 
 

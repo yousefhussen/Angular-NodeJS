@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.booksSchema = exports.Book = void 0;
 var mongoose = require("mongoose");
 var MongooseFindByReference = require("mongoose-find-by-reference").MongooseFindByReference;
+var dateFormat = require("../helpers/dateNotTime.helper").dateFormat;
 var booksSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -19,6 +20,8 @@ var booksSchema = new mongoose.Schema({
     Year: {
         type: Date,
         required: true,
+        set: dateFormat,
+        get: dateFormat,
     },
     CoverPhoto: {
         type: String,

@@ -1,13 +1,19 @@
 import * as express from "express";
-import * as mongoose from "mongoose";
-import multer from "multer";
-import * as fs from "fs";
-import * as dotenv from "dotenv";
+// import * as multer from "multer";
+import multer = require("multer");
+// import * as fs from "fs";
+import fs = require("fs");
+// import * as dotenv from "dotenv";
+import dotenv = require("dotenv");
+// import * as mongoose from "mongoose";
+import mongoose = require("mongoose");
+// import * as path from "path";
+import path = require("path");
 import { Book as BookModel } from "../Schemas/books.schema";
 import { Author as AuthorModel } from "../Schemas/authors.schema";
 import { Category as CategoryModel } from "../Schemas/categories.schema";
 import { ObjectId } from "mongodb";
-import path from "path";
+// import * as path from "path";
 
 
 

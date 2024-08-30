@@ -8,6 +8,7 @@ var usersSchema = new mongoose.Schema({
     email: String,
     password: String,
     profilePic: String,
+    isAdmin: Boolean,
 });
 exports.usersSchema = usersSchema;
 var User = mongoose.model("User", usersSchema);

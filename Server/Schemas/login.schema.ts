@@ -2,7 +2,7 @@ const express = require("express");
 const faker = require("faker");
 const router = express.Router();
 
-router.post("/reset-password", (req, res) => {
+router.post("/reset-password", (req: any, res : any) => {
   const { email } = req.body;
 
   // Validate email and send reset link

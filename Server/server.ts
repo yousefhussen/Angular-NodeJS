@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv";
-import express from "express";
-import cors from "cors";
-
+import express = require("express");
+import cors = require("cors");
 import { UserRouter } from "./Routes/user.route";
 import { BookRouter } from "./Routes/book.route";
 import { ImageRouter } from "./Routes/image.route";
@@ -22,31 +21,37 @@ if (!ATLAS_URI) {
   );
   process.exit(1);
 }
+
 mongoose.set("strictPopulate", false);
+
+const app = express();
+app.use(cors());
+app.use("/Users", UserRouter);
+app.use("/Books", BookRouter);
+app.use("/Images", ImageRouter);
+app.use("/Authors", AuthorRouter);
+app.use("/Categories", CategoryRouter);
+app.use("/Reviews", ReviewRouter);
+app.use("/Admin", AdminRouter);
+
+// Add a middleware function to log every request
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+app.get("/pet", (_req, res) => {
+  res.send("Hello from MongoDB Atlas!");
+});
+
+app.get("/", (_req, res) => {
+  res.send("Hello from MongoDB Atlas!");
+});
+
 mongoose
   .connect(process.env.ATLAS_URI ?? "")
   .then(() => {
     console.log("Database Connected");
-
-    const app = express();
-    app.use(cors());
-    app.use("/Users", UserRouter);
-    app.use("/Books", BookRouter);
-    app.use("/Images", ImageRouter);
-    app.use("/Authors", AuthorRouter);
-    app.use("/Categories", CategoryRouter);
-    app.use("/Reviews", ReviewRouter);
-    app.use("/Admin", AdminRouter);
-
-    // Add a middleware function to log every request
-    app.use((req, res, next) => {
-      console.log(`${req.method} ${req.url}`);
-      next();
-    });
-
-    app.get("/pet", (_req, res) => {
-      res.send("Hello from MongoDB Atlas!");
-    });
 
     // start the Express server
     app.listen(5200, () => {
@@ -54,3 +59,5 @@ mongoose
     });
   })
   .catch((error) => console.error(error));
+
+export default app;
